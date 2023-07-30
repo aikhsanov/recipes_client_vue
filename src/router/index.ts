@@ -38,6 +38,11 @@ const router = createRouter({
       name: 'addReceipt',
       component: () => import('../views/AddView.vue'),
     },
+    {
+      path: '/signin',
+      name: 'register',
+      component: () => import('../views/Register.vue'),
+    },
   ],
 });
 

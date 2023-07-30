@@ -18,7 +18,6 @@
         <div class="logo flex items-center justify-center mb-4">
           <h1 class="text-3xl">Рецепты без глютена</h1>
         </div>
-        <Register />
         <div class="menu flex flex-col md:flex-row items-center justify-center gap-2">
           <router-link
             :to="{ name: 'home' }"
@@ -55,7 +54,23 @@
           >
             Рецепты
           </router-link>
-
+          <router-link
+            :to="{ name: 'register' }"
+            class="
+              bg-gray-100
+              hover:bg-gray-200
+              py-2
+              px-4
+              text-sm
+              font-medium
+              text-gray-800
+              border border-transparent
+              rounded-lg
+              focus:outline-none
+            "
+          >
+            Тест Регистрации
+          </router-link>
           <router-link
             v-if="UIStore.getSuperUser === '1'"
             :to="{ name: 'addReceipt' }"
