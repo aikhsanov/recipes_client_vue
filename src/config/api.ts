@@ -1,16 +1,19 @@
 import axios, { CreateAxiosDefaults } from 'axios';
 import type { AxiosRequestConfig } from 'axios';
 import router from '@/router';
+import { getToken } from '../helpers/token';
 
 const options = {
   // baseURL: 'http://api.receipts.haemmid.ru/',
   baseURL: 'http://localhost:3000/api',
   headers: {
     Accept: 'application/json',
+    // Authorization: `Bearer ${getToken()}` || '',
   },
 } as CreateAxiosDefaults;
 
 const AxiosInstance = axios.create(options);
+
 AxiosInstance.interceptors.response.use(
   (resp) => {
     return resp;
@@ -24,7 +27,18 @@ AxiosInstance.interceptors.response.use(
     }
   }
 );
-
+AxiosInstance.interceptors.request.use(
+  (res) => {
+    const token = getToken();
+    if (token) {
+      AxiosInstance.defaults.headers.common['Authorization'] = `Token ${token}`;
+    }
+    return res;
+  },
+  (error) => {
+    console.error(error.response.status, '-ERROR BAABY');
+  }
+);
 const api = (axios) => ({
   get: (url, config, body) => axios.get(url, config, body),
   post: (url, body, config) => axios.post(url, body, config),

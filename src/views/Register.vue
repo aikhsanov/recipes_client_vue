@@ -23,6 +23,7 @@ export default {
 <script setup>
 import { ref } from 'vue';
 import api from '../config/api';
+import { storeToken } from '@/helpers/token';
 
 const email = ref('');
 const username = ref('');
@@ -41,11 +42,15 @@ async function login() {
     email: email.value,
     password: password.value,
   });
+  if (res?.data?.user) {
+    storeToken(res?.data?.user?.token);
+  }
+
   console.log(res);
 }
 
 async function getMe() {
-  const res = await api.get('/auth/login');
+  const res = await api.get('/me');
 }
 </script>
 
