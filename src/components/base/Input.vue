@@ -1,20 +1,20 @@
 <template>
-  <div class="relative mb-3" data-te-input-wrapper-init>
+  <div class="relative mb-8">
     <input
       :value="props.modelValue"
       :type="props.type"
       :placeholder="props.placeholder"
       :id="uid"
       @input="emit('update:modelValue', $event?.target?.value)"
-      class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+      class="peer w-full h-10 text-gray-900 placeholder-transparent border-b-2 border-gray-300 focus:outline-none focus:border-purple-600"
     />
     <label
-      v-if="props.labelText"
+      v-if="props.label"
       :for="uid"
-      class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+      class="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
     >
-      {{ props.labelText }}
-    </label>
+      {{ props.label }}</label
+    >
   </div>
 </template>
 
@@ -31,14 +31,14 @@ import { ref } from 'vue';
 import type { Ref } from 'vue';
 
 interface Props {
-  modelValue?: string;
-  labelText?: string;
+  modelValue?: string | number | object;
+  label?: string;
   placeholder?: string;
   type?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  labelText: '',
+  label: '',
   placeholder: '',
   type: 'text',
   modelValue: null,

@@ -1,15 +1,15 @@
 <template>
   <div class="flex-col">
     <h3>Регистрация</h3>
-    <input v-model="username" id="username" placeholder="username" />
-    <input v-model="email" id="email" placeholder="email" />
-    <Input v-model="password" id="password" placeholder="password" labelText="Пароль" />
+    <Input v-model="username" id="username" placeholder="username" label="Username" />
+    <Input v-model="email" id="email" placeholder="email" label="Email" />
+    <Input v-model="password" id="password" placeholder="password" label="Пароль" />
     <button type="submit" @click.prevent="register">Регистрация</button>
   </div>
   <div class="flex-col">
     <h3>Логин</h3>
-    <input v-model="email" id="email" placeholder="email" />
-    <input v-model="password" id="password" placeholder="password" />
+    <Input v-model="email" id="email" placeholder="email" label="Email" />
+    <Input v-model="password" id="password" placeholder="password" label="Пароль" />
     <button type="submit" @click.prevent="login">Логин</button>
   </div>
   <button type="submit" @click.prevent="getMe">Get Me</button>
@@ -24,7 +24,7 @@ export default {
 import { ref } from 'vue';
 import api from '../config/api';
 import { storeToken } from '@/helpers/token';
-import Input from "@/components/base/Input.vue";
+import Input from '@/components/base/Input.vue';
 
 const email = ref('');
 const username = ref('');
