@@ -6,12 +6,12 @@
       :placeholder="props.placeholder"
       :id="uid"
       @input="emit('update:modelValue', $event?.target?.value)"
-      class="peer w-full h-10 text-gray-900 placeholder-transparent border-b-2 border-gray-300 focus:outline-none focus:border-purple-600"
+      :class="`peer w-full h-10 text-gray-900 placeholder-transparent border-b-2 border-gray-300 focus:outline-none focus:border-purple-600 ${props.customInputClass}`"
     />
     <label
       v-if="props.label"
       :for="uid"
-      class="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+      :class="`absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm ${props.customLabelClass}`"
     >
       {{ props.label }}</label
     >
@@ -30,16 +30,20 @@ import { v4 as uuidv4 } from 'uuid';
 import { ref } from 'vue';
 import type { Ref } from 'vue';
 
-interface Props {
+interface InputProps {
   modelValue?: string | number | object;
   label?: string;
   placeholder?: string;
+  customInputClass?: string;
+  customLabelClass?: string;
   type?: string;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<InputProps>(), {
   label: '',
   placeholder: '',
+  customInputClass: '',
+  customLabelClass: '',
   type: 'text',
   modelValue: null,
 });
