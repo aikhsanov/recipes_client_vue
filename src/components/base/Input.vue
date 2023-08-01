@@ -5,7 +5,7 @@
       :type="props.type"
       :placeholder="props.placeholder"
       :id="uid"
-      @input="emit('update:modelValue', $event?.target?.value)"
+      @input="emits('update:modelValue', $event?.target?.value)"
       :class="`peer w-full h-10 text-gray-900 placeholder-transparent border-b-2 border-gray-300 focus:outline-none focus:border-purple-600 ${props.customInputClass}`"
     />
     <label
@@ -48,7 +48,7 @@ const props = withDefaults(defineProps<InputProps>(), {
   modelValue: null,
 });
 
-const emit = defineEmits<{
+const emits = defineEmits<{
   'update:modelValue': [val: number | string];
 }>();
 
