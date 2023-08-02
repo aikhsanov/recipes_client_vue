@@ -1,26 +1,30 @@
 <template>
   <div class="flex-col">
     <h3>Регистрация</h3>
-    <Input id="username" placeholder="username" label="Username" name="username" />
-    <Input id="email" placeholder="email" label="Email" name="email" />
-    <Input id="password" placeholder="password" label="Пароль" name="password" />
-    <button type="submit" @click.prevent="register">Регистрация</button>
+    <form @submit="register">
+      <Input id="username" placeholder="username" label="Username" name="username" />
+      <Input id="email" placeholder="email" label="Email" name="email" />
+      <Input id="password" placeholder="password" label="Пароль" name="password" />
+      <BaseButton type="submit">Регистрация</BaseButton>
+    </form>
   </div>
-  <div class="flex-col">
-    <h3>Логин</h3>
-    <Input id="email2" placeholder="email" label="Email" v-model="emailModel" name="emailModel" />
-    <Input id="password" placeholder="password" label="Пароль" />
-    <button type="submit" @click.prevent="login">Логин</button>
-  </div>
-  <button type="submit" @click.prevent="getMe">Get Me</button>
+  <!--  <div class="flex-col">-->
+  <!--    <h3>Логин</h3>-->
+  <!--    <Input id="email2" placeholder="email" label="Email" v-model="emailModel" name="loginEmail" />-->
+  <!--    <Input id="password" placeholder="password" label="Пароль" name="loginPass" />-->
+  <!--    <BaseButton @click.prevent="login" text="Логин"></BaseButton>-->
+  <!--  </div>-->
+  <!--  <BaseButton @click.prevent="getMe" text="Get Me"></BaseButton>-->
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   name: 'Register',
-};
+});
 </script>
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import api from '../config/api';
 import { storeToken } from '@/helpers/token';
@@ -29,9 +33,9 @@ import { useForm } from 'vee-validate';
 
 const { handleSubmit, isSubmitting } = useForm({
   initialValues: {
+    username: 'krasav4ik',
     email: 'admin@test.ru',
     password: '123456',
-    username: 'krasav4ik',
   },
   validationSchema: {
     email: 'required|email',
@@ -40,7 +44,7 @@ const { handleSubmit, isSubmitting } = useForm({
   },
 });
 
-const emailModel = ref('ahahahah');
+// const emailModel = ref('ahahahah');
 const register = handleSubmit(async (values, actions) => {
   try {
     const res = await api.post('/auth/register', {

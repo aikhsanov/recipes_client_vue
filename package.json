@@ -16,7 +16,7 @@
     "axios": "^1.4.0",
     "pinia": "^2.0.35",
     "uuid": "^9.0.0",
-    "vee-validate": "^4.9.3",
+    "vee-validate": "^4.11.1",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },
