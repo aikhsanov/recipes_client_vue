@@ -5,16 +5,16 @@
       <Input id="username" placeholder="username" label="Username" name="username" />
       <Input id="email" placeholder="email" label="Email" name="email" />
       <Input id="password" placeholder="password" label="Пароль" name="password" />
-      <BaseButton type="submit">Регистрация</BaseButton>
+      <BaseButton type="submit" text="Регистрация" />
     </form>
   </div>
-  <!--  <div class="flex-col">-->
-  <!--    <h3>Логин</h3>-->
-  <!--    <Input id="email2" placeholder="email" label="Email" v-model="emailModel" name="loginEmail" />-->
-  <!--    <Input id="password" placeholder="password" label="Пароль" name="loginPass" />-->
-  <!--    <BaseButton @click.prevent="login" text="Логин"></BaseButton>-->
-  <!--  </div>-->
-  <!--  <BaseButton @click.prevent="getMe" text="Get Me"></BaseButton>-->
+  <div class="flex-col">
+    <h3>Логин</h3>
+    <Input id="email2" placeholder="email" label="Email" v-model="emailModel" name="loginEmail" />
+    <Input id="password" placeholder="password" label="Пароль" name="loginPass" />
+    <BaseButton @click.prevent="login" text="Логин"></BaseButton>
+  </div>
+  <BaseButton @click.prevent="getMe" text="Get Me"></BaseButton>
 </template>
 
 <script lang="ts">
@@ -29,14 +29,15 @@ import { ref } from 'vue';
 import api from '../config/api';
 import { storeToken } from '@/helpers/token';
 import Input from '@/components/base/Input.vue';
+import BaseButton from '@/components/base/BaseButton.vue';
 import { useForm } from 'vee-validate';
 
 const { handleSubmit, isSubmitting } = useForm({
-  initialValues: {
-    username: 'krasav4ik',
-    email: 'admin@test.ru',
-    password: '123456',
-  },
+  // initialValues: {
+  //   username: 'krasav4ik',
+  //   email: 'admin@test.ru',
+  //   password: '123456',
+  // },
   validationSchema: {
     email: 'required|email',
     password: 'required',
@@ -44,7 +45,7 @@ const { handleSubmit, isSubmitting } = useForm({
   },
 });
 
-// const emailModel = ref('ahahahah');
+const emailModel = ref('ahahahah');
 const register = handleSubmit(async (values, actions) => {
   try {
     const res = await api.post('/auth/register', {

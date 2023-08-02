@@ -36,7 +36,7 @@ import { computed, onMounted, ref, toRef } from 'vue';
 import type { Ref } from 'vue';
 import { useField } from 'vee-validate';
 
-interface InputProps {
+const props = defineProps<{
   modelValue?: string | number | object;
   label?: string;
   placeholder?: string;
@@ -45,18 +45,7 @@ interface InputProps {
   type?: string;
   name?: string;
   disabled?: boolean;
-}
-
-const props = withDefaults(defineProps<InputProps>(), {
-  label: '',
-  placeholder: '',
-  customInputClass: '',
-  customLabelClass: '',
-  type: 'text',
-  modelValue: null,
-  name: '',
-  disabled: false,
-});
+}>();
 
 const emits = defineEmits<{
   'update:modelValue': [val: number | string];
