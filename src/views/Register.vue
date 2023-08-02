@@ -1,15 +1,15 @@
 <template>
   <div class="flex-col">
     <h3>Регистрация</h3>
-    <Input v-model="username" id="username" placeholder="username" label="Username" />
-    <Input v-model="email" id="email" placeholder="email" label="Email" />
-    <Input v-model="password" id="password" placeholder="password" label="Пароль" />
+    <Input id="username" placeholder="username" label="Username" name="username" />
+    <Input id="email" placeholder="email" label="Email" name="email" />
+    <Input id="password" placeholder="password" label="Пароль" name="password" />
     <button type="submit" @click.prevent="register">Регистрация</button>
   </div>
   <div class="flex-col">
     <h3>Логин</h3>
-    <Input v-model="email" id="email" placeholder="email" label="Email" />
-    <Input v-model="password" id="password" placeholder="password" label="Пароль" />
+    <Input id="email2" placeholder="email" label="Email" v-model="emailModel" name="emailModel" />
+    <Input id="password" placeholder="password" label="Пароль" />
     <button type="submit" @click.prevent="login">Логин</button>
   </div>
   <button type="submit" @click.prevent="getMe">Get Me</button>
@@ -25,19 +25,34 @@ import { ref } from 'vue';
 import api from '../config/api';
 import { storeToken } from '@/helpers/token';
 import Input from '@/components/base/Input.vue';
+import { useForm } from 'vee-validate';
 
-const email = ref('');
-const username = ref('');
-const password = ref('');
+const { handleSubmit, isSubmitting } = useForm({
+  initialValues: {
+    email: 'admin@test.ru',
+    password: '123456',
+    username: 'krasav4ik',
+  },
+  validationSchema: {
+    email: 'required|email',
+    password: 'required',
+    username: 'required',
+  },
+});
 
-async function register() {
-  const res = await api.post('/auth/register', {
-    email: email.value,
-    username: username.value,
-    password: password.value,
-  });
-  console.log(res);
-}
+const emailModel = ref('ahahahah');
+const register = handleSubmit(async (values, actions) => {
+  try {
+    const res = await api.post('/auth/register', {
+      email: values.email,
+      username: values.username,
+      password: values.password,
+    });
+    console.log(res);
+  } catch (e) {
+    actions.setErrors({ password: error.response.data.error });
+  }
+});
 async function login() {
   const res = await api.post('/auth/login', {
     email: email.value,

@@ -1,11 +1,10 @@
 <template>
   <div class="relative mb-8">
     <input
-      :value="props.modelValue"
+      v-model="value"
       :type="props.type"
       :placeholder="props.placeholder"
       :id="uid"
-      @input="emits('update:modelValue', $event?.target?.value)"
       :class="`peer w-full h-10 text-gray-900 placeholder-transparent border-b-2 border-gray-300 focus:outline-none focus:border-purple-600 ${props.customInputClass}`"
     />
     <label
@@ -15,11 +14,18 @@
     >
       {{ props.label }}</label
     >
+    <span
+      v-if="errorMessage && meta.touched"
+      class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1"
+    >
+      {{ errorMessage }}
+    </span>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useField } from 'vee-validate';
 
 export default defineComponent({
   name: 'Input',
@@ -27,7 +33,7 @@ export default defineComponent({
 </script>
 <script setup lang="ts">
 import { v4 as uuidv4 } from 'uuid';
-import { ref } from 'vue';
+import { computed, onMounted, ref, toRef } from 'vue';
 import type { Ref } from 'vue';
 
 interface InputProps {
@@ -37,6 +43,7 @@ interface InputProps {
   customInputClass?: string;
   customLabelClass?: string;
   type?: string;
+  name?: string;
 }
 
 const props = withDefaults(defineProps<InputProps>(), {
@@ -46,11 +53,33 @@ const props = withDefaults(defineProps<InputProps>(), {
   customLabelClass: '',
   type: 'text',
   modelValue: null,
+  name: '',
 });
 
 const emits = defineEmits<{
   'update:modelValue': [val: number | string];
 }>();
+
+// onMounted(() => {
+//   if (props.modelValue) value.value = props.modelValue;
+// });
+
+// const model = computed({
+//   get() {
+//     return value?.value;
+//   },
+//   set(newVal) {
+//     console.log(newVal, 'newVal');
+//     value.value = newVal;
+//     if (newVal !== props.modelValue) {
+//       emits('update:modelValue', newVal);
+//     }
+//   },
+// });
+
+const { errorMessage, value, meta } = useField(toRef(props, 'name'), undefined, {
+  syncVModel: true,
+});
 
 const uid: Ref<string | number> = ref(uuidv4());
 </script>
