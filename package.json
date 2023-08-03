@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@vee-validate/rules": "^4.8.4",
+    "@vueform/multiselect": "^2.6.2",
     "axios": "^1.4.0",
     "pinia": "^2.0.35",
     "uuid": "^9.0.0",
