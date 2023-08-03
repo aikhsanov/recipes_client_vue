@@ -37,6 +37,7 @@ import { storeToken } from '@/helpers/token';
 import Input from '@/components/base/Input.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
 import { useForm } from 'vee-validate';
+import auth from '@/api/auth/auth';
 
 const { handleSubmit, isSubmitting } = useForm({
   initialValues: {
@@ -55,7 +56,7 @@ const emailModel = ref('admin@test.ru');
 const loginPass = ref('123456');
 const register = handleSubmit(async (values, actions) => {
   try {
-    const res = await api.post('/auth/register', {
+    const res = await auth.register({
       email: values.email,
       username: values.username,
       password: values.password,
@@ -66,7 +67,7 @@ const register = handleSubmit(async (values, actions) => {
   }
 });
 async function login() {
-  const res = await api.post('/auth/login', {
+  const res = await auth.login({
     email: emailModel.value,
     password: loginPass.value,
   });

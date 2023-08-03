@@ -40,10 +40,10 @@ AxiosInstance.interceptors.request.use(
   }
 );
 const api = (axios) => ({
-  get: (url, config, body) => axios.get(url, config, body),
-  post: (url, body, config) => axios.post(url, body, config),
-  patch: (url, body, config) => axios.patch(url, body, config),
-  delete: (url, config) => axios.delete(url, config),
+  get: (url, config, body?) => axios.get(url, config, body),
+  post: (url, body, config?) => axios.post(url, body, config),
+  patch: (url, body, config?) => axios.patch(url, body, config),
+  delete: (url, config?) => axios.delete(url, config),
 });
 
 export default api(AxiosInstance);
