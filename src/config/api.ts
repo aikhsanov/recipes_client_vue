@@ -8,7 +8,6 @@ const options = {
   baseURL: 'http://localhost:3000/api',
   headers: {
     Accept: 'application/json',
-    // Authorization: `Bearer ${getToken()}` || '',
   },
 } as CreateAxiosDefaults;
 
@@ -27,13 +26,14 @@ AxiosInstance.interceptors.response.use(
     }
   }
 );
+
 AxiosInstance.interceptors.request.use(
-  (res) => {
+  (config) => {
     const token = getToken();
     if (token) {
-      AxiosInstance.defaults.headers.common['Authorization'] = `Token ${token}`;
+      config.headers['Authorization'] = `Token ${token}`;
     }
-    return res;
+    return config;
   },
   (error) => {
     console.error(error.response.status, '-ERROR BAABY');

@@ -11,7 +11,13 @@
   <div class="flex-col">
     <h3>Логин</h3>
     <Input id="email2" placeholder="email" label="Email" v-model="emailModel" name="loginEmail" />
-    <Input id="password" placeholder="password" label="Пароль" name="loginPass" />
+    <Input
+      id="password"
+      placeholder="password"
+      label="Пароль"
+      name="loginPass"
+      v-model="loginPass"
+    />
     <BaseButton @click.prevent="login" text="Логин"></BaseButton>
   </div>
   <BaseButton @click.prevent="getMe" text="Get Me"></BaseButton>
@@ -33,11 +39,11 @@ import BaseButton from '@/components/base/BaseButton.vue';
 import { useForm } from 'vee-validate';
 
 const { handleSubmit, isSubmitting } = useForm({
-  // initialValues: {
-  //   username: 'krasav4ik',
-  //   email: 'admin@test.ru',
-  //   password: '123456',
-  // },
+  initialValues: {
+    username: 'krasav4ik',
+    email: 'admin@test.ru',
+    password: '123456',
+  },
   validationSchema: {
     email: 'required|email',
     password: 'required',
@@ -45,7 +51,8 @@ const { handleSubmit, isSubmitting } = useForm({
   },
 });
 
-const emailModel = ref('ahahahah');
+const emailModel = ref('admin@test.ru');
+const loginPass = ref('123456');
 const register = handleSubmit(async (values, actions) => {
   try {
     const res = await api.post('/auth/register', {
@@ -60,8 +67,8 @@ const register = handleSubmit(async (values, actions) => {
 });
 async function login() {
   const res = await api.post('/auth/login', {
-    email: email.value,
-    password: password.value,
+    email: emailModel.value,
+    password: loginPass.value,
   });
   if (res?.data?.user) {
     storeToken(res?.data?.user?.token);
