@@ -7,21 +7,25 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
+      meta: { layout: 'DefaultLayout' },
       component: HomeView,
     },
     {
       path: '/enter',
       name: 'enter',
+      meta: { layout: 'DefaultLayout' },
       component: () => import('../views/EnterView.vue'),
     },
     {
       path: '/exit',
       name: 'exit',
+      meta: { layout: 'DefaultLayout' },
       component: () => import('../views/ExitView.vue'),
     },
     {
       path: '/receipts',
       name: 'receipts',
+      meta: { layout: 'DefaultLayout' },
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -30,18 +34,27 @@ const router = createRouter({
     {
       path: '/receipts/:id',
       name: 'oneReceipt',
+      meta: { layout: 'DefaultLayout' },
       component: () => import('../views/ReceiptView.vue'),
       props: true,
     },
     {
       path: '/receipts/add',
       name: 'addReceipt',
+      meta: { layout: 'DefaultLayout' },
       component: () => import('../views/AddView.vue'),
     },
     {
       path: '/signin',
       name: 'register',
+      meta: { layout: 'DefaultLayout' },
       component: () => import('../views/Register.vue'),
+    },
+    {
+      path: '/admin-panel',
+      name: 'adminPanel',
+      meta: { layout: 'AdminLayout' },
+      component: () => import('../views/admin/AdminPanel.vue'),
     },
   ],
 });
