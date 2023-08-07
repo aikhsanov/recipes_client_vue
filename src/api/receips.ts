@@ -1,4 +1,4 @@
-import api from '../api';
+import api from './api';
 
 const receips = {
   getAll: async (config?: any) => await api.get('/receips', config),

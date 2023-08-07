@@ -32,12 +32,12 @@ export default defineComponent({
 </script>
 <script setup lang="ts">
 import { ref } from 'vue';
-import api from '../config/api';
+import api from '@/api/api';
 import { storeToken } from '@/helpers/token';
 import Input from '@/components/base/Input.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
 import { useForm } from 'vee-validate';
-import auth from '@/api/auth/auth';
+import auth from '@/api/auth';
 
 const { handleSubmit, isSubmitting } = useForm({
   initialValues: {

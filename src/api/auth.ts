@@ -1,4 +1,4 @@
-import api from '../api';
+import api from './api';
 
 const auth = {
   register: async (data, config?) => await api.post('/auth/register', data, config),

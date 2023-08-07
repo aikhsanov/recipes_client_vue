@@ -47,7 +47,7 @@ const router = createRouter({
     {
       path: '/signin',
       name: 'register',
-      meta: { layout: 'DefaultLayout' },
+      meta: { layout: 'AdminLayout' },
       component: () => import('../views/Register.vue'),
     },
     {
