@@ -2,9 +2,9 @@
   <div class="flex-col">
     <h3>Регистрация</h3>
     <form @submit="register">
-      <Input id="username" placeholder="username" label="Username" name="username" />
-      <Input id="email" placeholder="email" label="Email" name="email" />
-      <Input id="password" placeholder="password" label="Пароль" name="password" />
+      <ValidationInput id="username" placeholder="username" label="Username" name="username" />
+      <ValidationInput id="email" placeholder="email" label="Email" name="email" />
+      <ValidationInput id="password" placeholder="password" label="Пароль" name="password" />
       <BaseButton type="submit" text="Регистрация" />
     </form>
   </div>
@@ -34,7 +34,7 @@ export default defineComponent({
 import { ref } from 'vue';
 import api from '@/api/api';
 import { storeToken } from '@/helpers/token';
-import Input from '@/components/base/Input.vue';
+import ValidationInput from '@/components/validation/ValidationInput.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
 import { useForm } from 'vee-validate';
 import auth from '@/api/auth';

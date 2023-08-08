@@ -3,7 +3,7 @@
     <aside
       class="
         bg-gradient-to-br
-        from-gray-800
+        from-gray-700
         to-gray-900
         -translate-x-80
         fixed
