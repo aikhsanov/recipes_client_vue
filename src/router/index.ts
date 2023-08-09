@@ -56,6 +56,12 @@ const router = createRouter({
       meta: { layout: 'AdminLayout' },
       component: () => import('../views/admin/AdminPanel.vue'),
     },
+    {
+      path: '/admin-panel/ingridients',
+      name: 'Ingridients',
+      meta: { layout: 'AdminLayout' },
+      component: () => import('../views/admin/Ingridients.vue'),
+    },
   ],
 });
 

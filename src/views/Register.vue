@@ -10,8 +10,14 @@
   </div>
   <div class="flex-col">
     <h3>Логин</h3>
-    <Input id="email2" placeholder="email" label="Email" v-model="emailModel" name="loginEmail" />
-    <Input
+    <ValidationInput
+      id="email2"
+      placeholder="email"
+      label="Email"
+      v-model="emailModel"
+      name="loginEmail"
+    />
+    <ValidationInput
       id="password"
       placeholder="password"
       label="Пароль"
