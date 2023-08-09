@@ -30,6 +30,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, toRef } from 'vue';
 import type { Ref } from 'vue';
+import Multiselect from '@vueform/multiselect';
 import { useField } from 'vee-validate';
 
 const props = defineProps<{
@@ -40,6 +41,7 @@ const props = defineProps<{
   customClass?: string;
   customLabelClass?: string;
   searchable?: boolean;
+  options?: [];
   createOption?: boolean;
   closeOnSelect?: boolean;
   disabled?: boolean;
@@ -55,23 +57,6 @@ const props = defineProps<{
 const emits = defineEmits<{
   'update:modelValue': [val: number | string];
 }>();
-
-// onMounted(() => {
-//   if (props.modelValue) value.value = props.modelValue;
-// });
-
-// const model = computed({
-//   get() {
-//     return value?.value;
-//   },
-//   set(newVal) {
-//     console.log(newVal, 'newVal');
-//     value.value = newVal;
-//     if (newVal !== props.modelValue) {
-//       emits('update:modelValue', newVal);
-//     }
-//   },
-// });
 
 const { errorMessage, value, meta } = useField(() => props.name, undefined, {
   syncVModel: true,

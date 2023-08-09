@@ -11,7 +11,8 @@
         type="textarea"
       />
       <BaseButton type="submit" text="Добавить" />
-      <ValidationSelect />
+      {{ IngridientFiltered }}
+      <!--      <ValidationSelect />-->
     </form>
   </div>
 </template>
@@ -23,6 +24,9 @@ import { useForm } from 'vee-validate';
 import auth from '@/api/auth';
 import ingridients from '@/api/ingridients';
 import ValidationSelect from '@/components/validation/ValidationSelect.vue';
+import { onMounted, ref } from 'vue';
+
+const IngridientFiltered = ref('');
 
 const { handleSubmit, isSubmitting } = useForm({
   validationSchema: {
@@ -41,6 +45,10 @@ const onSubmit = handleSubmit(async (values, actions) => {
   } catch (e) {
     actions.setErrors({ password: error.response.data.error });
   }
+});
+
+onMounted(async () => {
+  IngridientFiltered.value = await ingridients.getAllFiltered({ name: { like: 'гриб' } });
 });
 </script>
 

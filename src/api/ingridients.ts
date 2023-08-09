@@ -2,6 +2,8 @@ import api from './api';
 
 const ingridients = {
   getAll: async (config?: any) => await api.get('/ingridients', config),
+  getAllFiltered: async (data: any, config?: any) =>
+    await api.post('/ingridients/filter', data, config),
   getById: async (id: string | number, config?) => await api.get(`/ingridients/${id}`, config),
   create: async (data: any, config?: any) => await api.post('/ingridients', data, config),
   update: async (id: string | number, data: any, config?: any) =>
