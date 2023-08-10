@@ -13,6 +13,9 @@
           name="testSelect"
           placeholder="testSelect"
           searchable
+          :searchFn="searchFn"
+          :clearOnBlur="false"
+          closeOnSelect
         />
         <h5>multiselect: {{ multiselect }}</h5>
       </div>
@@ -28,7 +31,19 @@ import { ref } from 'vue';
 
 const testInput = ref('');
 const multiselect = ref('');
-const options = ref(['Batman', 'Robin', 'Joker']);
+const options = ref([]);
+
+async function searchFn(val) {
+  if (val) {
+    const res = await ingridients.getAllFiltered({
+      filters: { name: `LIKE(${val})` },
+    });
+
+    if (res?.data?.ingridient?.length) {
+      options.value = res?.data?.ingridient.map((e) => ({ label: e.name, value: e.id }));
+    }
+  }
+}
 </script>
 
 <style src="@vueform/multiselect/themes/default.css"></style>

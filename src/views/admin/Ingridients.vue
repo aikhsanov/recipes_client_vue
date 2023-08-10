@@ -47,9 +47,11 @@ const onSubmit = handleSubmit(async (values, actions) => {
   }
 });
 
-onMounted(async () => {
-  IngridientFiltered.value = await ingridients.getAllFiltered({ name: { like: 'гриб' } });
-});
+// onMounted(async () => {
+//   IngridientFiltered.value = await ingridients.getAllFiltered({
+//     filters: { name: 'EQ(гриб)' },
+//   });
+// });
 </script>
 
 <style scoped></style>

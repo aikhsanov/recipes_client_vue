@@ -15,8 +15,10 @@
       :openDirection="props.openDirection"
       :noResultsText="props.noResultsText"
       :noOptionsText="props.noOptionsText"
+      :clearOnBlur="props.clearOnBlur"
       :options="props.options"
       :class="`${customClass || ''}`"
+      @search-change="(val) => searchFn(val)"
     />
     <span
       v-if="errorMessage && meta.touched"
@@ -41,6 +43,7 @@ const props = defineProps<{
   customClass?: string;
   customLabelClass?: string;
   searchable?: boolean;
+  clearOnBlur?: boolean;
   options?: [];
   createOption?: boolean;
   closeOnSelect?: boolean;
@@ -49,6 +52,7 @@ const props = defineProps<{
   placeholder?: string;
   inputType?: string;
   searchFilter?: Function;
+  searchFn?: Function;
   openDirection?: string;
   noResultsText?: string;
   noOptionsText?: string;
