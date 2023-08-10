@@ -1,7 +1,7 @@
 <template>
   <div class="relative mb-8">
-    <Select
-      v-model="value"
+    <Multiselect
+      v-model="model"
       :id="props.name"
       :mode="props.mode"
       :close-on-select="props.closeOnSelect"
@@ -16,23 +16,17 @@
       :noResultsText="props.noResultsText"
       :noOptionsText="props.noOptionsText"
       :clearOnBlur="props.clearOnBlur"
-      :options="props.options"
+      :options="props.options || selectOptions"
       :class="`${customClass || ''}`"
-      :searchFn="searchFn"
+      @search-change="(val) => onSearch(val)"
+      @open="onSearch('', true)"
     />
-    <span
-      v-if="errorMessage && meta.touched"
-      class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1"
-    >
-      {{ errorMessage }}
-    </span>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, toRef } from 'vue';
-import Select from '@/components/base/Select.vue';
-import { useField } from 'vee-validate';
+import { computed, onMounted, ref } from 'vue';
+import Multiselect from '@vueform/multiselect';
 
 const props = defineProps<{
   modelValue?: string | number | object;
@@ -57,13 +51,50 @@ const props = defineProps<{
   noOptionsText?: string;
 }>();
 
+const searchedData = ref<[]>([]);
+const value = ref<any>(props.modelValue || null);
+
 const emits = defineEmits<{
   'update:modelValue': [val: number | string];
 }>();
 
-const { errorMessage, value, meta } = useField(() => props.name, undefined, {
-  syncVModel: true,
+onMounted(async () => {
+  props.searchable ? await searchData('') : null;
 });
+
+const model = computed({
+  get() {
+    return value;
+  },
+  set(newVal) {
+    value.value = newVal;
+    if (newVal !== props.modelValue) {
+      emits('update:modelValue', newVal);
+    }
+  },
+});
+
+const selectOptions = computed(() =>
+  searchedData?.value?.map((e) => ({
+    label: e?.name || e?.title,
+    value: e?.id || e?.value,
+  }))
+);
+
+async function onSearch(val: any, open: boolean = false) {
+  if (val && !open) {
+    const res = (await props.searchFn(val))?.data;
+    if (res?.data?.length) {
+      searchedData.value = res?.data;
+    }
+  }
+  if (open) {
+    const res = (await props.searchFn(val))?.data;
+    if (res?.data?.length) {
+      searchedData.value = res?.data;
+    }
+  }
+}
 </script>
 
 <style scoped></style>

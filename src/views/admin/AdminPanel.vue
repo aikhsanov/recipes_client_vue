@@ -7,9 +7,8 @@
         <h5>testInput: {{ testInput }}</h5>
       </div>
       <div class="col-span-1">
-        <ValidationSelect
+        <Select
           v-model="multiselect"
-          :options="options"
           name="testSelect"
           placeholder="testSelect"
           searchable
@@ -18,6 +17,18 @@
           closeOnSelect
         />
         <h5>multiselect: {{ multiselect }}</h5>
+      </div>
+      <div class="col-span-1">
+        <ValidationSelect
+          v-model="validSelect"
+          name="testSelect"
+          placeholder="testSelect"
+          searchable
+          :searchFn="searchFn"
+          :clearOnBlur="false"
+          closeOnSelect
+        />
+        <h5>validationSelect: {{ validSelect }}</h5>
       </div>
     </div>
   </main>
@@ -28,21 +39,17 @@ import ValidationInput from '@/components/validation/ValidationInput.vue';
 import ValidationSelect from '@/components/validation/ValidationSelect.vue';
 import ingridients from '@/api/ingridients';
 import { ref } from 'vue';
+import Select from '@/components/base/Select.vue';
 
 const testInput = ref('');
 const multiselect = ref('');
+const validSelect = ref('');
 const options = ref([]);
 
 async function searchFn(val) {
-  if (val) {
-    const res = await ingridients.getAllFiltered({
-      filters: { name: `LIKE(${val})` },
-    });
-
-    if (res?.data?.ingridient?.length) {
-      options.value = res?.data?.ingridient.map((e) => ({ label: e.name, value: e.id }));
-    }
-  }
+  return await ingridients.getAllFiltered({
+    filters: { name: `LIKE(${val})` },
+  });
 }
 </script>
 
