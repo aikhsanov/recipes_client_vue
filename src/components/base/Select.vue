@@ -19,7 +19,6 @@
       :options="props.options || selectOptions"
       :class="`${customClass || ''}`"
       @search-change="(val) => onSearch(val)"
-      @open="onSearch('', true)"
     />
   </div>
 </template>
@@ -27,6 +26,11 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import Multiselect from '@vueform/multiselect';
+
+interface Option {
+  label: string;
+  value: string | number | object | [];
+}
 
 const props = defineProps<{
   modelValue?: string | number | object;
@@ -55,14 +59,18 @@ const searchedData = ref<[]>([]);
 const value = ref<any>(props.modelValue || null);
 
 const emits = defineEmits<{
-  'update:modelValue': [val: number | string];
+  'update:modelValue': [val: number | string | object];
 }>();
 
 onMounted(async () => {
-  props.searchable ? await searchData('') : null;
+  if (props.searchable) {
+    if (props.modelValue) {
+    }
+    await onSearch('', true);
+  }
 });
 
-const model = computed({
+const model = computed<number | string | object>({
   get() {
     return value;
   },
@@ -74,22 +82,22 @@ const model = computed({
   },
 });
 
-const selectOptions = computed(() =>
+const selectOptions = computed<Option[]>(() =>
   searchedData?.value?.map((e) => ({
     label: e?.name || e?.title,
     value: e?.id || e?.value,
   }))
 );
 
-async function onSearch(val: any, open: boolean = false) {
+async function onSearch(val: any, open: boolean = false): Promise<void> {
   if (val && !open) {
-    const res = (await props.searchFn(val))?.data;
+    const res: object | [] = (await props.searchFn(val))?.data;
     if (res?.data?.length) {
       searchedData.value = res?.data;
     }
   }
   if (open) {
-    const res = (await props.searchFn(val))?.data;
+    const res: object | [] = (await props.searchFn(val))?.data;
     if (res?.data?.length) {
       searchedData.value = res?.data;
     }
