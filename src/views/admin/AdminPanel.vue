@@ -43,13 +43,16 @@ import Select from '@/components/base/Select.vue';
 
 const testInput = ref('');
 const multiselect = ref('');
-const validSelect = ref('');
+const validSelect = ref(3);
 const options = ref([]);
 
-async function searchFn(val) {
-  return await ingridients.getAllFiltered({
-    filters: { name: `LIKE(${val})` },
-  });
+async function searchFn(val, data = null) {
+  data = data
+    ? data
+    : {
+        filters: { name: `LIKE(${val})` },
+      };
+  return await ingridients.getAllFiltered(data);
 }
 </script>
 

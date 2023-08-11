@@ -32,6 +32,18 @@ interface Option {
   value: string | number | object | [];
 }
 
+interface DataItem {
+  name?: string;
+  title?: string;
+  id?: string | number;
+  description?: string | number;
+  value?: string | number | object | [];
+}
+
+interface resData {
+  data?: object | [];
+}
+
 const props = defineProps<{
   modelValue?: string | number | object;
   label?: string;
@@ -65,6 +77,8 @@ const emits = defineEmits<{
 onMounted(async () => {
   if (props.searchable) {
     if (props.modelValue) {
+      await onSearch(props.modelValue, false, true);
+      return;
     }
     await onSearch('', true);
   }
@@ -74,7 +88,7 @@ const model = computed<number | string | object>({
   get() {
     return value;
   },
-  set(newVal) {
+  set(newVal: string | number | object) {
     value.value = newVal;
     if (newVal !== props.modelValue) {
       emits('update:modelValue', newVal);
@@ -83,18 +97,31 @@ const model = computed<number | string | object>({
 });
 
 const selectOptions = computed<Option[]>(() =>
-  searchedData?.value?.map((e) => ({
+  searchedData?.value?.map((e: DataItem) => ({
     label: e?.name || e?.title,
     value: e?.id || e?.value,
   }))
 );
 
-async function onSearch(val: any, open: boolean = false): Promise<void> {
-  if (val && !open) {
+async function onSearch(val: any, open: boolean = false, initial: boolean = false): Promise<void> {
+  if (val && !open && !initial) {
     const res: object | [] = (await props.searchFn(val))?.data;
     if (res?.data?.length) {
       searchedData.value = res?.data;
     }
+    return;
+  }
+  if (val && !open && initial) {
+    const filters = {
+      filters: { id: `EQ(${val})` },
+    };
+    const res: object | [] = (await props.searchFn(val, filters))?.data;
+    if (res?.data?.length) {
+      searchedData.value = res?.data;
+      model.value = res?.data[0].id;
+    }
+
+    return;
   }
   if (open) {
     const res: object | [] = (await props.searchFn(val))?.data;
