@@ -1,6 +1,6 @@
 <template>
   <div class="flex-col">
-    <h3>Регистрация</h3>
+    <h3 class="mb-5">Регистрация</h3>
     <form @submit="register">
       <ValidationInput id="username" placeholder="username" label="Username" name="username" />
       <ValidationInput id="email" placeholder="email" label="Email" name="email" />
@@ -8,8 +8,8 @@
       <BaseButton type="submit" text="Регистрация" />
     </form>
   </div>
-  <div class="flex-col">
-    <h3>Логин</h3>
+  <div class="flex-col mt-5">
+    <h3 class="mb-5">Логин</h3>
     <ValidationInput
       id="email2"
       placeholder="email"

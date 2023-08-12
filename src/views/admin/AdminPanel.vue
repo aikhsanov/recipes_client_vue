@@ -31,6 +31,28 @@
         <h5>validationSelect: {{ validSelect }}</h5>
       </div>
     </div>
+    <hr class="my-5" />
+    <div class="flex flex-col">
+      <h5 class="mb-5">Проверка валидации</h5>
+      <div>
+        <ValidationInput
+          name="testInputValid"
+          v-model="testInputValid"
+          placeholder="testInputName"
+          id="testInputName"
+        />
+        <ValidationSelect
+          v-model="testSelectValid"
+          name="testSelectValid"
+          placeholder="testSelectValid"
+          searchable
+          :searchFn="searchFn"
+          :clearOnBlur="false"
+          closeOnSelect
+        />
+        <BaseButton @click="onSubmit" text="Отправить" />
+      </div>
+    </div>
   </main>
 </template>
 
@@ -40,11 +62,31 @@ import ValidationSelect from '@/components/validation/ValidationSelect.vue';
 import ingridients from '@/api/ingridients';
 import { ref } from 'vue';
 import Select from '@/components/base/Select.vue';
+import { useForm } from 'vee-validate';
+import auth from '@/api/auth';
+import BaseButton from '@/components/base/BaseButton.vue';
 
 const testInput = ref('');
 const multiselect = ref('');
 const validSelect = ref(3);
+const testInputValid = ref('');
+const testSelectValid = ref('');
 const options = ref([]);
+
+const { handleSubmit, isSubmitting } = useForm({
+  validationSchema: {
+    testInputValid: 'required',
+    testSelectValid: 'required',
+  },
+});
+
+const onSubmit = handleSubmit(async (values, actions) => {
+  try {
+    console.log(values.testInputValid, values.testSelectValid);
+  } catch (e) {
+    actions.setErrors({ password: error.response.data.error });
+  }
+});
 
 async function searchFn(val, data = null) {
   data = data
