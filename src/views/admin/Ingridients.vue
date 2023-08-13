@@ -14,8 +14,12 @@
       {{ IngridientFiltered }}
       <!--      <ValidationSelect />-->
     </form>
-    <InfiniteScroll :loadFn="fetchIngridients">
-      <div v-for="ingr in allIngridients" :key="ingr.name">
+    <InfiniteScroll
+      :loadFn="fetchIngridients"
+      :pageMeta="store.getDataMeta"
+      v-if="store.getIngridients.length"
+    >
+      <div v-for="ingr in store.getIngridients" :key="ingr.name">
         <h5>{{ ingr.name }}</h5>
       </div>
     </InfiniteScroll>
@@ -26,14 +30,15 @@
 import ValidationInput from '@/components/validation/ValidationInput.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
 import { useForm } from 'vee-validate';
-import auth from '@/api/auth';
-import ingridients from '@/api/ingridients';
 import ValidationSelect from '@/components/validation/ValidationSelect.vue';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, toRefs } from 'vue';
 import InfiniteScroll from '@/components/tools/InfiniteScroll.vue';
+import { useIngridientsStore } from '@/stores/ingridients';
 
 const IngridientFiltered = ref('');
 const allIngridients = ref([]);
+
+const store = useIngridientsStore();
 
 const { handleSubmit, isSubmitting } = useForm({
   validationSchema: {
@@ -42,26 +47,24 @@ const { handleSubmit, isSubmitting } = useForm({
   },
 });
 
-const onSubmit = handleSubmit(async (values, actions) => {
-  try {
-    const res = await ingridients.create({
-      name: values.name,
-      description: values.description,
-    });
-    console.log(res);
-  } catch (e) {
-    actions.setErrors({ password: error.response.data.error });
-  }
-});
-
-// onMounted(async () => {
-//   IngridientFiltered.value = await ingridients.getAllFiltered({
-//     filters: { name: 'EQ(гриб)' },
-//   });
+// const onSubmit = handleSubmit(async (values, actions) => {
+//   try {
+//     const res = await ingridients.create({
+//       name: values.name,
+//       description: values.description,
+//     });
+//     console.log(res);
+//   } catch (e) {
+//     actions.setErrors({ password: error.response.data.error });
+//   }
 // });
 
+onMounted(async () => {
+  await store.loadIngridients({ params: { limit: 6 } }, true);
+});
+
 async function fetchIngridients(page) {
-  allIngridients.value = await ingridients.getAll({ limit: 5, offset: page });
+  await store.loadIngridients({ params: { limit: 6, offset: page } }, true);
 }
 </script>
 

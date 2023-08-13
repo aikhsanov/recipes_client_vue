@@ -165,7 +165,7 @@ const adminMenu = [
     path: '/admin-panel',
   },
   {
-    name: 'Ингридиенты',
+    name: 'Ингредиенты',
     path: '/admin-panel/ingridients',
   },
 ];
