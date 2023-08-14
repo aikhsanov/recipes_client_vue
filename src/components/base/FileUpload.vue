@@ -19,6 +19,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import ingridients from '@/api/ingridients';
 
 const props = defineProps<{
   modelValue?: string | number | object;
@@ -34,6 +35,7 @@ const value = ref<File>(null);
 async function onUpload(e: EventTarget): Promise<void> {
   const { files } = e.target;
   value.value = files[0];
+  await ingridients.uploadImage(value.value);
   console.log(files);
 }
 </script>
