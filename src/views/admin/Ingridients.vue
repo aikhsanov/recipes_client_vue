@@ -14,7 +14,9 @@
       {{ IngridientFiltered }}
       <!--      <ValidationSelect />-->
     </form>
+    <h5 class="mt-5 mb-2">Тест инфинит скролла</h5>
     <InfiniteScroll
+      customWrapperClass="mt-5"
       :loadFn="fetchIngridients"
       :pageMeta="store.getDataMeta"
       v-if="store.getIngridients.length"
@@ -60,11 +62,11 @@ const { handleSubmit, isSubmitting } = useForm({
 // });
 
 onMounted(async () => {
-  await store.loadIngridients({ params: { limit: 6 } }, true);
+  await store.loadIngridients({ params: { limit: 6, page: 1 } }, true);
 });
 
 async function fetchIngridients(page) {
-  await store.loadIngridients({ params: { limit: 6, offset: page } }, true);
+  await store.loadIngridients({ params: { limit: 6, page } }, true);
 }
 </script>
 
