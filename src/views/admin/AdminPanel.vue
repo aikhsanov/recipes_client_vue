@@ -30,6 +30,9 @@
         />
         <h5>validationSelect: {{ validSelect }}</h5>
       </div>
+      <div class="col-span-1">
+        <FileUpload />
+      </div>
     </div>
     <hr class="my-5" />
     <div class="flex flex-col">
@@ -65,6 +68,7 @@ import Select from '@/components/base/Select.vue';
 import { useForm } from 'vee-validate';
 import auth from '@/api/auth';
 import BaseButton from '@/components/base/BaseButton.vue';
+import FileUpload from '@/components/base/FileUpload.vue';
 
 const testInput = ref('');
 const multiselect = ref('');

@@ -22,44 +22,32 @@ export const useIngridientsStore = defineStore({
     },
   },
   actions: {
-    async loadIngridients(config, infinite = false) {
+    async loadIngridients(config: object, infinite: boolean = false) {
       try {
-        const { data } = await ingridients.getAll(config);
+        const { data }: Ingridient[] = await ingridients.getAll(config);
         this.ingridients = infinite ? [...this.ingridients, ...data.data] : data?.data;
         this.dataMeta = data?._meta;
       } catch (err) {
         console.error((err as AxiosError).message);
       }
     },
-    async createReceipt(data: {
-      title: string;
-      ingredients: string;
-      text: string;
-      img_url: string;
-    }) {
-      await api.post('/receipts', data).then(() => {
+
+    async createIngridient(data: Ingridient) {
+      await ingridients.create(data).then(() => {
         console.log('Новый рецепт добавлен');
       });
       await this.loadReceipts();
     },
-    async updateReceipt(
-      id: number,
-      data: {
-        title: string;
-        ingredients: string;
-        text: string;
-        img_url: string;
-      }
-    ) {
-      await api.put('/receipts/' + id, data).then(() => {
-        console.log('Рецепт изменен');
+
+    async updateIngridient(id: number, data: Ingridient) {
+      await ingridients.update(id, data).then(() => {
+        console.log('Ингридиент обновлён');
       });
       await this.loadReceipts();
     },
-    async deleteReceipt(id: number) {
-      await api.delete('/receipts/' + id).then(() => {
-        console.log('Рецепт удален');
-      });
+
+    async deleteIngridient(id: number) {
+      await ingridients.delete(id);
       await this.loadReceipts();
     },
   },
