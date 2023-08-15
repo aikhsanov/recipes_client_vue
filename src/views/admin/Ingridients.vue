@@ -36,6 +36,7 @@ import ValidationSelect from '@/components/validation/ValidationSelect.vue';
 import { onMounted, ref, toRefs } from 'vue';
 import InfiniteScroll from '@/components/tools/InfiniteScroll.vue';
 import { useIngridientsStore } from '@/stores/ingridients';
+import ingridients from '@/api/ingridients';
 
 const IngridientFiltered = ref('');
 const allIngridients = ref([]);
@@ -49,17 +50,17 @@ const { handleSubmit, isSubmitting } = useForm({
   },
 });
 
-// const onSubmit = handleSubmit(async (values, actions) => {
-//   try {
-//     const res = await ingridients.create({
-//       name: values.name,
-//       description: values.description,
-//     });
-//     console.log(res);
-//   } catch (e) {
-//     actions.setErrors({ password: error.response.data.error });
-//   }
-// });
+const onSubmit = handleSubmit(async (values, actions) => {
+  try {
+    const res = await ingridients.create({
+      name: values.name,
+      description: values.description,
+    });
+    console.log(res);
+  } catch (e) {
+    actions.setErrors({ password: error.response.data.error });
+  }
+});
 
 onMounted(async () => {
   await store.loadIngridients({ params: { limit: 6, page: 1 } }, true);

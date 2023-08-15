@@ -34,9 +34,10 @@ const value = ref<File>(null);
 
 async function onUpload(e: EventTarget): Promise<void> {
   const { files } = e.target;
-  value.value = files[0];
-  await ingridients.uploadImage(value.value);
-  console.log(files);
+  let data = new FormData();
+  data.append('file', files[0]);
+  // value.value = files[0].name;
+  await ingridients.uploadImage(1, data);
 }
 </script>
 
