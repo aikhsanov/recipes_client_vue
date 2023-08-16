@@ -14,6 +14,7 @@
       :disabled="props.disabled"
       @change="onUpload($event)"
     />
+    <img :src="img" />
   </div>
 </template>
 
@@ -31,13 +32,17 @@ const props = defineProps<{
 }>();
 
 const value = ref<File>(null);
+const img = ref(null);
 
 async function onUpload(e: EventTarget): Promise<void> {
   const { files } = e.target;
   let data = new FormData();
   data.append('file', files[0]);
   // value.value = files[0].name;
-  await ingridients.uploadImage(1, data);
+  const res = await ingridients.uploadImage(1, data);
+  if (res?.data) {
+    img.value = res.data.data.img_url;
+  }
 }
 </script>
 
