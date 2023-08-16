@@ -7,7 +7,7 @@ const ingridients = {
   getById: async (id: string | number, config?) => await api.get(`/ingridients/${id}`, config),
   create: async (data: any, config?: any) => await api.post('/ingridients', data, config),
   uploadImage: async (id, data: any, config?: any) =>
-    await api.post(`/ingridients/images/${id}`, data, {
+    await api.post(`/ingridients/${id}/images`, data, {
       ...config,
       headers: {
         'Content-Type': 'multipart/form-data',

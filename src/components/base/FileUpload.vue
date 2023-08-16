@@ -1,5 +1,8 @@
 <template>
   <div class="relative mb-8">
+    <div class="image-preview h-64 w-64" v-if="value.img_url && props.preview">
+      <img :src="value.img_url" />
+    </div>
     <label
       v-if="props.label"
       :class="`block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 ${props.customLabelClass}`"
@@ -14,7 +17,6 @@
       :disabled="props.disabled"
       @change="onUpload($event)"
     />
-    <img :src="img" />
   </div>
 </template>
 
@@ -29,19 +31,27 @@ const props = defineProps<{
   customClass?: string;
   customLabelClass?: string;
   disabled?: boolean;
+  uploadFn?: Function;
+  apiName?: string;
 }>();
-
-const value = ref<File>(null);
-const img = ref(null);
+const apiName = () => import(`../../api/${props.apiName}`);
+const value = ref<string | object>({});
+const img = ref<string>('');
 
 async function onUpload(e: EventTarget): Promise<void> {
   const { files } = e.target;
   let data = new FormData();
   data.append('file', files[0]);
   // value.value = files[0].name;
-  const res = await ingridients.uploadImage(1, data);
+  let res;
+  if (props.uploadFn) {
+    res = (await props.uploadFn())?.data;
+  } else if (props.apiName) {
+    res = await [apiName()]?.uploadImage(props.entityId);
+  }
+
   if (res?.data) {
-    img.value = res.data.data.img_url;
+    img.value = res.data.img_url;
   }
 }
 </script>

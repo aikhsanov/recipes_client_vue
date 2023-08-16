@@ -31,7 +31,7 @@
         <h5>validationSelect: {{ validSelect }}</h5>
       </div>
       <div class="col-span-1">
-        <FileUpload />
+        <FileUpload entryId="1" apiName="ingridients" />
       </div>
     </div>
     <hr class="my-5" />
