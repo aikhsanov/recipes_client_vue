@@ -10,6 +10,7 @@
         name="description"
         type="textarea"
       />
+      <ValidationFileUpload id="ingridient-img" name="ingridientImg" label="Изображение" preview />
       <BaseButton type="submit" text="Добавить" />
       {{ IngridientFiltered }}
       <!--      <ValidationSelect />-->
@@ -37,6 +38,7 @@ import { onMounted, ref, toRefs } from 'vue';
 import InfiniteScroll from '@/components/tools/InfiniteScroll.vue';
 import { useIngridientsStore } from '@/stores/ingridients';
 import ingridients from '@/api/ingridients';
+import ValidationFileUpload from '@/components/validation/ValidationFileUpload.vue';
 
 const IngridientFiltered = ref('');
 const allIngridients = ref([]);
@@ -47,6 +49,7 @@ const { handleSubmit, isSubmitting } = useForm({
   validationSchema: {
     name: 'required',
     description: 'required',
+    ingridientImg: 'required',
   },
 });
 
@@ -55,6 +58,7 @@ const onSubmit = handleSubmit(async (values, actions) => {
     const res = await ingridients.create({
       name: values.name,
       description: values.description,
+      ingridientImg: values.ingridientImg,
     });
     console.log(res);
   } catch (e) {

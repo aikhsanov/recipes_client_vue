@@ -60,7 +60,6 @@
           entityId="1"
           apiName="ingridients"
           preview
-          closeOnSelect
         />
         <BaseButton @click="onSubmit" text="Отправить" />
       </div>
