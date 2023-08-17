@@ -1,10 +1,12 @@
 <template>
   <div>
-    <main class="mb-4">
-      <component :is="layout || 'div'">
-        <RouterView />
-      </component>
-    </main>
+    <Suspense>
+      <main class="mb-4">
+        <component :is="layout || 'div'">
+          <RouterView />
+        </component>
+      </main>
+    </Suspense>
   </div>
 </template>
 

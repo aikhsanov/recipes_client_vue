@@ -33,10 +33,14 @@ const props = defineProps<{
   disabled?: boolean;
   uploadFn?: Function;
   apiName?: string;
+  entityId?: string;
 }>();
-const apiName = () => import(`../../api/${props.apiName}`);
-const value = ref<string | object>({});
+
+const apiName = await import(`../../api/${props.apiName}.ts`);
+const value = ref<string>('');
 const img = ref<string>('');
+// console.log(await apiName());
+console.log(apiName);
 
 async function onUpload(e: EventTarget): Promise<void> {
   const { files } = e.target;
@@ -47,7 +51,7 @@ async function onUpload(e: EventTarget): Promise<void> {
   if (props.uploadFn) {
     res = (await props.uploadFn())?.data;
   } else if (props.apiName) {
-    res = await [apiName()]?.uploadImage(props.entityId);
+    res = (await apiName.default.uploadImage(props.entityId, data))?.data;
   }
 
   if (res?.data) {
