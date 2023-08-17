@@ -1,7 +1,7 @@
 <template>
   <div class="relative mb-8">
-    <div class="image-preview h-64 w-64" v-if="value.img_url && props.preview">
-      <img :src="value.img_url" />
+    <div class="image-preview h-64 w-64" v-if="img && props.preview">
+      <img :src="img" class="" />
     </div>
     <label
       v-if="props.label"
@@ -10,9 +10,9 @@
       >Upload file</label
     >
     <input
-      :value="value"
       :class="`block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-200 file:text-blue-800 hover:file:bg-blue-300 ${props.customClass}`"
       :id="props.name"
+      :name="props.name"
       type="file"
       :disabled="props.disabled"
       @change="onUpload($event)"
@@ -22,7 +22,6 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import ingridients from '@/api/ingridients';
 
 const props = defineProps<{
   modelValue?: string | number | object;
@@ -31,22 +30,26 @@ const props = defineProps<{
   customClass?: string;
   customLabelClass?: string;
   disabled?: boolean;
+  preview?: boolean;
   uploadFn?: Function;
   apiName?: string;
   entityId?: string;
 }>();
 
 const apiName = await import(`../../api/${props.apiName}.ts`);
+
 const value = ref<string>('');
 const img = ref<string>('');
-// console.log(await apiName());
-console.log(apiName);
+
+const emits = defineEmits<{
+  'update:modelValue': [val: number | string | object];
+}>();
 
 async function onUpload(e: EventTarget): Promise<void> {
   const { files } = e.target;
   let data = new FormData();
   data.append('file', files[0]);
-  // value.value = files[0].name;
+
   let res;
   if (props.uploadFn) {
     res = (await props.uploadFn())?.data;
@@ -57,6 +60,8 @@ async function onUpload(e: EventTarget): Promise<void> {
   if (res?.data) {
     img.value = res.data.img_url;
   }
+  value.value = files[0].name;
+  emits('update:modelValue', value.value);
 }
 </script>
 

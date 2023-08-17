@@ -31,7 +31,7 @@
         <h5>validationSelect: {{ validSelect }}</h5>
       </div>
       <div class="col-span-1">
-        <FileUpload entityId="1" apiName="ingridients" />
+        <FileUpload entityId="1" apiName="ingridients" preview />
       </div>
     </div>
     <hr class="my-5" />
@@ -53,6 +53,15 @@
           :clearOnBlur="false"
           closeOnSelect
         />
+        <ValidationFileUpload
+          v-model="testUploadValid"
+          name="testUploadValid"
+          placeholder="testUploadValid"
+          entityId="1"
+          apiName="ingridients"
+          preview
+          closeOnSelect
+        />
         <BaseButton @click="onSubmit" text="Отправить" />
       </div>
     </div>
@@ -69,24 +78,27 @@ import { useForm } from 'vee-validate';
 import auth from '@/api/auth';
 import BaseButton from '@/components/base/BaseButton.vue';
 import FileUpload from '@/components/base/FileUpload.vue';
+import ValidationFileUpload from '@/components/validation/ValidationFileUpload.vue';
 
 const testInput = ref('');
 const multiselect = ref('');
 const validSelect = ref(3);
 const testInputValid = ref('');
 const testSelectValid = ref('');
+const testUploadValid = ref('');
 const options = ref([]);
 
 const { handleSubmit, isSubmitting } = useForm({
   validationSchema: {
     testInputValid: 'required',
     testSelectValid: 'required',
+    testUploadValid: 'required',
   },
 });
 
 const onSubmit = handleSubmit(async (values, actions) => {
   try {
-    console.log(values.testInputValid, values.testSelectValid);
+    console.log(values.testInputValid, values.testSelectValid, values.testUploadValid);
   } catch (e) {
     actions.setErrors({ password: error.response.data.error });
   }

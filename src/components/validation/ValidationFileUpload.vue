@@ -7,6 +7,9 @@
       :customClass="customClass"
       :customLabelClass="customLabelClass"
       :disabled="disabled"
+      :uploadFn="uploadFn"
+      :apiName="apiName"
+      :entityId="entityId"
     />
     <span
       v-if="errorMessage && meta.touched"
@@ -20,7 +23,7 @@
 <style scoped></style>
 
 <script setup lang="ts">
-import FileUpload from '@/components/base/FileUpload';
+import FileUpload from '@/components/base/FileUpload.vue';
 import { useField } from 'vee-validate';
 const props = defineProps<{
   modelValue?: string | number | object;
@@ -29,6 +32,10 @@ const props = defineProps<{
   customClass?: string;
   customLabelClass?: string;
   disabled?: boolean;
+  preview?: boolean;
+  uploadFn?: Function;
+  apiName?: string;
+  entityId?: string;
 }>();
 
 const emits = defineEmits<{
