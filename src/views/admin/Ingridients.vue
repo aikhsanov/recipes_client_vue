@@ -55,11 +55,16 @@ const { handleSubmit, isSubmitting } = useForm({
 
 const onSubmit = handleSubmit(async (values, actions) => {
   try {
-    const res = await ingridients.create({
-      name: values.name,
-      description: values.description,
-      ingridientImg: values.ingridientImg,
-    });
+    const res = (
+      await ingridients.create({
+        name: values.name,
+        description: values.description,
+      })
+    ).data;
+    if (res.data) {
+      console.log(values.ingridientImg);
+      await ingridients.uploadImage(res.data.id, values.ingridientImg);
+    }
     console.log(res);
   } catch (e) {
     actions.setErrors({ password: error.response.data.error });
