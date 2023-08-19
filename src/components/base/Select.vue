@@ -132,4 +132,4 @@ async function onSearch(val: any, open: boolean = false, initial: boolean = fals
 }
 </script>
 
-<style scoped></style>
+<style src="@vueform/multiselect/themes/default.css"></style>

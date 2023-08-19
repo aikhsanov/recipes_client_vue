@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 const props = defineProps<{
   modelValue?: string | number | object;
@@ -47,6 +47,12 @@ if (props.apiName) {
 const emits = defineEmits<{
   'update:modelValue': [val: number | string | object];
 }>();
+
+onMounted(() => {
+  if (props.modelValue) {
+    img.value = props.modelValue;
+  }
+});
 
 async function onUpload(e: EventTarget): Promise<void> {
   const { files } = e.target;

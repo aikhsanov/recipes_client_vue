@@ -113,4 +113,4 @@ async function searchFn(val, data = null) {
 }
 </script>
 
-<style src="@vueform/multiselect/themes/default.css"></style>
+<style></style>

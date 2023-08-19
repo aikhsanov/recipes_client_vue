@@ -18,7 +18,7 @@ export const useReceiptsStore = defineStore({
     },
   },
   actions: {
-    async loadReceipts() {
+    async loadIngridients() {
       try {
         const url = '/receipts';
         const { data } = await api.get(url);
