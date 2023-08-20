@@ -17,6 +17,14 @@
           label="Изображение"
           preview
         />
+        <ValidationSelect
+          name="fetchedIng"
+          placeholder="Выбранный ингредиент"
+          searchable
+          :searchFn="searchFn"
+          :clearOnBlur="false"
+          closeOnSelect
+        />
         <BaseButton type="submit" text="Добавить" />
         {{ IngridientFiltered }}
         <!--      <ValidationSelect />-->
@@ -30,6 +38,7 @@
         closeOnSelect
       />
       <BaseButton type="button" text="Редактировать" @click="onEdit" />
+      <BaseButton type="button" text="Сохранить" @click="editOnSave" />
       <h5 class="mt-5 mb-2">Тест инфинит скролла</h5>
       <InfiniteScroll
         customWrapperClass="mt-5"
@@ -54,17 +63,26 @@ import { onMounted, ref, toRefs } from 'vue';
 import InfiniteScroll from '@/components/tools/InfiniteScroll.vue';
 import { useIngridientsStore } from '@/stores/ingridients';
 import ValidationFileUpload from '@/components/validation/ValidationFileUpload.vue';
+import { useFormStore } from '@/stores/form';
+import usePrepareEditData from '@/composables/usePrepareEditData.js';
 
 const IngridientFiltered = ref('');
 
+const form = useFormStore();
 const store = useIngridientsStore();
 
-const { handleSubmit, isSubmitting, setValues } = useForm({
+const { handleSubmit, isSubmitting, setValues, setTouched, meta, resetForm } = useForm({
+  initialValues: {
+    name: '',
+    description: '',
+    ingridientImg: '',
+    fetchedIng: '',
+  },
   validationSchema: {
     name: '',
     description: '',
     ingridientImg: '',
-    selectedIngr: '',
+    fetchedIng: '',
   },
 });
 
@@ -72,6 +90,16 @@ const onSubmit = handleSubmit(async (values, actions) => {
   try {
     const data = { name: values.name, description: values.description, img: values.ingridientImg };
     await store.createIngridient(data);
+  } catch (e) {
+    actions.setErrors({ password: error.response.data.error });
+  }
+});
+
+const editOnSave = handleSubmit(async (values, actions) => {
+  try {
+    const data = usePrepareEditData(values);
+    console.log(data);
+    // await store.createIngridient(data);
   } catch (e) {
     actions.setErrors({ password: error.response.data.error });
   }
@@ -84,11 +112,19 @@ const onEdit = handleSubmit(async (values, actions) => {
       console.log('settingVals');
       const { name, description, img_url } = store.getCurrentIngridient;
       console.log(name, description, img_url);
-      setValues({
-        name,
-        description,
-        ingridientImg: img_url,
+      resetForm({
+        values: {
+          name,
+          description,
+          ingridientImg: img_url,
+          fetchedIng: values.selectedIngr,
+        },
       });
+      // setTouched({
+      //   name: false,
+      //   description: false,
+      //   ingridientImg: false,
+      // });
     }
   } catch (e) {
     actions.setErrors({ password: error.response.data.error });

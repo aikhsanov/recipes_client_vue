@@ -26,6 +26,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import Multiselect from '@vueform/multiselect';
+import { watch } from 'vue';
 
 interface Option {
   label: string;
@@ -130,6 +131,15 @@ async function onSearch(val: any, open: boolean = false, initial: boolean = fals
     }
   }
 }
+
+watch(
+  () => props.modelValue,
+  (nv, ov) => {
+    if (nv !== ov) {
+      model.value = nv;
+    }
+  }
+);
 </script>
 
 <style src="@vueform/multiselect/themes/default.css"></style>

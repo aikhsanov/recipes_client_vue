@@ -30,9 +30,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, toRef } from 'vue';
+import { computed, onMounted, ref, toRef, watch } from 'vue';
 import Select from '@/components/base/Select.vue';
 import { useField } from 'vee-validate';
+import { useFormStore } from '@/stores/form';
 
 const props = defineProps<{
   modelValue?: string | number | object;
@@ -60,10 +61,22 @@ const props = defineProps<{
 const emits = defineEmits<{
   'update:modelValue': [val: number | string];
 }>();
+const form = useFormStore();
+onMounted(() => {
+  form.setField({ name: props.name, value: { dirty: meta.dirty } });
+});
 
 const { errorMessage, value, meta } = useField(() => props.name, undefined, {
   syncVModel: true,
 });
+watch(
+  () => meta.dirty,
+  (nv, ov) => {
+    if (nv !== ov) {
+      form.setField({ name: props.name, value: { dirty: meta.dirty } });
+    }
+  }
+);
 </script>
 
 <style scoped></style>

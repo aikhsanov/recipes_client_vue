@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 const props = defineProps<{
   modelValue?: string | number | object;
@@ -48,12 +48,6 @@ const emits = defineEmits<{
   'update:modelValue': [val: number | string | object];
 }>();
 
-onMounted(() => {
-  if (props.modelValue) {
-    img.value = props.modelValue;
-  }
-});
-
 async function onUpload(e: EventTarget): Promise<void> {
   const { files } = e.target;
   let data = new FormData();
@@ -72,6 +66,16 @@ async function onUpload(e: EventTarget): Promise<void> {
 
   emits('update:modelValue', value.value);
 }
+
+watch(
+  () => props.modelValue,
+  (newVal) => {
+    console.log(newVal);
+    if (typeof newVal === 'string') {
+      img.value = newVal;
+    }
+  }
+);
 </script>
 
 <style scoped></style>

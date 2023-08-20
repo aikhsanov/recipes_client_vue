@@ -10,6 +10,7 @@
       :uploadFn="uploadFn"
       :apiName="apiName"
       :entityId="entityId"
+      :preview="preview"
     />
     <span
       v-if="errorMessage && meta.touched"
@@ -25,6 +26,8 @@
 <script setup lang="ts">
 import FileUpload from '@/components/base/FileUpload.vue';
 import { useField } from 'vee-validate';
+import { onMounted, watch } from 'vue/dist/vue';
+import { useFormStore } from '@/stores/form';
 const props = defineProps<{
   modelValue?: string | number | object;
   label?: string;
@@ -45,4 +48,18 @@ const emits = defineEmits<{
 const { errorMessage, value, meta } = useField(() => props.name, undefined, {
   syncVModel: true,
 });
+
+// const form = useFormStore();
+// onMounted(() => {
+//   form.setField({ name: props.name, value: { dirty: meta.dirty } });
+// });
+//
+// watch(
+//   () => meta.dirty,
+//   (nv, ov) => {
+//     if (nv !== ov) {
+//       form.setField({ name: props.name, value: { dirty: meta.dirty } });
+//     }
+//   }
+// );
 </script>

@@ -2,7 +2,7 @@
   <div class="relative mb-8">
     <template v-if="props.type !== 'textarea'"
       ><input
-        v-model="value"
+        v-model.trim="value"
         :type="props.type"
         :placeholder="props.placeholder"
         :disabled="props.disabled"
@@ -20,7 +20,7 @@
     </template>
     <template v-else>
       <textarea
-        v-model="value"
+        v-model.trim="value"
         :type="props.type"
         :placeholder="props.placeholder"
         :disabled="props.disabled"
@@ -133,9 +133,10 @@ export default defineComponent({
 });
 </script>
 <script setup lang="ts">
-import { computed, onMounted, ref, toRef } from 'vue';
+import { computed, onMounted, ref, toRef, toRefs, watch } from 'vue';
 import type { Ref } from 'vue';
 import { useField } from 'vee-validate';
+import { useFormStore } from '@/stores/form';
 
 const props = defineProps<{
   modelValue?: string | number | object;
@@ -148,13 +149,16 @@ const props = defineProps<{
   disabled?: boolean;
 }>();
 
+const form = useFormStore();
 const emits = defineEmits<{
   'update:modelValue': [val: number | string];
 }>();
 
-// onMounted(() => {
-//   if (props.modelValue) value.value = props.modelValue;
-// });
+const { name } = toRefs(props);
+onMounted(() => {
+  // if (props.modelValue) value.value = props.modelValue;
+  form.setField({ name: name.value, value: { dirty: meta.dirty } });
+});
 
 // const model = computed({
 //   get() {
@@ -169,9 +173,18 @@ const emits = defineEmits<{
 //   },
 // });
 
-const { errorMessage, value, meta } = useField(() => props.name, undefined, {
+const { errorMessage, value, meta } = useField(name, undefined, {
   syncVModel: true,
 });
+
+watch(
+  () => meta.dirty,
+  (nv, ov) => {
+    if (nv !== ov) {
+      form.setField({ name: name.value, value: { dirty: meta.dirty } });
+    }
+  }
+);
 </script>
 
 <style scoped></style>
