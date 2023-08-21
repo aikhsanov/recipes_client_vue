@@ -8,7 +8,8 @@ const router = createRouter({
       path: '/',
       name: 'home',
       meta: { layout: 'DefaultLayout' },
-      component: HomeView,
+      // component: HomeView,
+      component: () => import('../views/main/MainPage.vue'),
     },
     {
       path: '/enter',

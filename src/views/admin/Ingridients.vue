@@ -117,6 +117,7 @@ const editOnSave = handleSubmit(async (values, actions) => {
     throw new Error(e);
   }
 });
+
 const onEdit = handleSubmit(async (values, actions) => {
   try {
     await store.loadIngridientById(values.selectedIngr);
@@ -157,7 +158,7 @@ onUnmounted(() => {
   form.clearFormField();
 });
 
-async function fetchIngridients(page) {
+async function fetchIngridients(page?: number) {
   await store.loadIngridients({ params: { limit: 6, page } }, true);
 }
 
