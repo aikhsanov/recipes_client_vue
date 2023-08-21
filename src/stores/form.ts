@@ -3,6 +3,8 @@ import type { AxiosError } from 'axios';
 import api from '@/config/api';
 import { Receipt } from '@/types/receipts';
 
+type fieldPayload = { name: string; value: { dirty: boolean } };
+
 export const useFormStore = defineStore({
   id: 'form',
   state: () => ({
@@ -12,7 +14,7 @@ export const useFormStore = defineStore({
     getForm: (state) => state.form,
   },
   actions: {
-    setField(payload) {
+    setField(payload: fieldPayload) {
       this.form = { ...this.form, [payload.name]: payload.value };
     },
     clearFormField() {

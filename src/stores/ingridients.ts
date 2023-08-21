@@ -62,6 +62,7 @@ export const useIngridientsStore = defineStore({
             description: data.description,
           })
         ).data;
+        console.log(res);
         if (res.data) {
           await ingridients.uploadImage(res.data.id, data.img);
         }

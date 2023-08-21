@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-row">
     <div class="flex-col w-1/3">
-      <h3>Добавление и просмотр доступных ингридиентов</h3>
+      <h3 class="font-bold">Добавление и просмотр доступных ингридиентов</h3>
       <form @submit="onSubmit" class="mt-12">
         <ValidationInput id="ingridient-name" placeholder="username" label="Название" name="name" />
         <ValidationInput
@@ -17,29 +17,19 @@
           label="Изображение"
           preview
         />
-        <ValidationSelect
-          name="fetchedIng"
-          placeholder="Выбранный ингредиент"
-          searchable
-          :searchFn="searchFn"
-          :clearOnBlur="false"
-          closeOnSelect
-        />
+        <!--        <ValidationSelect-->
+        <!--          name="fetchedIng"-->
+        <!--          placeholder="Выбранный ингредиент"-->
+        <!--          searchable-->
+        <!--          :searchFn="searchFn"-->
+        <!--          :clearOnBlur="false"-->
+        <!--          closeOnSelect-->
+        <!--        />-->
         <BaseButton type="submit" text="Добавить" />
         {{ IngridientFiltered }}
         <!--      <ValidationSelect />-->
       </form>
-      <ValidationSelect
-        name="selectedIngr"
-        placeholder="Выберите ингредиент"
-        searchable
-        :searchFn="searchFn"
-        :clearOnBlur="false"
-        closeOnSelect
-      />
-      <BaseButton type="button" text="Редактировать" @click="onEdit" />
-      <BaseButton type="button" text="Сохранить" @click="editOnSave" />
-      <h5 class="mt-5 mb-2">Тест инфинит скролла</h5>
+      <h3 class="mt-10 mb-2 font-bold">Тест инфинит скролла</h3>
       <InfiniteScroll
         customWrapperClass="mt-5"
         :loadFn="fetchIngridients"
@@ -51,6 +41,21 @@
         </div>
       </InfiniteScroll>
     </div>
+    <div class="flex-col w-1/3 ml-10">
+      <h3 class="font-bold">Редактирование ингридиентов</h3>
+      <div class="mt-12">
+        <ValidationSelect
+          name="selectedIngr"
+          placeholder="Выберите ингредиент"
+          searchable
+          :searchFn="searchFn"
+          :clearOnBlur="false"
+          closeOnSelect
+        />
+        <BaseButton type="button" text="Редактировать" @click="onEdit" />
+        <BaseButton type="button" text="Сохранить" @click="editOnSave" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -59,7 +64,7 @@ import ValidationInput from '@/components/validation/ValidationInput.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
 import { useForm } from 'vee-validate';
 import ValidationSelect from '@/components/validation/ValidationSelect.vue';
-import { onMounted, ref, toRefs } from 'vue';
+import { onMounted, onUnmounted, ref, toRefs } from 'vue';
 import InfiniteScroll from '@/components/tools/InfiniteScroll.vue';
 import { useIngridientsStore } from '@/stores/ingridients';
 import ValidationFileUpload from '@/components/validation/ValidationFileUpload.vue';
@@ -91,7 +96,7 @@ const onSubmit = handleSubmit(async (values, actions) => {
     const data = { name: values.name, description: values.description, img: values.ingridientImg };
     await store.createIngridient(data);
   } catch (e) {
-    actions.setErrors({ password: error.response.data.error });
+    actions.setErrors({ name: e.message });
   }
 });
 
@@ -101,7 +106,7 @@ const editOnSave = handleSubmit(async (values, actions) => {
     console.log(data);
     // await store.createIngridient(data);
   } catch (e) {
-    actions.setErrors({ password: error.response.data.error });
+    throw new Error(e);
   }
 });
 const onEdit = handleSubmit(async (values, actions) => {
@@ -127,12 +132,16 @@ const onEdit = handleSubmit(async (values, actions) => {
       // });
     }
   } catch (e) {
-    actions.setErrors({ password: error.response.data.error });
+    throw new Error(e);
   }
 });
 
 onMounted(async () => {
   await fetchIngridients(1);
+});
+
+onUnmounted(() => {
+  form.clearFormField();
 });
 
 async function fetchIngridients(page) {

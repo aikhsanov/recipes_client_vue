@@ -22,7 +22,7 @@ AxiosInstance.interceptors.response.use(
       window.localStorage.token = null;
       router.push({ name: 'login' }).then();
     } else {
-      return Promise.reject(resp);
+      return Promise.reject(resp?.response?.data?.message || 'Неизвестная ошибка');
     }
   }
 );
