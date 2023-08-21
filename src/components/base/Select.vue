@@ -19,6 +19,7 @@
       :options="props.options || selectOptions"
       :class="`${customClass || ''}`"
       @search-change="(val) => onSearch(val)"
+      @open="onSearch('', true)"
     />
   </div>
 </template>

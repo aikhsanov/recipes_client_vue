@@ -66,22 +66,22 @@ export const useIngridientsStore = defineStore({
         if (res.data) {
           await ingridients.uploadImage(res.data.id, data.img);
         }
-        console.log(res);
+        await this.loadIngridients();
       } catch (e) {
         throw new Error(e);
       }
     },
 
     async updateIngridient(id: number, data: Ingridient) {
-      await ingridients.update(id, data).then(() => {
-        console.log('Ингридиент обновлён');
-      });
-      await this.loadReceipts();
+      const res = (await ingridients.update(id, data)).data;
+      await this.loadIngridients();
+      return res;
     },
 
     async deleteIngridient(id: number) {
-      await ingridients.delete(id);
-      await this.loadReceipts();
+      const res = (await ingridients.delete(id)).data;
+      await this.loadIngridients();
+      return res;
     },
   },
 });
