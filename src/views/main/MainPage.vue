@@ -2,7 +2,10 @@
   <main>
     <div class="flex flex-row justify-between">
       <div class="flex flex-col w-full">
-        <nav class="h-16 border-blue-500 border-2"></nav>
+        <nav class="h-16 justify-between flex flex-row">
+          <Select placeholder="Поиск рецептов" class="w-64"></Select>
+          <BaseButton type="link" text="Войти" to="/signup"></BaseButton>
+        </nav>
         <section class="mt-16">
           <!--          <h3 class="text-gray-600 text-2xl font-medium">Блок 1</h3>-->
           <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-6">
@@ -115,10 +118,9 @@
   </main>
 </template>
 
-<script>
-export default {
-  name: 'MainPage',
-};
+<script setup lang="ts">
+import Select from '@/components/base/Select.vue';
+import BaseButton from '@/components/base/BaseButton.vue';
 </script>
 
 <style scoped></style>
