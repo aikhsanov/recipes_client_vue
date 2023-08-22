@@ -1,30 +1,34 @@
 <template>
-  <BaseModal>
+  <BaseModal class="min-h-48 lg:h-[45rem] lg:w-[70rem]">
     <template #prepend>
-      <div id="reg-img-wrap" class="w-full">
-        <img src="../../assets/img/reg/reg_img.jpg" />
+      <div id="reg-img-wrap" class="w-full h-full">
+        <img src="../../assets/img/reg/reg_img_2.jpg" class="h-full w-full object-cover" />
       </div>
     </template>
     <template #default>
-      <div class="max-w-2xl">
-        <div id="reg-form-wrap" class="w-full">
-          <h3 class="mb-5">Регистрация</h3>
-          <form @submit="register">
-            <ValidationInput
-              id="username"
-              placeholder="username"
-              label="Username"
-              name="username"
-            />
+      <div id="reg-form-wrap" class="w-full h-full">
+        <h3 class="mb-5">Регистрация</h3>
+        <form @submit="register" class="flex flex-col justify-between h-3/4">
+          <div>
+            <ValidationInput id="username" placeholder="username" label="Имя" name="username" />
             <ValidationInput id="email" placeholder="email" label="Email" name="email" />
             <ValidationInput id="password" placeholder="password" label="Пароль" name="password" />
-            <BaseButton type="submit" text="Регистрация" />
-          </form>
-        </div>
+          </div>
+          <BaseButton
+            type="submit"
+            text="Регистрация"
+            class="text-white w-full bg-light-slate-gray-900 hover:bg-light-slate-gray-300"
+          />
+        </form>
       </div>
     </template>
     <template #activator="{ toggle }">
-      <BaseButton type="button" text="Войти" @click="toggle"></BaseButton>
+      <BaseButton
+        type="button"
+        text="Войти"
+        @click="toggle"
+        class="bg-[#F06543] text-white border-none w-32 bg-gray-200"
+      ></BaseButton>
     </template>
   </BaseModal>
 </template>
@@ -41,9 +45,9 @@ import BaseModal from '@/components/base/BaseModal.vue';
 
 const { handleSubmit, isSubmitting } = useForm({
   initialValues: {
-    username: 'krasav4ik',
-    email: 'admin@test.ru',
-    password: '123456',
+    username: '',
+    email: '',
+    password: '',
   },
   validationSchema: {
     email: 'required|email',

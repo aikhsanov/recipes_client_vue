@@ -1,1 +1,14 @@
 @import './base.css';
+
+h5 {
+  background: #c6d081;
+}
+
+.templ {
+  background: #dfe4bd;
+}
+.scondButton {
+  background: #15803d;
+  border: none !important;
+  color: white !important;
+}

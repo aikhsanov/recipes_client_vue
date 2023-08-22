@@ -1,5 +1,5 @@
 <template>
-  <div class="container border-2 border-amber-400 mx-auto min-h-screen p-4">
+  <div class="container mx-auto min-h-screen p-4">
     <!--    <header></header>-->
     <slot />
     <footer></footer>

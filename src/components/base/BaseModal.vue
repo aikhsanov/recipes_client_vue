@@ -29,9 +29,9 @@
       fixed
       justify-center
       bg-white rounded-lg shadow dark:bg-gray-700
-      max-w-4xl
+      max-w-5xl
       z-70
-      md:h-auto ${props.customClass || ''}`"
+      md:h-auto ${props.class || ''}`"
   >
     <slot name="prepend"> </slot>
     <div class="flex flex-col w-full">
@@ -67,7 +67,7 @@
           </svg>
         </button>
       </div>
-      <div class="space-y-6 px-6 lg:px-8 pb-4 sm:pb-6 xl:pb-8">
+      <div class="space-y-6 px-6 lg:px-8 pb-4 sm:pb-6 xl:pb-8 h-full">
         <slot :toggle="toggleOpen">
           <h4>Котнтент недоступен или отсутствует</h4>
         </slot>
@@ -85,7 +85,7 @@
 import { ref } from 'vue';
 
 const props = defineProps<{
-  customClass?: string;
+  class?: string;
 }>();
 
 const isOpen = ref<boolean>(false);
