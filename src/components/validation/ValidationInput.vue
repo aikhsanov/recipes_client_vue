@@ -7,13 +7,13 @@
         :placeholder="props.placeholder"
         :disabled="props.disabled"
         :id="props.name"
-        :class="`peer w-full h-10 text-gray-900 placeholder-transparent border-b-2 border-gray-300 focus:outline-none focus:border-purple-600 ${props.customInputClass}`"
+        :class="`peer h-10 w-full text-gray-900 placeholder-transparent border-b-2 border-gray-300 focus:outline-none focus:border-purple-600 ${props.customInputClass}`"
       />
 
       <label
         v-if="props.label"
         :for="props.name"
-        :class="`absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm ${props.customLabelClass}`"
+        :class="`absolute w-full left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm ${props.customLabelClass}`"
       >
         {{ props.label }}</label
       >

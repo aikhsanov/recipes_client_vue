@@ -5,6 +5,14 @@
         <nav class="h-16 justify-between flex flex-row">
           <Select placeholder="Поиск рецептов" class="w-64"></Select>
           <Modal>
+            <template #prepend>
+              <div id="reg-img-wrap" class="w-full">
+                <img src="../../assets/img/reg/reg_img.jpg" />
+              </div>
+            </template>
+            <template #default>
+              <RegistrationForm />
+            </template>
             <template #activator="{ toggle }">
               <BaseButton type="button" text="Войти" @click="toggle"></BaseButton>
             </template>
@@ -126,6 +134,7 @@
 import Select from '@/components/base/Select.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
 import Modal from '@/components/base/Modal.vue';
+import RegistrationForm from '@/components/forms/RegistrationForm.vue';
 </script>
 
 <style scoped></style>
