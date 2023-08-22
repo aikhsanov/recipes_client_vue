@@ -1,15 +1,32 @@
 <template>
-  <div class="max-w-2xl">
-    <div id="reg-form-wrap" class="w-1/2">
-      <h3 class="mb-5">Регистрация</h3>
-      <form @submit="register">
-        <ValidationInput id="username" placeholder="username" label="Username" name="username" />
-        <ValidationInput id="email" placeholder="email" label="Email" name="email" />
-        <ValidationInput id="password" placeholder="password" label="Пароль" name="password" />
-        <BaseButton type="submit" text="Регистрация" />
-      </form>
-    </div>
-  </div>
+  <BaseModal>
+    <template #prepend>
+      <div id="reg-img-wrap" class="w-full">
+        <img src="../../assets/img/reg/reg_img.jpg" />
+      </div>
+    </template>
+    <template #default>
+      <div class="max-w-2xl">
+        <div id="reg-form-wrap" class="w-full">
+          <h3 class="mb-5">Регистрация</h3>
+          <form @submit="register">
+            <ValidationInput
+              id="username"
+              placeholder="username"
+              label="Username"
+              name="username"
+            />
+            <ValidationInput id="email" placeholder="email" label="Email" name="email" />
+            <ValidationInput id="password" placeholder="password" label="Пароль" name="password" />
+            <BaseButton type="submit" text="Регистрация" />
+          </form>
+        </div>
+      </div>
+    </template>
+    <template #activator="{ toggle }">
+      <BaseButton type="button" text="Войти" @click="toggle"></BaseButton>
+    </template>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
@@ -20,6 +37,7 @@ import ValidationInput from '@/components/validation/ValidationInput.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
 import { useForm } from 'vee-validate';
 import auth from '@/api/auth';
+import BaseModal from '@/components/base/BaseModal.vue';
 
 const { handleSubmit, isSubmitting } = useForm({
   initialValues: {
