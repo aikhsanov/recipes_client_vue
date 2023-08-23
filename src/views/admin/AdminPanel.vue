@@ -43,6 +43,7 @@
           v-model="testInputValid"
           placeholder="testInputName"
           id="testInputName"
+          label="Введите текст"
         />
         <ValidationSelect
           v-model="testSelectValid"
@@ -61,8 +62,9 @@
           apiName="ingridients"
           preview
         />
-        <BaseButton @click="onSubmit" text="Отправить" />
+        <BaseButton @click="onSubmit" text="Отправить" class="bg-blue-300" />
       </div>
+      <ValidationInput type="textarea" name="textareaTest" label="Введите текст" />
     </div>
   </main>
 </template>
