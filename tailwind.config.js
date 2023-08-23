@@ -5,6 +5,10 @@ module.exports = {
     extend: {
       colors: {
         'saddle-brown': '#a65111',
+        'olive-green': {
+          800: '#ced59d',
+          900: '#c6d081',
+        },
         'honey-yellow': {
           800: '#e8b713',
           900: '#ddaa00',

@@ -7,16 +7,16 @@
     </template>
     <template #default>
       <div id="reg-form-wrap" class="w-full h-full">
-        <h3 class="mb-5">Регистрация</h3>
+        <h3 class="mb-10 font-bold text-xl text-center">Регистрация</h3>
         <form @submit="register" class="flex flex-col justify-between h-3/4">
-          <div>
+          <div class="bg-gray-50 p-5">
             <ValidationInput id="username" placeholder="username" label="Имя" name="username" />
             <ValidationInput id="email" placeholder="email" label="Email" name="email" />
             <ValidationInput id="password" placeholder="password" label="Пароль" name="password" />
           </div>
           <BaseButton
             type="submit"
-            text="Регистрация"
+            text="Зарегистрироваться"
             class="text-white w-full bg-light-slate-gray-900 hover:bg-light-slate-gray-300"
           />
         </form>

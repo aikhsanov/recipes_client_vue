@@ -7,7 +7,7 @@
         :placeholder="props.placeholder"
         :disabled="props.disabled"
         :id="props.name"
-        :class="`peer h-10 w-full text-gray-900 placeholder-transparent border-b-2 border-gray-300 focus:outline-none focus:border-light-slate-gray-900 ${
+        :class="`peer h-10 w-full text-gray-900 placeholder-transparent border-b-2 bg-transparent border-gray-300 focus:outline-none focus:border-light-slate-gray-900 ${
           props.customInputClass || ''
         }`"
       />
