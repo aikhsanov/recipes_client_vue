@@ -4,6 +4,7 @@ import { AxiosError } from 'axios';
 import auth from '@/api/auth';
 import { Ingridient } from '@/types/ingridients';
 import ingridients from '@/api/ingridients';
+import { storeToken } from '@/helpers/token';
 
 type userData = {
   username: string;
@@ -34,6 +35,9 @@ const useAuthStore = defineStore({
             password: data.password,
           })
         ).data;
+        if (res.data) {
+          storeToken(res?.data?.user?.token);
+        }
       } catch (e) {
         throw new Error(e);
       }
@@ -41,6 +45,9 @@ const useAuthStore = defineStore({
 
     async login(data: userLoginData) {
       const res = (await auth.login(data)).data;
+      if (res.data) {
+        storeToken(res?.data?.user?.token);
+      }
       return res;
     },
   },

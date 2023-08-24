@@ -35,7 +35,8 @@
   >
     <slot name="prepend"> </slot>
     <div class="flex flex-col w-full">
-      <div class="flex justify-end p-2" id="modal-close">
+      <div class="flex justify-between p-2" id="modal-close">
+        <slot name="modal-header-controls"></slot>
         <button
           type="button"
           @click="toggleOpen"

@@ -4,7 +4,7 @@
       <div class="flex flex-col w-full">
         <nav class="h-16 justify-between flex flex-row">
           <Select placeholder="Поиск рецептов" class="w-64"></Select>
-          <RegistrationForm />
+          <AuthForm />
         </nav>
         <section class="mt-16">
           <!--          <h3 class="text-gray-600 text-2xl font-medium">Блок 1</h3>-->
@@ -48,7 +48,7 @@
 
 <script setup lang="ts">
 import Select from '@/components/base/Select.vue';
-import RegistrationForm from '@/components/forms/RegistrationForm.vue';
+import AuthForm from '@/components/forms/AuthForm.vue';
 </script>
 
 <style scoped></style>
