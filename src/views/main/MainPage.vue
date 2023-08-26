@@ -49,6 +49,12 @@
 <script setup lang="ts">
 import Select from '@/components/base/Select.vue';
 import AuthForm from '@/components/forms/AuthForm.vue';
+import { onMounted } from 'vue';
+import auth from '@/api/auth';
+
+onMounted(async () => {
+  await auth.me();
+});
 </script>
 
 <style scoped></style>

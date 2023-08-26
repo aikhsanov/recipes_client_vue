@@ -17,7 +17,7 @@ type userLoginData = {
   password: string;
 };
 
-const useAuthStore = defineStore({
+export const useAuthStore = defineStore({
   id: 'users',
   state: () => ({
     me: [] as User[],
@@ -28,13 +28,7 @@ const useAuthStore = defineStore({
   actions: {
     async register(data: userData) {
       try {
-        const res = (
-          await auth.register({
-            username: data.username,
-            email: data.email,
-            password: data.password,
-          })
-        ).data;
+        const res = (await auth.register(data)).data;
         if (res.data) {
           storeToken(res?.data?.user?.token);
         }
@@ -46,7 +40,7 @@ const useAuthStore = defineStore({
     async login(data: userLoginData) {
       const res = (await auth.login(data)).data;
       if (res.data) {
-        storeToken(res?.data?.user?.token);
+        storeToken(res?.data?.token);
       }
       return res;
     },

@@ -44,7 +44,7 @@
             >зарегистрируйтесь</a
           >
         </h3>
-        <form @submit="login" class="flex flex-col justify-between h-3/4">
+        <form @submit="onLogin" class="flex flex-col justify-between h-3/4">
           <div class="bg-gray-50 p-5">
             <ValidationInput id="email" placeholder="email" label="Email" name="email" />
             <ValidationInput id="password" placeholder="password" label="Пароль" name="password" />
@@ -84,14 +84,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import ValidationInput from '@/components/validation/ValidationInput.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
 import { useForm } from 'vee-validate';
-import auth from '@/api/auth';
 import BaseModal from '@/components/base/BaseModal.vue';
+import { useAuthStore } from '@/stores/auth';
+
+const auth = useAuthStore();
 
 const gotAccount = ref<boolean>(true);
+const validationSchema = computed<object>(() => ({
+  email: 'required|email',
+  password: 'required',
+  username: gotAccount.value ? '' : 'required',
+}));
 
 const { handleSubmit, isSubmitting } = useForm({
   initialValues: {
@@ -99,11 +106,7 @@ const { handleSubmit, isSubmitting } = useForm({
     email: '',
     password: '',
   },
-  validationSchema: {
-    email: 'required|email',
-    password: 'required',
-    username: 'required',
-  },
+  validationSchema,
 });
 
 const register = handleSubmit(async (values, actions) => {
@@ -117,7 +120,8 @@ const register = handleSubmit(async (values, actions) => {
     actions.setErrors({ username: e.message });
   }
 });
-const login = handleSubmit(async (values, actions) => {
+
+const onLogin = handleSubmit(async (values, actions) => {
   try {
     const res = await auth.login({
       email: values.email,
@@ -127,6 +131,7 @@ const login = handleSubmit(async (values, actions) => {
     actions.setErrors({ email: e.message });
   }
 });
+
 function onAuthChange() {
   gotAccount.value = !gotAccount.value;
 }

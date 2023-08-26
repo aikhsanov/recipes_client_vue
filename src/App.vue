@@ -12,12 +12,14 @@
 
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
+
 import { useUIStore } from '@/stores/ui';
 import Register from '@/views/Register.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
 import { provide, shallowRef } from 'vue';
 import router from '@/router';
 import layouts from '@/layouts/layouts.js';
+import { onMounted } from 'vue';
 
 const UIStore = useUIStore();
 

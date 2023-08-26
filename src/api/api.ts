@@ -1,7 +1,7 @@
 import axios, { CreateAxiosDefaults } from 'axios';
 import type { AxiosRequestConfig } from 'axios';
 import router from '@/router';
-import { getToken } from '../helpers/token';
+import { getToken, removeToken } from '../helpers/token';
 
 const options = {
   // baseURL: 'http://api.receipts.haemmid.ru/',
@@ -19,8 +19,10 @@ AxiosInstance.interceptors.response.use(
   },
   (resp) => {
     if (resp.response.status === 500) {
-      window.localStorage.token = null;
-      router.push({ name: 'login' }).then();
+      if (resp.response.data.message.includes('TokenExpiredError')) {
+        removeToken();
+        return Promise.reject(resp?.response?.data?.message || 'Неизвестная ошибка');
+      }
     } else {
       return Promise.reject(resp?.response?.data?.message || 'Неизвестная ошибка');
     }
