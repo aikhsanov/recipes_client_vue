@@ -68,7 +68,7 @@
           </svg>
         </button>
       </div>
-      <div class="space-y-6 px-6 lg:px-8 pb-4 sm:pb-6 xl:pb-8 h-full">
+      <div class="space-y-6 px-6 lg:px-8 pb-4 sm:pb-6 xl:pb-8 h-full relative">
         <slot :toggle="toggleOpen">
           <h4>Котнтент недоступен или отсутствует</h4>
         </slot>
@@ -94,6 +94,9 @@ const isOpen = ref<boolean>(false);
 function toggleOpen() {
   isOpen.value = !isOpen.value;
 }
+defineExpose<{
+  toggleOpen: Function;
+}>({ toggleOpen });
 </script>
 
 <style scoped></style>

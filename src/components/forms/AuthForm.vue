@@ -1,5 +1,5 @@
 <template>
-  <BaseModal class="min-h-48 lg:h-[45rem] lg:w-[70rem]">
+  <BaseModal class="min-h-48 lg:h-[45rem] lg:w-[70rem]" ref="modal">
     <template #modal-header-controls>
       <button
         v-if="!gotAccount"
@@ -37,40 +37,53 @@
       </div>
     </template>
     <template #default>
-      <div id="auth-login-form-wrap" class="w-full h-full" v-if="gotAccount">
-        <h3 class="mb-10 font-bold text-xl text-center">
-          Войдите или
-          <a type="button" class="cursor-pointer text-blue-berry-500" @click="onAuthChange"
-            >зарегистрируйтесь</a
-          >
-        </h3>
-        <form @submit="onLogin" class="flex flex-col justify-between h-3/4">
-          <div class="bg-gray-50 p-5">
-            <ValidationInput id="email" placeholder="email" label="Email" name="email" />
-            <ValidationInput id="password" placeholder="password" label="Пароль" name="password" />
-          </div>
-          <BaseButton
-            type="submit"
-            text="Войти"
-            class="text-white w-full bg-light-slate-gray-900 hover:bg-light-slate-gray-300"
-          />
-        </form>
-      </div>
-      <div id="auth-reg-form-wrap" class="w-full h-full" v-else>
-        <h3 class="mb-10 font-bold text-xl text-center">Регистрация</h3>
-        <form @submit="register" class="flex flex-col justify-between h-3/4">
-          <div class="bg-gray-50 p-5">
-            <ValidationInput id="username" placeholder="username" label="Имя" name="username" />
-            <ValidationInput id="email" placeholder="email" label="Email" name="email" />
-            <ValidationInput id="password" placeholder="password" label="Пароль" name="password" />
-          </div>
-          <BaseButton
-            type="submit"
-            text="Зарегистрироваться"
-            class="text-white w-full bg-light-slate-gray-900 hover:bg-light-slate-gray-300"
-          />
-        </form>
-      </div>
+      <template v-if="!loading">
+        <div id="auth-login-form-wrap" class="w-full h-full" v-if="gotAccount">
+          <h3 class="mb-10 font-bold text-xl text-center">
+            Войдите или
+            <a type="button" class="cursor-pointer text-blue-berry-500" @click="onAuthChange"
+              >зарегистрируйтесь</a
+            >
+          </h3>
+          <form @submit="onLogin" class="flex flex-col justify-between h-3/4">
+            <div class="bg-gray-50 p-5">
+              <ValidationInput id="email" placeholder="email" label="Email" name="email" />
+              <ValidationInput
+                id="password"
+                placeholder="password"
+                label="Пароль"
+                name="password"
+              />
+            </div>
+            <BaseButton
+              type="submit"
+              text="Войти"
+              class="text-white w-full bg-light-slate-gray-900 hover:bg-light-slate-gray-800"
+            />
+          </form>
+        </div>
+        <div id="auth-reg-form-wrap" class="w-full h-full" v-else>
+          <h3 class="mb-10 font-bold text-xl text-center">Регистрация</h3>
+          <form @submit="register" class="flex flex-col justify-between h-3/4">
+            <div class="bg-gray-50 p-5">
+              <ValidationInput id="username" placeholder="username" label="Имя" name="username" />
+              <ValidationInput id="email" placeholder="email" label="Email" name="email" />
+              <ValidationInput
+                id="password"
+                placeholder="password"
+                label="Пароль"
+                name="password"
+              />
+            </div>
+            <BaseButton
+              type="submit"
+              text="Зарегистрироваться"
+              class="text-white w-full bg-light-slate-gray-900 hover:bg-light-slate-gray-800"
+            />
+          </form>
+        </div>
+      </template>
+      <Spinner v-if="loading"></Spinner>
     </template>
     <template #activator="{ toggle }">
       <BaseButton
@@ -90,10 +103,14 @@ import BaseButton from '@/components/base/BaseButton.vue';
 import { useForm } from 'vee-validate';
 import BaseModal from '@/components/base/BaseModal.vue';
 import { useAuthStore } from '@/stores/auth';
+import { User } from '@/types/user';
+import Spinner from '@/components/ui/Spinner.vue';
 
 const auth = useAuthStore();
 
 const gotAccount = ref<boolean>(true);
+const loading = ref<boolean>(false);
+const modal = ref<HTMLDivElement>();
 const validationSchema = computed<object>(() => ({
   email: 'required|email',
   password: 'required',
@@ -111,11 +128,15 @@ const { handleSubmit, isSubmitting } = useForm({
 
 const register = handleSubmit(async (values, actions) => {
   try {
+    loading.value = true;
     const res = await auth.register({
       email: values.email,
       username: values.username,
       password: values.password,
     });
+    if (res.data) {
+      loading.value = false;
+    }
   } catch (e) {
     actions.setErrors({ username: e.message });
   }
@@ -127,6 +148,10 @@ const onLogin = handleSubmit(async (values, actions) => {
       email: values.email,
       password: values.password,
     });
+    if (res.data) {
+      loading.value = false;
+      modal.value.toggleOpen();
+    }
   } catch (e) {
     actions.setErrors({ email: e.message });
   }

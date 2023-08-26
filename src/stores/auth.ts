@@ -20,7 +20,7 @@ type userLoginData = {
 export const useAuthStore = defineStore({
   id: 'users',
   state: () => ({
-    me: [] as User[],
+    me: {} as User,
   }),
   getters: {
     getMe: (state) => state.me,
@@ -41,6 +41,15 @@ export const useAuthStore = defineStore({
       const res = (await auth.login(data)).data;
       if (res.data) {
         storeToken(res?.data?.token);
+        this.me = res.data;
+      }
+      return res;
+    },
+
+    async me() {
+      const res = (await auth.me()).data;
+      if (res.data) {
+        this.me = res.data;
       }
       return res;
     },

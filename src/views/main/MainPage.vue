@@ -4,7 +4,8 @@
       <div class="flex flex-col w-full">
         <nav class="h-16 justify-between flex flex-row">
           <Select placeholder="Поиск рецептов" class="w-64"></Select>
-          <AuthForm />
+          <AuthForm v-if="isSignedIn" />
+          <ProfileMenu v-else />
         </nav>
         <section class="mt-16">
           <!--          <h3 class="text-gray-600 text-2xl font-medium">Блок 1</h3>-->
@@ -48,9 +49,13 @@
 
 <script setup lang="ts">
 import Select from '@/components/base/Select.vue';
+import ProfileMenu from '@/components/profile/ProfileMenu.vue';
 import AuthForm from '@/components/forms/AuthForm.vue';
-import { onMounted } from 'vue';
-import auth from '@/api/auth';
+import { computed, onMounted } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+
+const auth = useAuthStore();
+const isSignedIn = computed<boolean>(() => Object.values(auth.getMe).length > 0);
 
 onMounted(async () => {
   await auth.me();
