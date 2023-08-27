@@ -17,7 +17,7 @@
       :noOptionsText="props.noOptionsText"
       :clearOnBlur="props.clearOnBlur"
       :options="props.options || selectOptions"
-      :class="`${customClass || ''}`"
+      :class="`${customClass}`"
       @search-change="(val) => onSearch(val)"
       @open="onSearch('', true)"
     />

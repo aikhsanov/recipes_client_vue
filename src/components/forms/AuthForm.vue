@@ -88,9 +88,9 @@
     <template #activator="{ toggle }">
       <BaseButton
         type="button"
-        text="Войти"
+        text="Вход"
         @click="toggle"
-        class="mt-0 text-gray-400 border-2 border-gray-300 w-28 bg-transparent"
+        class="mt-0 w-20 text-white font-bold bg-tomato-800 hover:bg-tomato-900"
       ></BaseButton>
     </template>
   </BaseModal>

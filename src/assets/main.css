@@ -20,3 +20,11 @@ h5 {
   border: none !important;
   color: white !important;
 }
+
+.multiselect {
+  @apply border-2 rounded-sm outline-none border-gray-200 !important;
+}
+
+.multiselect.is-active {
+  @apply shadow-none !important;
+}
