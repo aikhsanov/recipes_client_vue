@@ -141,15 +141,15 @@ const isActive = ref<boolean>(false);
 const dropdownMenu = ref<HTMLDivElement>();
 const dropdown = ref<HTMLDivElement>();
 // const visible = computed<string>(() => window.getComputedStyle(dropdownMenu.value).visibility);
-function onActivation() {
-  isActive.value = !isActive.value;
+function onActivation(e?: object, outside?: boolean) {
+  isActive.value = outside ? false : !isActive.value;
 }
 onBeforeUnmount(() => {
-  document.removeEventListener('click', onActivation);
+  document.removeEventListener('click', (e) => onActivation(e, true));
 });
 
 onMounted(() => {
-  document.addEventListener('click', onActivation);
+  document.addEventListener('click', (e) => onActivation(e, true));
 });
 </script>
 
