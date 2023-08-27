@@ -2,7 +2,7 @@
   <BaseDropdown :dropdownItems="menu" links>
     <template #activator>
       <button
-        class="h-11 w-11 block rounded-full border border-gray-100 p-1 hover:bg-gray-100"
+        class="h-11 w-11 block rounded-full border border-gray-100 p-1 hover:bg-gray-100 shadow-md"
         type="button"
         aria-haspopup="true"
         aria-expanded="true"

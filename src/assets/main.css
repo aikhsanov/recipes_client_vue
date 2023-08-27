@@ -26,5 +26,5 @@ h5 {
 }
 
 .multiselect.is-active {
-  @apply shadow-none !important;
+  @apply shadow-none border-light-slate-gray-900 !important;
 }

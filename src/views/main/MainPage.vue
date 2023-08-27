@@ -2,9 +2,9 @@
   <main>
     <div class="flex flex-row justify-between">
       <div class="flex flex-col w-full">
-        <nav class="h-16 justify-between flex flex-row">
-          <Select placeholder="Поиск рецептов" class="w-64"></Select>
-          <AuthForm v-if="!isSignedIn" />
+        <nav class="h-16 flex flex-row">
+          <Select placeholder="Поиск рецептов" class="w-64" searchable></Select>
+          <AuthForm v-if="isSignedIn" />
           <ProfileMenu v-else />
         </nav>
         <section class="mt-16">

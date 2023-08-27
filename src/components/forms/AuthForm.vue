@@ -90,7 +90,7 @@
         type="button"
         text="Вход"
         @click="toggle"
-        class="mt-0 w-20 text-white font-bold bg-tomato-800 hover:bg-tomato-900"
+        class="mt-0 ml-2 w-20 text-white font-bold bg-tomato-800 hover:bg-tomato-900"
       ></BaseButton>
     </template>
   </BaseModal>
