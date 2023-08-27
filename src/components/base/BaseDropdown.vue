@@ -1,7 +1,12 @@
 <template>
-  <div class="min-h-screen bg-white py-6 flex flex-col justify-center sm:py-12">
-    <div class="flex items-center justify-center p-12">
-      <div class="relative inline-block text-left dropdown">
+  <div class="bg-white flex flex-col justify-center">
+    <div class="flex items-center justify-center">
+      <div
+        class="relative inline-block text-left dropdown p-3 pt-0 hover:cursor-pointer"
+        ref="dropdown"
+        :data-active="isActive"
+        @click.stop="onActivation"
+      >
         <slot name="activator">
           <span class="rounded-md shadow-sm"
             ><button
@@ -41,8 +46,10 @@
         </slot>
 
         <div
+          ref="dropdownMenu"
           class="
-            opacity-1
+            opacity-0
+            invisible
             dropdown-menu
             transition-all
             duration-300
@@ -50,6 +57,7 @@
             origin-top-right
             -translate-y-2
             scale-95
+            hidden
           "
         >
           <div
@@ -60,7 +68,6 @@
               mt-2
               origin-top-right
               bg-white
-              border border-gray-200
               divide-y divide-gray-100
               rounded-md
               shadow-lg
@@ -73,7 +80,7 @@
             <div class="px-4 py-3">
               <slot name="info"></slot>
             </div>
-            <ul id="dropdown-list" class="py-1" v-if="links">
+            <ul id="dropdown-list" class="pb-1 divide-y divide-gray-100" v-if="links">
               <li
                 v-for="(item, ind) in dropdownItems"
                 :key="item.text"
@@ -123,16 +130,34 @@
 </template>
 
 <script setup lang="ts">
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+
 const props = defineProps<{
   dropdownItems: [];
   links?: boolean;
 }>();
+
+const isActive = ref<boolean>(false);
+const dropdownMenu = ref<HTMLDivElement>();
+const dropdown = ref<HTMLDivElement>();
+// const visible = computed<string>(() => window.getComputedStyle(dropdownMenu.value).visibility);
+function onActivation() {
+  isActive.value = !isActive.value;
+}
+onBeforeUnmount(() => {
+  document.removeEventListener('click', onActivation);
+});
+
+onMounted(() => {
+  document.addEventListener('click', onActivation);
+});
 </script>
 
 <style scoped>
-.dropdown:focus-within .dropdown-menu {
+.dropdown:not([data-active='false']) .dropdown-menu {
   opacity: 1;
   transform: translate(0) scale(1);
   visibility: visible;
+  display: block;
 }
 </style>
