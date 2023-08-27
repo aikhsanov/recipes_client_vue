@@ -90,7 +90,7 @@
         type="button"
         text="Войти"
         @click="toggle"
-        class="bg-[#F06543] text-white border-none w-32 bg-gray-200"
+        class="mt-0 text-gray-400 border-2 border-gray-300 w-28 bg-transparent"
       ></BaseButton>
     </template>
   </BaseModal>
