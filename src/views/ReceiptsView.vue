@@ -62,7 +62,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { useReceiptsStore } from '@/stores/receipts';
+import { useReceiptsStore } from '@/stores/recipes';
 import { useUIStore } from '@/stores/ui';
 
 const receiptsStore = useReceiptsStore();

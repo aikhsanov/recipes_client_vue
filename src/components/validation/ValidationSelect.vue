@@ -7,6 +7,7 @@
       :close-on-select="props.closeOnSelect"
       :searchable="props.searchable"
       :create-option="props.createOption"
+      :multiple="props.multiple"
       :disabled="props.disabled"
       :trackBy="props.trackBy"
       :placeholder="props.placeholder"
@@ -47,6 +48,7 @@ const props = defineProps<{
   options?: [];
   createOption?: boolean;
   closeOnSelect?: boolean;
+  multiple?: boolean;
   disabled?: boolean;
   trackBy?: string;
   placeholder?: string;

@@ -139,8 +139,8 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { useReceiptsStore } from '@/stores/receipts';
-import { Receipt } from '@/types/receipts';
+import { useReceiptsStore } from '@/stores/recipes';
+import { Receipt } from '@/types/recipes';
 import { nl2br } from '@/helpers/main';
 import { Form, Field } from 'vee-validate';
 

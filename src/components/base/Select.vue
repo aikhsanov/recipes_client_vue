@@ -4,6 +4,7 @@
       v-model="model"
       :id="props.name"
       :mode="props.mode"
+      :multiple="props.multiple"
       :close-on-select="props.closeOnSelect"
       :searchable="props.searchable"
       :create-option="props.createOption"
@@ -58,6 +59,7 @@ const props = defineProps<{
   options?: [];
   createOption?: boolean;
   closeOnSelect?: boolean;
+  multiple?: boolean;
   disabled?: boolean;
   trackBy?: string;
   placeholder?: string;
