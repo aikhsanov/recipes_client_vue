@@ -2,7 +2,7 @@
   <button
     v-if="props.type !== 'link'"
     :class="`mr-2 my-2 cursor-pointer rounded-sm bg-light-slate-gray-900 hover:bg-light-slate-gray-800 w-28 h-11 shadow-md ${
-      props.class || 'px-2 py-1 text-white'
+      props.class || 'px-5 py-1 text-white'
     } `"
   >
     {{ props.text }}

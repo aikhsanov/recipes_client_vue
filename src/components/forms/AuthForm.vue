@@ -5,18 +5,7 @@
         v-if="!gotAccount"
         type="button"
         @click="onAuthChange"
-        class="
-          text-gray-400
-          bg-transparent
-          hover:bg-gray-200 hover:text-gray-900
-          rounded-lg
-          text-sm
-          p-1.5
-          mr-auto
-          inline-flex
-          items-center
-          dark:hover:bg-gray-800 dark:hover:text-white
-        "
+        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 mr-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
         data-modal-toggle="authentication-modal"
       >
         <svg
@@ -90,7 +79,7 @@
         type="button"
         text="Вход"
         @click="toggle"
-        class="mt-0 ml-2 w-20 text-white font-bold bg-tomato-800 hover:bg-tomato-900"
+        class="mt-0 w-20 text-white font-bold bg-tomato-800 hover:bg-tomato-900"
       ></BaseButton>
     </template>
   </BaseModal>

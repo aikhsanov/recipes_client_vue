@@ -2,7 +2,9 @@
   <div class="bg-white flex flex-col justify-center">
     <div class="flex items-center justify-center">
       <div
-        class="relative inline-block text-left dropdown p-3 pt-0 hover:cursor-pointer"
+        :class="`relative inline-block text-left dropdown p-2 hover:cursor-pointer ${
+          activatorClass || ''
+        }`"
         ref="dropdown"
         :data-active="isActive"
         @click.stop="onActivation"
@@ -10,26 +12,7 @@
         <slot name="activator">
           <span class="rounded-md shadow-sm"
             ><button
-              class="
-                inline-flex
-                justify-center
-                w-full
-                px-4
-                py-2
-                text-sm
-                font-medium
-                leading-5
-                text-gray-700
-                transition
-                duration-150
-                ease-in-out
-                bg-white
-                border border-gray-300
-                rounded-md
-                hover:text-gray-500
-                focus:outline-none focus:border-blue-300 focus:shadow-outline-blue
-                active:bg-gray-50 active:text-gray-800
-              "
+              class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium leading-5 text-gray-700 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
               type="button"
               aria-haspopup="true"
               aria-expanded="true"
@@ -47,32 +30,12 @@
 
         <div
           ref="dropdownMenu"
-          class="
-            opacity-0
-            invisible
-            dropdown-menu
-            transition-all
-            duration-300
-            transform
-            origin-top-right
-            -translate-y-2
-            scale-95
-            hidden
-          "
+          class="opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95 hidden"
         >
           <div
-            class="
-              absolute
-              right-0
-              w-56
-              mt-2
-              origin-top-right
-              bg-white
-              divide-y divide-gray-100
-              rounded-md
-              shadow-lg
-              outline-none
-            "
+            :class="`absolute w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg outline-none ${
+              dropDownPos || 'right-0'
+            }`"
             aria-labelledby="headlessui-menu-button-1"
             id="headlessui-menu-items-117"
             role="menu"
@@ -84,18 +47,7 @@
               <li
                 v-for="(item, ind) in dropdownItems"
                 :key="item.text"
-                class="
-                  text-gray-700
-                  flex
-                  justify-between
-                  w-full
-                  px-4
-                  py-2
-                  text-sm
-                  leading-5
-                  text-left
-                  hover:cursor-pointer hover:bg-gray-100
-                "
+                class="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left hover:cursor-pointer hover:bg-gray-100"
               >
                 <router-link
                   :to="item?.to"
@@ -135,6 +87,8 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 const props = defineProps<{
   dropdownItems: [];
   links?: boolean;
+  activatorClass?: string;
+  dropDownPos?: string;
 }>();
 
 const isActive = ref<boolean>(false);

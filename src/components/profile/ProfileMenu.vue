@@ -1,5 +1,5 @@
 <template>
-  <BaseDropdown :dropdownItems="menu" links>
+  <BaseDropdown :dropdownItems="menu" links activatorClass="pt-0 pl-5 ml-0">
     <template #activator>
       <button
         class="h-11 w-11 block rounded-full border border-gray-100 p-1 hover:bg-gray-100 shadow-md"
@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import BaseDropdown from '@/components/base/BaseDropdown.vue';
 import { useAuthStore } from '@/stores/auth';
-import imageUrl from '@/assets/img/icons/avatar.svg';
+import imageUrl from '@/assets/img/icons/avatar-green.svg';
 
 const auth = useAuthStore();
 
