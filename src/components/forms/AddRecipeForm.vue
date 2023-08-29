@@ -15,15 +15,23 @@
       type="textarea"
     />
     <div class="add-recipe-ingridients">
-      <ValidationSelect
-        v-for="(ingr, ind) in ingrs"
-        :name="ingridients[`${ingr}`]"
-        label="Выберите ингридиенты"
-        searchable
-        :searchFn="searchFn"
-        :clearOnBlur="false"
-        closeOnSelect
-      />
+      <div class="flex flex-row" v-for="(ingr, ind) in ingrs" :key="ind">
+        <ValidationSelect
+          class="w-1/4 mr-5"
+          :name="`ingridients-${ingr}`"
+          label="Выберите ингридиенты"
+          searchable
+          :searchFn="searchFn"
+          :clearOnBlur="false"
+          closeOnSelect
+        />
+        <ValidationInput
+          class="w-1/4 mr-5"
+          :name="`ingridientsQuantity-${ingr}`"
+          label="Количество"
+        />
+        <ValidationInput class="w-1/4" :name="`ingridientUnit-${ingr}`" label="Мера" />
+      </div>
       <BaseButton type="button" text="Добавить ингридиент" @click="increaseIngrs" />
     </div>
     <ValidationFileUpload name="recipeFile" label="Обложка" preview />
