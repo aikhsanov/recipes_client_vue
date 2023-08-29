@@ -16,21 +16,15 @@
     />
     <div class="add-recipe-ingridients">
       <ValidationSelect
-        name="ingridients"
+        v-for="(ingr, ind) in ingrs"
+        :name="ingridients[`${ingr}`]"
         label="Выберите ингридиенты"
         searchable
         :searchFn="searchFn"
         :clearOnBlur="false"
         closeOnSelect
       />
-      <ValidationSelect
-        name="ingridients"
-        label="Выберите ингридиенты"
-        searchable
-        :searchFn="searchFn"
-        :clearOnBlur="false"
-        closeOnSelect
-      />
+      <BaseButton type="button" text="Добавить ингридиент" @click="increaseIngrs" />
     </div>
     <ValidationFileUpload name="recipeFile" label="Обложка" preview />
     <BaseButton type="submit" text="Поехали" />
@@ -46,17 +40,28 @@ import { useForm } from 'vee-validate';
 import { useRecipesStore } from '@/stores/recipes';
 import { Recipe } from '@/types/recipes';
 import BaseButton from '@/components/base/BaseButton.vue';
+import { computed, ref } from 'vue';
 
 const recipes = useRecipesStore();
+const ingrs = ref<number>(1);
 
-const { handleSubmit } = useForm({
-  validationSchema: {
+function increaseIngrs() {
+  ingrs.value += 1;
+}
+
+const validationSchema = computed<object>(() => {
+  const obj = {
     recipeName: 'required',
     recipeShortDesc: 'required',
     recipeDesc: 'required',
-    ingridients: 'required',
     recipeFile: 'required',
-  },
+  };
+
+  return obj;
+});
+
+const { handleSubmit } = useForm({
+  validationSchema,
 });
 
 const onSubmit = handleSubmit(async (values, actions) => {
