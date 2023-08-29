@@ -4,3 +4,8 @@ export interface Ingridient {
   description: string;
   img_url?: string;
 }
+export interface RecipeIngridient {
+  id?: number;
+  quantity: number;
+  units_cid?: number | string;
+}

@@ -14,16 +14,24 @@
       id="recipe-desc"
       type="textarea"
     />
-    <ValidationSelect
-      name="ingridients"
-      label="Выберите ингридиенты"
-      searchable
-      :searchFn="searchFn"
-      :clearOnBlur="false"
-      closeOnSelect
-      mode="tags"
-      :create-option="true"
-    />
+    <div class="add-recipe-ingridients">
+      <ValidationSelect
+        name="ingridients"
+        label="Выберите ингридиенты"
+        searchable
+        :searchFn="searchFn"
+        :clearOnBlur="false"
+        closeOnSelect
+      />
+      <ValidationSelect
+        name="ingridients"
+        label="Выберите ингридиенты"
+        searchable
+        :searchFn="searchFn"
+        :clearOnBlur="false"
+        closeOnSelect
+      />
+    </div>
     <ValidationFileUpload name="recipeFile" label="Обложка" preview />
     <BaseButton type="submit" text="Поехали" />
   </form>
@@ -60,7 +68,8 @@ const onSubmit = handleSubmit(async (values, actions) => {
       ingridients: values.ingridients,
       img: values.recipeFile,
     };
-    await recipes.createRecipe(data);
+    console.log(data, 'DATA');
+    // await recipes.createRecipe(data);
   } catch (e) {
     actions.setErrors({ name: e.message });
   }

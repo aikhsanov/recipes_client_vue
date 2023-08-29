@@ -7,7 +7,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      meta: { layout: 'DefaultLayout' },
+      meta: { layout: 'DefaultLayout', aside: true },
       // component: HomeView,
       component: () => import('../views/main/MainPage.vue'),
     },

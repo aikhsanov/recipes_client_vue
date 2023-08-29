@@ -2,16 +2,19 @@ import { defineStore } from 'pinia';
 import type { AxiosError } from 'axios';
 import api from '@/api/api';
 import { Recipe } from '@/types/recipes';
+import { RecipeIngridient } from '@/types/ingridients';
 
 export const useRecipesStore = defineStore({
   id: 'recipes',
   state: () => ({
     recipes: [] as Recipe[],
+    recipeIngridients: [] as RecipeIngridient,
     currentRecipe: {} as Recipe,
   }),
   getters: {
     getRecipes: (state) => state.recipes as Recipe[],
     getCurrentRecipe: (state) => state.currentRecipe as Recipe,
+    getRecipeIngridients: (state) => state.recipeIngridients as RecipeIngridient[],
     getRecipeById: (state) => {
       return (id: number) => {
         const index = state.recipes.findIndex((recipe: Recipe) => recipe.id === id);
