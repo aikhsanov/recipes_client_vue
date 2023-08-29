@@ -21,9 +21,11 @@
       :searchFn="searchFn"
       :clearOnBlur="false"
       closeOnSelect
-      multiple
+      mode="tags"
+      :create-option="true"
     />
     <ValidationFileUpload name="recipeFile" label="Обложка" preview />
+    <BaseButton type="submit" text="Поехали" />
   </form>
 </template>
 
@@ -35,6 +37,7 @@ import ValidationFileUpload from '@/components/validation/ValidationFileUpload.v
 import { useForm } from 'vee-validate';
 import { useRecipesStore } from '@/stores/recipes';
 import { Recipe } from '@/types/recipes';
+import BaseButton from '@/components/base/BaseButton.vue';
 
 const recipes = useRecipesStore();
 

@@ -48,7 +48,6 @@ const props = defineProps<{
   options?: [];
   createOption?: boolean;
   closeOnSelect?: boolean;
-  multiple?: boolean;
   disabled?: boolean;
   trackBy?: string;
   placeholder?: string;

@@ -7,7 +7,7 @@
         :placeholder="props.placeholder || ''"
         :disabled="props.disabled"
         :id="props.name"
-        :class="`peer h-10 w-full text-gray-900 placeholder-transparent border-b-2 bg-transparent border-gray-300 focus:outline-none focus:border-light-slate-gray-900 ${
+        :class="`peer h-10 w-full  text-gray-900 placeholder-transparent border-b-2 bg-transparent border-gray-300 focus:outline-none focus:border-light-slate-gray-900 ${
           props.customInputClass || ''
         }`"
       />
@@ -36,7 +36,7 @@
       <label
         v-if="props.label"
         :for="props.name"
-        :class="`absolute w-auto left-3 px-0.5 -top-2.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-2.5 peer-focus:text-gray-600 peer-focus:text-sm peer-focus:bg-white pointer-events-none
+        :class="`absolute w-auto left-3 px-0.5 -top-2.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-2.5 peer-focus:text-gray-600 peer-focus:text-sm bg-white pointer-events-none
           ${props.customLabelClass || ''}`"
       >
         {{ props.label }}
