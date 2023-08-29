@@ -64,7 +64,11 @@ const validationSchema = computed<object>(() => {
     recipeDesc: 'required',
     recipeFile: 'required',
   };
-
+  for (let i = 1; i <= ingrs.value; i++) {
+    obj[`ingridients-${i}`] = 'required';
+    obj[`ingridientsQuantity-${i}`] = 'required';
+    obj[`ingridientUnit-${i}`] = 'required';
+  }
   return obj;
 });
 
@@ -81,7 +85,7 @@ const onSubmit = handleSubmit(async (values, actions) => {
       ingridients: values.ingridients,
       img: values.recipeFile,
     };
-    console.log(data, 'DATA');
+    console.log(values, 'DATA');
     // await recipes.createRecipe(data);
   } catch (e) {
     actions.setErrors({ name: e.message });
