@@ -1,5 +1,5 @@
 export interface Recipe {
-  id: number;
+  id?: number;
   title: string;
   ingredients: string[] | number[];
   short_dsc: string;

@@ -63,6 +63,12 @@ const router = createRouter({
       meta: { layout: 'AdminLayout' },
       component: () => import('../views/admin/Ingridients.vue'),
     },
+    {
+      path: '/recipes/add',
+      name: 'addRecipe',
+      meta: { layout: 'DefaultLayout' },
+      component: () => import('../views/recipes/add/AddRecipe.vue'),
+    },
   ],
 });
 

@@ -1,13 +1,19 @@
 <template>
-  <form @submit="onSubmit">
-    <ValidationInput name="recipeName" label="Название рецепта" id="recipe-name" />
+  <form @submit="onSubmit" class="mt-5">
+    <ValidationInput name="recipeName" placeholder="" label="Название рецепта" id="recipe-name" />
     <ValidationInput
       name="recipeShortDesc"
       label="Короткое описание"
       id="recipe-desc"
       type="textarea"
     />
-    <ValidationInput name="recipeDesc" label="Рецепт" id="recipe-desc" type="textarea" />
+    <ValidationInput
+      name="recipeDesc"
+      placeholder=""
+      label="Рецепт"
+      id="recipe-desc"
+      type="textarea"
+    />
     <ValidationSelect
       name="ingridients"
       label="Выберите ингридиенты"
@@ -27,6 +33,10 @@ import ValidationInput from '@/components/validation/ValidationInput.vue';
 import ingridients from '@/api/ingridients';
 import ValidationFileUpload from '@/components/validation/ValidationFileUpload.vue';
 import { useForm } from 'vee-validate';
+import { useRecipesStore } from '@/stores/recipes';
+import { Recipe } from '@/types/recipes';
+
+const recipes = useRecipesStore();
 
 const { handleSubmit } = useForm({
   validationSchema: {
@@ -47,7 +57,7 @@ const onSubmit = handleSubmit(async (values, actions) => {
       ingridients: values.ingridients,
       img: values.recipeFile,
     };
-    // await store.createIngridient(data);
+    await recipes.createRecipe(data);
   } catch (e) {
     actions.setErrors({ name: e.message });
   }

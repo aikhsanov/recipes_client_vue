@@ -1,7 +1,7 @@
 <template>
   <button
     v-if="props.type !== 'link'"
-    :class="`mr-2 my-2 cursor-pointer rounded-sm bg-light-slate-gray-900 hover:bg-light-slate-gray-800 w-28 h-11 shadow-md ${
+    :class="`mr-2 my-2 cursor-pointer rounded-sm bg-light-slate-gray-900 hover:bg-light-slate-gray-800 min-w-28 w-auto h-11 shadow-md ${
       props.class || 'px-5 py-1 text-white'
     } `"
   >
@@ -10,7 +10,9 @@
   <router-link
     v-else
     :to="props.to"
-    :class="`mr-2 my-2 bg-gray-100 hover:bg-gray-200 py-2 px-4 text-sm font-medium text-gray-800 border border-transparent rounded-lg focus:outline-none ${props.class}`"
+    :class="`mr-2 my-2 cursor-pointer rounded-sm bg-light-slate-gray-900 hover:bg-light-slate-gray-800 min-w-28 w-auto h-11 shadow-md ${
+      props.class || 'px-5 py-1 text-white '
+    }`"
     >{{ props.text }}</router-link
   >
 </template>

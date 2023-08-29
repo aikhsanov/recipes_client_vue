@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia';
 import type { AxiosError } from 'axios';
-import api from '@/config/api';
+import api from '@/api/api';
 import { Recipe } from '@/types/recipes';
 
-export const userecipesStore = defineStore({
+export const useRecipesStore = defineStore({
   id: 'recipes',
   state: () => ({
     recipes: [] as Recipe[],
@@ -47,16 +47,11 @@ export const userecipesStore = defineStore({
         console.log((err as AxiosError).message);
       }
     },
-    async createRecipe(data: {
-      title: string;
-      ingredients: string;
-      text: string;
-      img_url: string;
-    }) {
+    async createRecipe(data: Recipe) {
       await api.post('/recipes', data).then(() => {
         console.log('Новый рецепт добавлен');
       });
-      await this.loadrecipes();
+      await this.loadRecipes();
     },
     async updateRecipe(
       id: number,
@@ -70,13 +65,13 @@ export const userecipesStore = defineStore({
       await api.put('/recipes/' + id, data).then(() => {
         console.log('Рецепт изменен');
       });
-      await this.loadrecipes();
+      await this.loadRecipes();
     },
     async deleteRecipe(id: number) {
       await api.delete('/recipes/' + id).then(() => {
         console.log('Рецепт удален');
       });
-      await this.loadrecipes();
+      await this.loadRecipes();
     },
   },
 });

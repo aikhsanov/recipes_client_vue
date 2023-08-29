@@ -108,8 +108,8 @@ const selectOptions = computed<Option[]>(() =>
 );
 
 async function onSearch(val: any, open: boolean = false, initial: boolean = false): Promise<void> {
-  if (val && !open && !initial) {
-    const res: object | [] = (await props.searchFn(val))?.data;
+  if (val && !open && !initial && props?.searchFn) {
+    const res: object | [] = (await props?.searchFn(val))?.data;
     if (res?.data?.length) {
       searchedData.value = res?.data;
     }
@@ -127,7 +127,7 @@ async function onSearch(val: any, open: boolean = false, initial: boolean = fals
 
     return;
   }
-  if (open) {
+  if (open && props?.searchFn) {
     const res: object | [] = (await props.searchFn(val))?.data;
     if (res?.data?.length) {
       searchedData.value = res?.data;

@@ -18,14 +18,13 @@ AxiosInstance.interceptors.response.use(
     return resp;
   },
   (resp) => {
-    if (resp.response.status === 500) {
-      if (resp.response.data.message.includes('TokenExpiredError')) {
+    if (resp?.response?.status === 500) {
+      if (resp?.response?.data?.message.includes('TokenExpiredError')) {
         removeToken();
         return Promise.reject(resp?.response?.data?.message || 'Неизвестная ошибка');
       }
-    } else {
-      return Promise.reject(resp?.response?.data?.message || 'Неизвестная ошибка');
     }
+    return Promise.reject(resp?.response?.data?.message || 'Неизвестная ошибка');
   }
 );
 

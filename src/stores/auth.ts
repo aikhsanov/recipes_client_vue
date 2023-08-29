@@ -48,10 +48,9 @@ export const useAuthStore = defineStore({
 
     async me() {
       const res = (await auth.me()).data;
-      if (res.data) {
+      if (res?.data) {
         this.me = res.data;
       }
-      return res;
     },
   },
 });
