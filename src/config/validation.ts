@@ -1,10 +1,11 @@
-import { defineRule, configure } from 'vee-validate';
+import { defineRule, configure, useForm } from 'vee-validate';
 import { required, email, confirmed, numeric, regex } from '@vee-validate/rules';
 
 const setDefaultValidationRules = () => {
   configure({
     generateMessage: (context) => {
       if (context.rule?.name === 'required') {
+        console.log(context, 'CONTEXT');
         return `Поле ${context.field} обязательно для заполнения`;
       }
       if (context.rule?.name === 'email') {
@@ -71,5 +72,29 @@ const setDefaultValidationRules = () => {
     }
     return true;
   });
+
+  // defineRule('arrayOfObjects', (value: [], { field }): any => {
+  //   const { setFieldError, setErrors } = useForm();
+  //
+  //   // The field is empty so it should pass
+  //   console.log(value.length, 'VALUE');
+  //   console.log(field, 'context');
+  //   if (!value || !value.length) {
+  //     return true;
+  //   }
+  //   const errors = [];
+  //   value.forEach((obj, ind) => {
+  //     for (const o in obj) {
+  //       if (!obj[o]) {
+  //         const p = `ingridients[${ind}].${o}`;
+  //         console.log(p, 'P');
+  //         setFieldError(`ingridients[${ind}].${o}`, `Поле должны быть заполнено`);
+  //       }
+  //     }
+  //   });
+  //   // setErrors(errors);
+  //   console.log(errors, 'ERROR');
+  //   return true;
+  // });
 };
 export default setDefaultValidationRules;

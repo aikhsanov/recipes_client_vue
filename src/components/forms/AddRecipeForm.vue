@@ -4,6 +4,7 @@
     <ValidationInput
       name="recipeShortDesc"
       label="Короткое описание"
+      placeholder="Короткое описание"
       id="recipe-desc"
       type="textarea"
     />
@@ -15,10 +16,10 @@
       type="textarea"
     />
     <div class="add-recipe-ingridients">
-      <div class="flex flex-row" v-for="(ingr, ind) in ingrs" :key="ind">
+      <div class="flex flex-row" v-for="(ingr, ind) in ingrs" :key="`ingridients-${ingr}`">
         <ValidationSelect
           class="w-1/4 mr-5"
-          :name="`ingridients-${ingr}`"
+          :name="`ingridients[${ind}].id`"
           label="Выберите ингридиенты"
           searchable
           :searchFn="searchFn"
@@ -27,12 +28,13 @@
         />
         <ValidationInput
           class="w-1/4 mr-5"
-          :name="`ingridientsQuantity-${ingr}`"
+          :name="`ingridients[${ind}].quantity`"
           label="Количество"
         />
-        <ValidationInput class="w-1/4" :name="`ingridientUnit-${ingr}`" label="Мера" />
+        <ValidationInput class="w-1/4" :name="`ingridients[${ind}].unit`" label="Мера" />
       </div>
-      <BaseButton type="button" text="Добавить ингридиент" @click="increaseIngrs" />
+      <BaseButton type="button" text="Добавить ингридиент" @click="addIngrs" />
+      <BaseButton type="button" text="Удалить ингридиент" @click="removeIngrs" />
     </div>
     <ValidationFileUpload name="recipeFile" label="Обложка" preview />
     <BaseButton type="submit" text="Поехали" />
@@ -53,8 +55,11 @@ import { computed, ref } from 'vue';
 const recipes = useRecipesStore();
 const ingrs = ref<number>(1);
 
-function increaseIngrs() {
+function addIngrs() {
   ingrs.value += 1;
+}
+function removeIngrs() {
+  ingrs.value -= 1;
 }
 
 const validationSchema = computed<object>(() => {
@@ -63,21 +68,18 @@ const validationSchema = computed<object>(() => {
     recipeShortDesc: 'required',
     recipeDesc: 'required',
     recipeFile: 'required',
+    ingridients: 'required',
   };
-  for (let i = 1; i <= ingrs.value; i++) {
-    obj[`ingridients-${i}`] = 'required';
-    obj[`ingridientsQuantity-${i}`] = 'required';
-    obj[`ingridientUnit-${i}`] = 'required';
-  }
+
   return obj;
 });
 
-const { handleSubmit } = useForm({
+const { handleSubmit, setFieldError, validateField } = useForm({
   validationSchema,
 });
-
-const onSubmit = handleSubmit(async (values, actions) => {
+function onSuccess(values) {
   try {
+    validateDynamicFields(values, 'ingridients');
     const data = {
       title: values.recipeName,
       short_dsc: values.recipeShortDesc,
@@ -88,9 +90,29 @@ const onSubmit = handleSubmit(async (values, actions) => {
     console.log(values, 'DATA');
     // await recipes.createRecipe(data);
   } catch (e) {
-    actions.setErrors({ name: e.message });
+    // actions.setErrors({ name: e.message });
   }
-});
+}
+function onInvalidSubmit({ values, errors, results }) {
+  validateDynamicFields(values, 'ingridients');
+}
+
+function validateDynamicFields(values, mainName) {
+  values.ingridients.forEach((obj, ind) => {
+    for (const o in obj) {
+      if (!obj[o]) {
+        setFieldError(`${mainName}[${ind}].${o}`, `Поле должны быть заполнено`);
+      }
+    }
+  });
+}
+
+const onSubmit = handleSubmit(onSuccess, onInvalidSubmit);
+
+// const onSubmit = () => {
+//   const p = validate();
+//   console.log(p);
+// };
 
 async function searchFn(val, data = null) {
   data = data
