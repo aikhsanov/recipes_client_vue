@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import type { AxiosError } from 'axios';
 import api from '@/api/api';
+import recipes from '@/api/recipes';
 import { Recipe } from '@/types/recipes';
 import { RecipeIngridient } from '@/types/ingridients';
 
@@ -51,11 +52,21 @@ export const useRecipesStore = defineStore({
       }
     },
     async createRecipe(data: Recipe) {
-      await api.post('/recipes', data).then(() => {
+      await recipes.create(data).then(() => {
         console.log('Новый рецепт добавлен');
       });
       await this.loadRecipes();
     },
+
+    async uploadRecipeImage(data: File) {
+      try {
+        const res = (await recipes.uploadImage(data))?.data;
+        return res;
+      } catch (e) {
+        throw new Error(e.message);
+      }
+    },
+
     async updateRecipe(
       id: number,
       data: {

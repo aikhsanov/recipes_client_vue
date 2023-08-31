@@ -8,13 +8,25 @@
       id="recipe-desc"
       type="textarea"
     />
-    <ValidationInput
-      name="recipeDesc"
-      placeholder=""
-      label="Рецепт"
-      id="recipe-desc"
-      type="textarea"
-    />
+
+    <div class="add-recipe-descritpion">
+      <div class="" v-for="(step, ind) in stepsFields" :key="`steps-${step.key}`">
+        <ValidationInput
+          :name="`description[${ind}].step_description`"
+          placeholder=""
+          label="Описание шага"
+          id="recipe-desc"
+          type="textarea"
+        />
+        <ValidationFileUpload
+          :name="`description[${ind}].step_img_url`"
+          label="Фото для шага"
+          preview
+        />
+        <BaseButton type="button" text="Удалить шаг" @click="removeStep(ind)" />
+      </div>
+      <BaseButton type="button" text="Добавить шаг" @click="addStep" />
+    </div>
     <div class="add-recipe-ingridients">
       <div class="flex flex-row" v-for="(ingr, ind) in ingrFields" :key="`ingridients-${ingr.key}`">
         <ValidationSelect
@@ -41,7 +53,6 @@
         <BaseButton type="button" text="Удалить ингридиент" @click="removeIngrs(ind)" />
       </div>
       <BaseButton type="button" text="Добавить ингридиент" @click="addIngrs" />
-      <BaseButton type="button" text="Удалить ингридиент" @click="removeIngrs" />
     </div>
     <ValidationFileUpload name="recipeFile" label="Обложка" preview />
     <BaseButton type="submit" text="Поехали" />
@@ -75,11 +86,19 @@ function removeIngrs(ind) {
   ingrRemove(ind);
 }
 
+function addStep() {
+  stepsPush({ step_num: stepsFields.value.length - 1, step_description: '', step_img_url: '' });
+}
+function removeStep(ind) {
+  console.log(ind);
+  stepsRemove(ind);
+}
+
 const validationSchema = computed<object>(() => {
   const obj = {
     recipeName: 'required',
     recipeShortDesc: 'required',
-    recipeDesc: 'required',
+    description: 'required',
     recipeFile: 'required',
     ingridients: 'required',
   };
@@ -97,10 +116,22 @@ const { remove: stepsRemove, push: stepsPush, fields: stepsFields } = useFieldAr
 async function onSuccess(values, actions) {
   try {
     validateDynamicFields(values, 'ingridients');
+    validateDynamicFields(values, 'description');
+
+    // values.description = values.description.map(async (el) => {
+    //   const res = await recipes.uploadRecipeImage(el.step_img_url);
+    //   return { ...el, step_img_url: res.data };
+    // });
+
+    for (const el of values.description) {
+      const res = await recipes.uploadRecipeImage(el.step_img_url);
+      el.step_img_url = res.data;
+    }
+
     const data = {
       title: values.recipeName,
       short_dsc: values.recipeShortDesc,
-      description: values.recipeDesc,
+      description: values.description,
       ingridients: values.ingridients,
       img: values.recipeFile,
     };
@@ -112,10 +143,12 @@ async function onSuccess(values, actions) {
 }
 function onInvalidSubmit({ values, errors, results }) {
   validateDynamicFields(values, 'ingridients');
+  validateDynamicFields(values, 'description');
 }
 
 function validateDynamicFields(values, mainName) {
-  values.ingridients.forEach((obj, ind) => {
+  console.log(values[mainName], mainName, 'values[mainName]');
+  values[mainName]?.forEach((obj, ind) => {
     for (const o in obj) {
       if (!obj[o]) {
         setFieldError(`${mainName}[${ind}].${o}`, `Поле должны быть заполнено`);
