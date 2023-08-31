@@ -5,7 +5,7 @@ const setDefaultValidationRules = () => {
   configure({
     generateMessage: (context) => {
       if (context.rule?.name === 'required') {
-        console.log(context, 'CONTEXT');
+        // console.log(context, 'CONTEXT');
         return `Поле ${context.field} обязательно для заполнения`;
       }
       if (context.rule?.name === 'email') {

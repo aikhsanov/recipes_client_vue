@@ -22,16 +22,22 @@
           :name="`ingridients[${ind}].id`"
           label="Выберите ингридиенты"
           searchable
-          :searchFn="searchFn"
+          :searchFn="(val) => searchFn({ val, route: ingridients })"
           :clearOnBlur="false"
           closeOnSelect
         />
-        <ValidationInput
+        <ValidationSelect
           class="w-1/4 mr-5"
-          :name="`ingridients[${ind}].quantity`"
-          label="Количество"
+          :name="`ingridients[${ind}].unit_cid`"
+          label="Мера"
+          searchable
+          :searchFn="
+            (val) => searchFn({ val, route: collections, filters: { title: `EQ(${val})` } })
+          "
+          :clearOnBlur="false"
+          closeOnSelect
         />
-        <ValidationInput class="w-1/4" :name="`ingridients[${ind}].unit`" label="Мера" />
+        <ValidationInput class="w-1/4" :name="`ingridients[${ind}].quantity`" label="Количество" />
       </div>
       <BaseButton type="button" text="Добавить ингридиент" @click="addIngrs" />
       <BaseButton type="button" text="Удалить ингридиент" @click="removeIngrs" />
@@ -45,12 +51,14 @@
 import ValidationSelect from '@/components/validation/ValidationSelect.vue';
 import ValidationInput from '@/components/validation/ValidationInput.vue';
 import ingridients from '@/api/ingridients';
+import collections from '@/api/collections';
 import ValidationFileUpload from '@/components/validation/ValidationFileUpload.vue';
 import { useForm } from 'vee-validate';
 import { useRecipesStore } from '@/stores/recipes';
 import { Recipe } from '@/types/recipes';
 import BaseButton from '@/components/base/BaseButton.vue';
 import { computed, ref } from 'vue';
+import searchFn from '@/helpers/searchFn';
 
 const recipes = useRecipesStore();
 const ingrs = ref<number>(1);
@@ -77,7 +85,7 @@ const validationSchema = computed<object>(() => {
 const { handleSubmit, setFieldError, validateField } = useForm({
   validationSchema,
 });
-function onSuccess(values) {
+async function onSuccess(values, actions) {
   try {
     validateDynamicFields(values, 'ingridients');
     const data = {
@@ -87,10 +95,10 @@ function onSuccess(values) {
       ingridients: values.ingridients,
       img: values.recipeFile,
     };
-    console.log(values, 'DATA');
-    // await recipes.createRecipe(data);
+    console.log(data);
+    await recipes.createRecipe(data);
   } catch (e) {
-    // actions.setErrors({ name: e.message });
+    actions.setErrors({ name: e.message });
   }
 }
 function onInvalidSubmit({ values, errors, results }) {
@@ -113,15 +121,6 @@ const onSubmit = handleSubmit(onSuccess, onInvalidSubmit);
 //   const p = validate();
 //   console.log(p);
 // };
-
-async function searchFn(val, data = null) {
-  data = data
-    ? data
-    : {
-        filters: { name: `LIKE(${val})` },
-      };
-  return await ingridients.getAllFiltered(data);
-}
 </script>
 
 <style scoped></style>
