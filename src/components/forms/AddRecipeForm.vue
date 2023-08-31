@@ -16,7 +16,7 @@
       type="textarea"
     />
     <div class="add-recipe-ingridients">
-      <div class="flex flex-row" v-for="(ingr, ind) in ingrs" :key="`ingridients-${ingr}`">
+      <div class="flex flex-row" v-for="(ingr, ind) in ingrFields" :key="`ingridients-${ingr.key}`">
         <ValidationSelect
           class="w-1/4 mr-5"
           :name="`ingridients[${ind}].id`"
@@ -38,6 +38,7 @@
           closeOnSelect
         />
         <ValidationInput class="w-1/4" :name="`ingridients[${ind}].quantity`" label="Количество" />
+        <BaseButton type="button" text="Удалить ингридиент" @click="removeIngrs(ind)" />
       </div>
       <BaseButton type="button" text="Добавить ингридиент" @click="addIngrs" />
       <BaseButton type="button" text="Удалить ингридиент" @click="removeIngrs" />
@@ -50,24 +51,28 @@
 <script setup lang="ts">
 import ValidationSelect from '@/components/validation/ValidationSelect.vue';
 import ValidationInput from '@/components/validation/ValidationInput.vue';
-import ingridients from '@/api/ingridients';
 import collections from '@/api/collections';
+import ingridients from '@/api/ingridients';
+import recipesApi from '@/api/recipes';
 import ValidationFileUpload from '@/components/validation/ValidationFileUpload.vue';
-import { useForm } from 'vee-validate';
+import { useFieldArray, useForm } from 'vee-validate';
 import { useRecipesStore } from '@/stores/recipes';
 import { Recipe } from '@/types/recipes';
 import BaseButton from '@/components/base/BaseButton.vue';
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import searchFn from '@/helpers/searchFn';
 
 const recipes = useRecipesStore();
 const ingrs = ref<number>(1);
 
+onMounted(async () => await recipesApi.getAll());
+
 function addIngrs() {
-  ingrs.value += 1;
+  ingrPush({ id: '', unit_cid: null, quantity: '' });
 }
-function removeIngrs() {
-  ingrs.value -= 1;
+function removeIngrs(ind) {
+  console.log(ind);
+  ingrRemove(ind);
 }
 
 const validationSchema = computed<object>(() => {
@@ -85,6 +90,10 @@ const validationSchema = computed<object>(() => {
 const { handleSubmit, setFieldError, validateField } = useForm({
   validationSchema,
 });
+
+const { remove: ingrRemove, push: ingrPush, fields: ingrFields } = useFieldArray('ingridients');
+const { remove: stepsRemove, push: stepsPush, fields: stepsFields } = useFieldArray('steps');
+
 async function onSuccess(values, actions) {
   try {
     validateDynamicFields(values, 'ingridients');
