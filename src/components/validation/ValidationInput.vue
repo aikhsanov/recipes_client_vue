@@ -1,26 +1,16 @@
 <template>
   <div class="relative mb-8">
-    <template v-if="props.type !== 'textarea'"
-      ><input
+    <template v-if="props.type !== 'textarea'">
+      <input
         v-model.trim="value"
         :type="props.type"
         :placeholder="props.placeholder || ''"
         :disabled="props.disabled"
         :id="props.name"
-        :class="`peer h-10 w-full  text-gray-900 placeholder-transparent border-b-2 bg-transparent border-gray-300 focus:outline-none focus:border-light-slate-gray-900 ${
-          props.customInputClass || ''
-        }`"
+        :class="inputClass"
       />
 
-      <label
-        v-if="props.label"
-        :for="props.name"
-        :class="`absolute w-full left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm pointer-events-none ${
-          props.customLabelClass || ''
-        }`"
-      >
-        {{ props.label }}</label
-      >
+      <label v-if="props.label" :for="props.name" :class="labelClass"> {{ props.label }}</label>
     </template>
     <template v-else>
       <textarea
@@ -73,6 +63,7 @@ const props = defineProps<{
   type?: string;
   name?: string;
   disabled?: boolean;
+  lined?: boolean;
 }>();
 
 const form = useFormStore();
@@ -84,6 +75,27 @@ const { name } = toRefs(props);
 onMounted(() => {
   // if (props.modelValue) value.value = props.modelValue;
   form.setField({ name: name.value, value: { dirty: meta.dirty } });
+});
+
+const inputClass = computed(() => {
+  if (props.lined) {
+    return `peer h-10 w-full  text-gray-900 placeholder-transparent border-b-2 bg-transparent border-gray-300 focus:outline-none focus:border-light-slate-gray-900 ${
+      props.customInputClass || ''
+    }`;
+  }
+  return `peer h-11 px-2 w-full text-gray-900 placeholder-transparent border-2 bg-transparent border-gray-300 focus:outline-none focus:border-light-slate-gray-900 ${
+    props.customInputClass || ''
+  }`;
+});
+
+const labelClass = computed(() => {
+  if (props.lined) {
+    return `absolute px-0.5 bg-inherit w-full left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm pointer-events-none ${
+      props.customLabelClass || ''
+    }`;
+  }
+  return `absolute w-auto left-3 px-0.5 -top-2.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-2.5 peer-focus:text-gray-600 peer-focus:text-sm bg-white pointer-events-none
+          ${props.customLabelClass || ''}`;
 });
 
 // const model = computed({
