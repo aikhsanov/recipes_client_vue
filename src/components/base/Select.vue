@@ -11,7 +11,6 @@
     <Multiselect
       v-model="model"
       :id="props.name"
-      :label="props.label"
       :mode="props.mode"
       :close-on-select="props.closeOnSelect"
       :searchable="props.searchable"

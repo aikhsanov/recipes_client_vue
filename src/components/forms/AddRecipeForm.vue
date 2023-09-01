@@ -17,6 +17,18 @@
           id="recipe-desc"
           type="textarea"
         />
+        <ValidationSelect
+          class="w-2/4 mr-5"
+          name="categories"
+          label="Выберите категорию"
+          searchable
+          :searchFn="
+            (val) => searchFn({ val, route: categories, filters: { title: `LIKE(${val})` } })
+          "
+          :clearOnBlur="false"
+          mode="tags"
+          closeOnSelect
+        />
         <ValidationFileUpload name="recipeFile" label="Обложка рецепта" />
         <hr class="my-5" />
         <div class="add-recipe-descritpion">
@@ -89,6 +101,7 @@ import ValidationSelect from '@/components/validation/ValidationSelect.vue';
 import ValidationInput from '@/components/validation/ValidationInput.vue';
 import collections from '@/api/collections';
 import ingridients from '@/api/ingridients';
+import categories from '@/api/categories';
 import recipesApi from '@/api/recipes';
 import ValidationFileUpload from '@/components/validation/ValidationFileUpload.vue';
 import { useFieldArray, useForm } from 'vee-validate';
@@ -126,6 +139,7 @@ const validationSchema = computed<object>(() => {
   const obj = {
     recipeName: 'required',
     recipeShortDesc: 'required',
+    categories: 'required',
     description: 'required',
     recipeFile: 'required',
     ingridients: 'required',
@@ -160,6 +174,7 @@ async function onSuccess(values, actions) {
       title: values.recipeName,
       short_dsc: values.recipeShortDesc,
       description: values.description,
+      categoryId: values.categories,
       ingridients: values.ingridients,
       img: values.recipeFile,
     };
@@ -170,6 +185,7 @@ async function onSuccess(values, actions) {
   }
 }
 function onInvalidSubmit({ values, errors, results }) {
+  debugger;
   validateDynamicFields(values, 'ingridients');
   validateDynamicFields(values, 'description');
 }
