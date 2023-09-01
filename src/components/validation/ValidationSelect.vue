@@ -1,5 +1,5 @@
 <template>
-  <div class="relative mb-8">
+  <div class="relative my-2">
     <Select
       v-model="value"
       :id="props.name"

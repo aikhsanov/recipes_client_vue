@@ -1,60 +1,85 @@
 <template>
-  <form @submit="onSubmit" class="mt-5">
-    <ValidationInput name="recipeName" placeholder="" label="Название рецепта" id="recipe-name" />
-    <ValidationInput
-      name="recipeShortDesc"
-      label="Короткое описание"
-      placeholder="Короткое описание"
-      id="recipe-desc"
-      type="textarea"
-    />
-
-    <div class="add-recipe-descritpion">
-      <div class="" v-for="(step, ind) in stepsFields" :key="`steps-${step.key}`">
+  <form @submit="onSubmit" class="mt-5" autocomplete="off">
+    <template class="flex flex-row">
+      <div class="w-3/4 mr-5">
         <ValidationInput
-          :name="`description[${ind}].step_description`"
+          name="recipeName"
           placeholder=""
-          label="Описание шага"
+          class="mt-0"
+          label="Название рецепта"
+          id="recipe-name"
+        />
+
+        <ValidationInput
+          name="recipeShortDesc"
+          label="Короткое описание"
+          placeholder="Короткое описание"
           id="recipe-desc"
           type="textarea"
         />
-        <ValidationFileUpload
-          :name="`description[${ind}].step_img_url`"
-          label="Фото для шага"
-          preview
-        />
-        <BaseButton type="button" text="Удалить шаг" @click="removeStep(ind)" />
+        <ValidationFileUpload name="recipeFile" label="Обложка рецепта" />
+        <hr class="my-5" />
+        <div class="add-recipe-descritpion">
+          <div class="" v-for="(step, ind) in stepsFields" :key="`steps-${step.key}`">
+            <ValidationInput
+              :name="`description[${ind}].step_description`"
+              placeholder=""
+              label="Описание шага"
+              id="recipe-desc"
+              type="textarea"
+            />
+            <ValidationFileUpload
+              :name="`description[${ind}].step_img_url`"
+              label="Фото для шага"
+              preview
+            />
+            <BaseButton type="button" text="Удалить шаг" @click="removeStep(ind)" />
+            <hr class="my-3" />
+          </div>
+          <BaseButton type="button" text="Добавить шаг" @click="addStep" />
+        </div>
+        <div class="add-recipe-ingridients">
+          <div class="" v-for="(ingr, ind) in ingrFields" :key="`ingridients-${ingr.key}`">
+            <div class="flex flex-row mt-5 items-center">
+              <ValidationSelect
+                class="w-1/4 mr-5"
+                :name="`ingridients[${ind}].id`"
+                label="Выберите ингридиенты"
+                searchable
+                :searchFn="(val) => searchFn({ val, route: ingridients })"
+                :clearOnBlur="false"
+                closeOnSelect
+              />
+              <ValidationSelect
+                class="w-1/4 mr-5"
+                :name="`ingridients[${ind}].unit_cid`"
+                label="Мера"
+                searchable
+                :searchFn="
+                  (val) => searchFn({ val, route: collections, filters: { title: `EQ(${val})` } })
+                "
+                :clearOnBlur="false"
+                closeOnSelect
+              />
+              <ValidationInput
+                class="w-1/4 mr-5"
+                :name="`ingridients[${ind}].quantity`"
+                label="Количество"
+              />
+              <BaseButton
+                type="button"
+                class="my-0"
+                text="Удалить ингредиент"
+                @click="removeIngrs(ind)"
+              />
+            </div>
+            <hr class="my-5" />
+          </div>
+          <BaseButton type="button" text="Добавить ингредиент" @click="addIngrs" />
+        </div>
       </div>
-      <BaseButton type="button" text="Добавить шаг" @click="addStep" />
-    </div>
-    <div class="add-recipe-ingridients">
-      <div class="flex flex-row" v-for="(ingr, ind) in ingrFields" :key="`ingridients-${ingr.key}`">
-        <ValidationSelect
-          class="w-1/4 mr-5"
-          :name="`ingridients[${ind}].id`"
-          label="Выберите ингридиенты"
-          searchable
-          :searchFn="(val) => searchFn({ val, route: ingridients })"
-          :clearOnBlur="false"
-          closeOnSelect
-        />
-        <ValidationSelect
-          class="w-1/4 mr-5"
-          :name="`ingridients[${ind}].unit_cid`"
-          label="Мера"
-          searchable
-          :searchFn="
-            (val) => searchFn({ val, route: collections, filters: { title: `EQ(${val})` } })
-          "
-          :clearOnBlur="false"
-          closeOnSelect
-        />
-        <ValidationInput class="w-1/4" :name="`ingridients[${ind}].quantity`" label="Количество" />
-        <BaseButton type="button" text="Удалить ингридиент" @click="removeIngrs(ind)" />
-      </div>
-      <BaseButton type="button" text="Добавить ингридиент" @click="addIngrs" />
-    </div>
-    <ValidationFileUpload name="recipeFile" label="Обложка" preview />
+      <div class="block w-1/4 h-[80vh] border-2 border-gray-200"></div>
+    </template>
     <BaseButton type="submit" text="Поехали" />
   </form>
 </template>
@@ -74,9 +99,12 @@ import { computed, ref, onMounted } from 'vue';
 import searchFn from '@/helpers/searchFn';
 
 const recipes = useRecipesStore();
-const ingrs = ref<number>(1);
 
-onMounted(async () => await recipesApi.getAll());
+onMounted(async () => {
+  await recipesApi.getAll();
+  addIngrs();
+  addStep();
+});
 
 function addIngrs() {
   ingrPush({ id: '', unit_cid: null, quantity: '' });

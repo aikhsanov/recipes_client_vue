@@ -1,16 +1,16 @@
 <template>
-  <div class="relative mb-8">
+  <div class="relative my-2">
     <div class="image-preview h-64 w-64" v-if="img && props.preview">
       <img :src="img" class="" />
     </div>
     <label
       v-if="props.label"
-      :class="`block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 ${props.customLabelClass}`"
+      :class="`block mb-2 text-[16px] font-medium text-gray-400 dark:text-gray-300 font-normal ${props.customLabelClass}`"
       :for="props.name"
-      >Upload file</label
+      >{{ props.label || 'Выберите файл' }}</label
     >
     <input
-      :class="`block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-200 file:text-blue-800 hover:file:bg-blue-300 ${props.customClass}`"
+      :class="`block file:h-11 text-white w-auto text-sm text-slate-500 file:mr-4 file:py-1 file:px-5 file:border-0 file:text-sm file:font-semibold file:bg-light-slate-gray-900 file:text-white hover:file:bg-light-slate-gray-800 hover:cursor-pointer hover:file:cursor-pointer ${props.customClass}`"
       :id="props.name"
       :name="props.name"
       type="file"

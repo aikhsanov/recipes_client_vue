@@ -1,5 +1,5 @@
 <template>
-  <div class="relative mb-8">
+  <div class="relative">
     <Multiselect
       v-model="model"
       :id="props.name"

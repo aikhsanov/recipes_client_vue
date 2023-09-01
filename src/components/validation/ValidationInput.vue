@@ -1,5 +1,5 @@
 <template>
-  <div class="relative mb-8">
+  <div class="relative my-2">
     <template v-if="props.type !== 'textarea'">
       <input
         v-model.trim="value"
@@ -20,7 +20,7 @@
         :disabled="props.disabled"
         :id="props.name"
         :class="`
-         peer h-56 w-full p-2 text-gray-900 placeholder-transparent rounded-lg border-2 bg-transparent border-gray-300 focus:outline-none resize-none
+         peer h-56 w-full p-2 text-gray-900 placeholder-transparent rounded-none border-2 bg-transparent border-gray-200 focus:outline-none resize-none
          focus:border-light-slate-gray-900 ${props.customInputClass || ''}`"
       />
       <label
@@ -79,11 +79,11 @@ onMounted(() => {
 
 const inputClass = computed(() => {
   if (props.lined) {
-    return `peer h-10 w-full  text-gray-900 placeholder-transparent border-b-2 bg-transparent border-gray-300 focus:outline-none focus:border-light-slate-gray-900 ${
+    return `peer h-10 w-full  text-gray-900 placeholder-transparent border-b-2 bg-transparent border-gray-200 focus:outline-none focus:border-light-slate-gray-900 ${
       props.customInputClass || ''
     }`;
   }
-  return `peer h-11 px-2 w-full text-gray-900 placeholder-transparent border-2 bg-transparent border-gray-300 focus:outline-none focus:border-light-slate-gray-900 ${
+  return `peer h-11 px-2 w-full text-gray-900 placeholder-transparent border-2 bg-transparent border-gray-200 focus:outline-none focus:border-light-slate-gray-900 ${
     props.customInputClass || ''
   }`;
 });

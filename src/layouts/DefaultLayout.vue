@@ -10,7 +10,17 @@
             <div class="flex flex-row" v-else>
               <ProfileMenu />
               <BaseButton
-                class="mt-0 w-auto text-white font-bold bg-tomato-800 hover:bg-tomato-900 px-5 ml-5 py-2"
+                class="
+                  mt-0
+                  w-auto
+                  text-white
+                  font-bold
+                  bg-tomato-800
+                  hover:bg-tomato-900
+                  px-5
+                  ml-5
+                  py-2
+                "
                 type="link"
                 to="/recipes/add"
                 text="Добавить рецепт"
@@ -19,7 +29,9 @@
           </nav>
           <slot />
         </div>
-        <aside class="ml-6 w-1/4 h-[calc(100vh-32px)] templ" v-if="route.meta.aside" />
+        <aside class="ml-6 w-1/4 h-[calc(100vh-32px)] templ" v-if="route.meta.aside">
+          <slot name="aside" />
+        </aside>
       </div>
     </main>
     <footer></footer>
