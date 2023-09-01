@@ -1,6 +1,7 @@
 <template>
-  <div class="relative my-2">
+  <div class="relative my-3">
     <template v-if="props.type !== 'textarea'">
+      <label v-if="props.label" :for="props.name" :class="labelClass"> {{ props.label }}</label>
       <input
         v-model.trim="value"
         :type="props.type"
@@ -9,10 +10,16 @@
         :id="props.name"
         :class="inputClass"
       />
-
-      <label v-if="props.label" :for="props.name" :class="labelClass"> {{ props.label }}</label>
     </template>
     <template v-else>
+      <label
+        v-if="props.label"
+        :for="props.name"
+        :class="`text-gray-700 text-md font-semibold
+          ${props.customLabelClass || ''}`"
+      >
+        {{ props.label }}
+      </label>
       <textarea
         v-model.trim="value"
         :type="props.type"
@@ -23,14 +30,6 @@
          peer h-56 w-full p-2 text-gray-900 placeholder-transparent rounded-none border-2 bg-transparent border-gray-200 focus:outline-none resize-none
          focus:border-light-slate-gray-900 ${props.customInputClass || ''}`"
       />
-      <label
-        v-if="props.label"
-        :for="props.name"
-        :class="`absolute w-auto left-3 px-0.5 -top-2.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-2.5 peer-focus:text-gray-600 peer-focus:text-sm bg-white pointer-events-none
-          ${props.customLabelClass || ''}`"
-      >
-        {{ props.label }}
-      </label>
     </template>
     <span
       v-if="errorMessage && meta.touched"
@@ -94,7 +93,7 @@ const labelClass = computed(() => {
       props.customLabelClass || ''
     }`;
   }
-  return `absolute w-auto left-3 px-0.5 -top-2.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-2.5 peer-focus:text-gray-600 peer-focus:text-sm bg-white pointer-events-none
+  return `text-gray-600 font-semibold text-md
           ${props.customLabelClass || ''}`;
 });
 

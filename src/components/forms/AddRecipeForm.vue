@@ -44,7 +44,7 @@
               <ValidationSelect
                 class="w-1/4 mr-5"
                 :name="`ingridients[${ind}].id`"
-                label="Выберите ингридиенты"
+                label="Выберите ингредиенты"
                 searchable
                 :searchFn="(val) => searchFn({ val, route: ingridients })"
                 :clearOnBlur="false"

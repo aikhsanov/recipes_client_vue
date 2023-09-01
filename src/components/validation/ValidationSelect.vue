@@ -1,5 +1,5 @@
 <template>
-  <div class="relative my-2">
+  <div class="relative my-3">
     <Select
       v-model="value"
       :id="props.name"
@@ -9,6 +9,7 @@
       :create-option="props.createOption"
       :multiple="props.multiple"
       :disabled="props.disabled"
+      :label="props.label"
       :trackBy="props.trackBy"
       :placeholder="props.placeholder"
       :inputType="props.inputType"

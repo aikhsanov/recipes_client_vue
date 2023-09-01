@@ -1,11 +1,11 @@
 <template>
-  <div class="relative my-2">
+  <div class="relative my-3">
     <div class="image-preview h-64 w-64" v-if="img && props.preview">
       <img :src="img" class="" />
     </div>
     <label
       v-if="props.label"
-      :class="`block mb-2 text-[16px] font-medium text-gray-400 dark:text-gray-300 font-normal ${props.customLabelClass}`"
+      :class="`block mb-2 text-gray-700 dark:text-gray-300 font-semibold ${props.customLabelClass}`"
       :for="props.name"
       >{{ props.label || 'Выберите файл' }}</label
     >

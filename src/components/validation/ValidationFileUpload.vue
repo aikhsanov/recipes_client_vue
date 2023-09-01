@@ -1,5 +1,5 @@
 <template>
-  <div class="relative my-2">
+  <div class="relative my-3">
     <FileUpload
       v-model="value"
       :label="label"

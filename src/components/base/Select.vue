@@ -1,8 +1,17 @@
 <template>
   <div class="relative">
+    <label
+      v-if="props.label"
+      :for="props.name"
+      :class="`text-gray-700 text-md font-semibold
+          ${props.customLabelClass || ''}`"
+    >
+      {{ props.label }}
+    </label>
     <Multiselect
       v-model="model"
       :id="props.name"
+      :label="props.label"
       :mode="props.mode"
       :close-on-select="props.closeOnSelect"
       :searchable="props.searchable"
