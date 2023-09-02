@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import FileUpload from '@/components/base/FileUpload.vue';
 import { useField } from 'vee-validate';
-import { onMounted, watch } from 'vue/dist/vue';
+import { onMounted, watch } from 'vue';
 import { useFormStore } from '@/stores/form';
 const props = defineProps<{
   modelValue?: string | number | object;

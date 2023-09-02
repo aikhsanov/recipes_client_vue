@@ -23,28 +23,28 @@ const router = createRouter({
       meta: { layout: 'DefaultLayout' },
       component: () => import('../views/ExitView.vue'),
     },
-    {
-      path: '/receipts',
-      name: 'receipts',
-      meta: { layout: 'DefaultLayout' },
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/ReceiptsView.vue'),
-    },
-    {
-      path: '/receipts/:id',
-      name: 'oneReceipt',
-      meta: { layout: 'DefaultLayout' },
-      component: () => import('../views/ReceiptView.vue'),
-      props: true,
-    },
-    {
-      path: '/receipts/add',
-      name: 'addReceipt',
-      meta: { layout: 'DefaultLayout' },
-      component: () => import('../views/AddView.vue'),
-    },
+    // {
+    //   path: '/receipts',
+    //   name: 'receipts',
+    //   meta: { layout: 'DefaultLayout' },
+    //   // route level code-splitting
+    //   // this generates a separate chunk (About.[hash].js) for this route
+    //   // which is lazy-loaded when the route is visited.
+    //   component: () => import('../views/ReceiptsView.vue'),
+    // },
+    // {
+    //   path: '/receipts/:id',
+    //   name: 'oneReceipt',
+    //   meta: { layout: 'DefaultLayout' },
+    //   component: () => import('../views/ReceiptView.vue'),
+    //   props: true,
+    // },
+    // {
+    //   path: '/receipts/add',
+    //   name: 'addReceipt',
+    //   meta: { layout: 'DefaultLayout' },
+    //   component: () => import('../views/AddView.vue'),
+    // },
     {
       path: '/signin',
       name: 'register',

@@ -174,7 +174,7 @@ async function onSuccess(values, actions) {
       title: values.recipeName,
       short_dsc: values.recipeShortDesc,
       description: values.description,
-      categoryId: values.categories,
+      categories: values.categories,
       ingridients: values.ingridients,
       img: values.recipeFile,
     };

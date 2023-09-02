@@ -2,7 +2,7 @@
   <div class="about">
     <h2 class="mb-4 text-2xl text-center">Рецепты</h2>
     <div class="flex-col flex-col">
-      <div v-for="receipt in receiptsStore.getReceipts" :key="receipt.id">
+      <div v-for="receipt in receiptsStore?.getReceipts" :key="receipt.id">
         <div class="w-full flex flex-col rounded-lg overflow-hidden bg-white shadow mb-4">
           <!-- card cover -->
           <img
@@ -31,7 +31,7 @@
                   ? receipt.text.length > 200
                     ? receipt.text.substring(0, 200) + '...'
                     : receipt.text
-                  : receipt.ingredients
+                  : receipt?.ingredients
               }}
             </p>
           </div>
@@ -62,20 +62,20 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { useReceiptsStore } from '@/stores/recipes';
+import { useRecipesStore } from '@/stores/recipes';
 import { useUIStore } from '@/stores/ui';
 
-const receiptsStore = useReceiptsStore();
+const receiptsStore = useRecipesStore();
 const UIStore = useUIStore();
 
 const deleteReceipt = (id: number) => {
   if (confirm('Вы действительно хотите удалить рецепт?')) {
-    receiptsStore.deleteReceipt(id);
+    receiptsStore?.deleteReceipt(id);
   }
 };
 
 onMounted(() => {
-  receiptsStore.loadReceipts();
+  receiptsStore?.loadReceipts();
 });
 </script>
 
