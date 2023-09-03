@@ -10,7 +10,7 @@
       >{{ props.label || 'Выберите файл' }}</label
     >
     <input
-      :class="`block file:h-11 text-white w-auto text-sm text-slate-500 file:mr-4 file:py-1 file:px-5 file:border-0 file:text-sm file:font-semibold file:bg-light-slate-gray-900 file:text-white hover:file:bg-light-slate-gray-800 hover:cursor-pointer hover:file:cursor-pointer ${props.customClass}`"
+      :class="`block file:h-11 w-auto text-sm text-slate-500 file:mr-4 file:py-1 file:px-5 file:border-0 file:text-sm file:font-semibold file:bg-light-slate-gray-900 file:text-white hover:file:bg-light-slate-gray-800 hover:cursor-pointer hover:file:cursor-pointer ${props.customClass}`"
       :id="props.name"
       :name="props.name"
       type="file"
