@@ -1,7 +1,7 @@
 <template>
   <div class="relative my-3">
-    <div class="image-preview h-64 w-64" v-if="img && props.preview">
-      <img :src="img" class="" />
+    <div class="image-preview h-64 w-auto" v-if="img && props.preview">
+      <img :src="img" class="w-auto h-full object-contain" />
     </div>
     <label
       v-if="props.label"
@@ -51,6 +51,7 @@ const emits = defineEmits<{
 async function onUpload(e: EventTarget): Promise<void> {
   const { files } = e.target;
   let data = new FormData();
+  img.value = URL.createObjectURL(files[0]);
   data.append('file', files[0]);
   value.value = data;
   let res;

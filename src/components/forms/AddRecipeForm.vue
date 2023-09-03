@@ -29,7 +29,7 @@
           mode="tags"
           closeOnSelect
         />
-        <ValidationFileUpload name="recipeFile" label="Обложка рецепта" />
+        <ValidationFileUpload name="recipeFile" label="Обложка рецепта" preview />
         <hr class="my-5" />
         <div class="add-recipe-descritpion">
           <div class="" v-for="(step, ind) in stepsFields" :key="`steps-${step.key}`">
