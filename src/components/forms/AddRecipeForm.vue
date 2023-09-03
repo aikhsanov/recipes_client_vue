@@ -4,15 +4,15 @@
       <div class="w-3/4 mr-5">
         <ValidationInput
           name="recipeName"
-          placeholder=""
+          placeholder="Название рецепта"
           class="mt-0"
-          label="Название рецепта"
+          label=""
           id="recipe-name"
         />
 
         <ValidationInput
           name="recipeShortDesc"
-          label="Короткое описание"
+          label=""
           placeholder="Короткое описание"
           id="recipe-desc"
           type="textarea"
@@ -20,7 +20,7 @@
         <ValidationSelect
           class="w-2/4 mr-5"
           name="categories"
-          label="Выберите категорию"
+          placeholder="Выберите категорию"
           searchable
           :searchFn="
             (val) => searchFn({ val, route: categories, filters: { title: `LIKE(${val})` } })
@@ -35,8 +35,8 @@
           <div class="" v-for="(step, ind) in stepsFields" :key="`steps-${step.key}`">
             <ValidationInput
               :name="`description[${ind}].step_description`"
-              placeholder=""
-              label="Описание шага"
+              placeholder="Описание шага"
+              label=""
               id="recipe-desc"
               type="textarea"
             />
@@ -56,7 +56,7 @@
               <ValidationSelect
                 class="w-1/4 mr-5"
                 :name="`ingridients[${ind}].id`"
-                label="Выберите ингредиенты"
+                placeholder="Выберите ингредиенты"
                 searchable
                 :searchFn="(val) => searchFn({ val, route: ingridients })"
                 :clearOnBlur="false"
@@ -65,7 +65,7 @@
               <ValidationSelect
                 class="w-1/4 mr-5"
                 :name="`ingridients[${ind}].unit_cid`"
-                label="Мера"
+                placeholder="Мера"
                 searchable
                 :searchFn="
                   (val) => searchFn({ val, route: collections, filters: { title: `EQ(${val})` } })
@@ -76,14 +76,17 @@
               <ValidationInput
                 class="w-1/4 mr-5"
                 :name="`ingridients[${ind}].quantity`"
-                label="Количество"
+                placeholder="Количество"
               />
               <BaseButton
                 type="button"
-                class="my-0"
-                text="Удалить ингредиент"
+                class="my-0 bg-tomato-800 hover:bg-tomato-900 px-3"
                 @click="removeIngrs(ind)"
-              />
+              >
+                <template #icn>
+                  <i class="icn icn-trash"></i>
+                </template>
+              </BaseButton>
             </div>
             <hr class="my-5" />
           </div>

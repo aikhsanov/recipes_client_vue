@@ -27,7 +27,7 @@
         :disabled="props.disabled"
         :id="props.name"
         :class="`
-         peer h-56 w-full p-2 text-gray-900 placeholder-transparent rounded-none border-2 bg-transparent border-gray-200 focus:outline-none resize-none
+         peer h-56 w-full p-2 text-gray-900 placeholder rounded-none border-2 bg-transparent border-gray-200 focus:outline-none resize-none
          focus:border-light-slate-gray-900 ${props.customInputClass || ''}`"
       />
     </template>
@@ -82,7 +82,7 @@ const inputClass = computed(() => {
       props.customInputClass || ''
     }`;
   }
-  return `peer h-11 px-2 w-full text-gray-900 placeholder-transparent border-2 bg-transparent border-gray-200 focus:outline-none focus:border-light-slate-gray-900 ${
+  return `peer h-11 px-2 w-full text-gray-900 placeholder border-2 bg-transparent border-gray-200 focus:outline-none focus:border-light-slate-gray-900 ${
     props.customInputClass || ''
   }`;
 });
