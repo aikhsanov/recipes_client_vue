@@ -1,7 +1,5 @@
 import { defineStore } from 'pinia';
 import type { AxiosError } from 'axios';
-import api from '@/config/api';
-import { Receipt } from '@/types/recipes';
 
 type fieldPayload = { name: string; value: { dirty: boolean } };
 

@@ -26,8 +26,9 @@
 <script setup lang="ts">
 import FileUpload from '@/components/base/FileUpload.vue';
 import { useField } from 'vee-validate';
-import { onMounted, watch } from 'vue';
+import { onMounted, watch, toRefs } from 'vue';
 import { useFormStore } from '@/stores/form';
+
 const props = defineProps<{
   modelValue?: string | number | object;
   label?: string;
@@ -41,12 +42,20 @@ const props = defineProps<{
   entityId?: string;
 }>();
 
+const form = useFormStore();
+
 const emits = defineEmits<{
   'update:modelValue': [val: number | string];
 }>();
 
 const { errorMessage, value, meta } = useField(() => props.name, undefined, {
   syncVModel: true,
+});
+
+const { name } = toRefs(props);
+onMounted(() => {
+  // if (props.modelValue) value.value = props.modelValue;
+  form.setField({ name: name.value, value: { dirty: meta.dirty } });
 });
 
 // const form = useFormStore();

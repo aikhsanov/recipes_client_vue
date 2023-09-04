@@ -98,7 +98,7 @@
         </div>
       </div>
     </template>
-    <BaseButton type="submit" text="Поехали" />
+    <BaseButton type="submit" :text="edit ? 'Сохранить изменения' : 'Добавить рецепт'" />
   </form>
 </template>
 
@@ -116,6 +116,8 @@ import { Recipe } from '@/types/recipes';
 import BaseButton from '@/components/base/BaseButton.vue';
 import { computed, ref, onMounted } from 'vue';
 import searchFn from '@/helpers/searchFn';
+import usePrepareEditData from '@/composables/usePrepareEditData';
+import useToaster from '@/composables/useToaster';
 
 const recipes = useRecipesStore();
 const validationSchema = computed<object>(() => {
@@ -130,7 +132,10 @@ const validationSchema = computed<object>(() => {
 
   return obj;
 });
-const { handleSubmit, setFieldError, validateField, setValues } = useForm({
+
+const edit = ref<boolean>(false);
+
+const { handleSubmit, setFieldError, validateField, setValues, resetForm } = useForm({
   validationSchema,
 });
 
@@ -158,50 +163,66 @@ function removeStep(ind) {
   stepsRemove(ind);
 }
 function initRecipeEdit() {
-  setValues({
-    ...recipes.getCurrentRecipe,
+  edit.value = true;
+  resetForm({
+    values: {
+      ...recipes.getCurrentRecipe,
+    },
   });
 }
 
 const { remove: ingrRemove, push: ingrPush, fields: ingrFields } = useFieldArray('ingridients');
-const { remove: stepsRemove, push: stepsPush, fields: stepsFields } = useFieldArray('steps');
+const { remove: stepsRemove, push: stepsPush, fields: stepsFields } = useFieldArray('description');
 
 async function onSuccess(values, actions) {
   try {
     validateDynamicFields(values, 'ingridients');
     validateDynamicFields(values, 'description');
 
-    // values.description = values.description.map(async (el) => {
-    //   const res = await recipes.uploadRecipeImage(el.step_img_url);
-    //   return { ...el, step_img_url: res.data };
-    // });
+    if (edit.value) {
+      await onSuccessEdit(values, actions);
+    } else {
+      console.log('CREATE saving....');
+      const img_url = await recipes.uploadRecipeImage(values.img_url);
+      for (const el of values.description) {
+        const res = await recipes.uploadRecipeImage(el.step_img_url);
+        el.step_img_url = res.data;
+      }
 
-    for (const el of values.description) {
-      const res = await recipes.uploadRecipeImage(el.step_img_url);
-      el.step_img_url = res.data;
+      const data = {
+        title: values.title,
+        short_dsc: values.short_dsc,
+        description: values.description,
+        category_id: values.category_id,
+        ingridients: values.ingridients,
+        img: img_url,
+      };
+      console.log(data);
+      await recipes.createRecipe(data);
     }
-
-    const data = {
-      title: values.title,
-      short_dsc: values.short_dsc,
-      description: values.description,
-      category_id: values.category_id,
-      ingridients: values.ingridients,
-      img: values.img_url,
-    };
-    console.log(data);
-    await recipes.createRecipe(data);
   } catch (e) {
     actions.setErrors({ name: e.message });
   }
 }
+async function onSuccessEdit(values, actions) {
+  try {
+    console.log('editing saving....');
+    const data = usePrepareEditData(values);
+    console.log(data, 'DATA');
+  } catch (e) {
+    useToaster(e, 'error');
+    throw new Error(e);
+  }
+}
+
 function onInvalidSubmit({ values, errors, results }) {
+  console.log(errors, 'ERRORS');
   validateDynamicFields(values, 'ingridients');
   validateDynamicFields(values, 'description');
 }
 
 function validateDynamicFields(values, mainName) {
-  console.log(values[mainName], mainName, 'values[mainName]');
+  // console.log(values[mainName], mainName, 'values[mainName]');
   values[mainName]?.forEach((obj, ind) => {
     for (const o in obj) {
       if (!obj[o]) {

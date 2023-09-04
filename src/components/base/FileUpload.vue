@@ -1,14 +1,14 @@
 <template>
   <div class="relative my-3">
-    <div class="image-preview h-32 w-auto my-2" v-if="img && props.preview">
-      <img :src="img" class="w-auto h-full object-contain" />
-    </div>
     <label
       v-if="props.label"
       :class="`block mb-2 text-gray-600 dark:text-gray-300 font-semibold ${props.customLabelClass}`"
       :for="props.name"
       >{{ props.label || 'Выберите файл' }}</label
     >
+    <div class="image-preview h-32 w-auto my-2" v-if="img && props.preview">
+      <img :src="img" class="w-auto h-full object-contain" />
+    </div>
     <input
       :class="`block file:h-11 w-full text-sm text-slate-500 file:mr-4 file:py-1 file:px-5 file:border-0 file:text-sm file:font-semibold file:bg-light-slate-gray-900 file:text-white hover:file:bg-light-slate-gray-800 hover:cursor-pointer hover:file:cursor-pointer ${props.customClass}`"
       :id="props.name"
@@ -47,6 +47,10 @@ if (props.apiName) {
 const emits = defineEmits<{
   'update:modelValue': [val: number | string | object];
 }>();
+
+onMounted(() => {
+  img.value = props.modelValue ? props.modelValue : '';
+});
 
 async function onUpload(e: EventTarget): Promise<void> {
   const { files } = e.target;
