@@ -74,6 +74,7 @@
                 :name="`ingridients[${ind}].quantity`"
                 label="Количество"
                 placeholder="1 - 100000"
+                maska="#######"
               />
               <BaseButton
                 type="button"
@@ -90,7 +91,6 @@
           <BaseButton type="button" text="Добавить ингредиент" @click="addIngrs" />
         </div>
       </div>
-      <div class="block w-1/4 h-[80vh] border-2 border-gray-200"></div>
     </template>
     <BaseButton type="submit" text="Поехали" />
   </form>

@@ -9,6 +9,8 @@
         :disabled="props.disabled"
         :id="props.name"
         :class="inputClass"
+        v-maska
+        :data-maska="props.maska"
       />
     </template>
     <template v-else>
@@ -63,6 +65,7 @@ const props = defineProps<{
   name?: string;
   disabled?: boolean;
   lined?: boolean;
+  maska?: string;
 }>();
 
 const form = useFormStore();
