@@ -14,7 +14,13 @@ export const useRecipesStore = defineStore({
   }),
   getters: {
     getRecipes: (state) => state.recipes as Recipe[],
-    getCurrentRecipe: (state) => state.currentRecipe as Recipe,
+    getCurrentRecipe: (state) => {
+      if (Object.keys(state.currentRecipe as Recipe).length) {
+        return state.currentRecipe;
+      } else {
+        return null;
+      }
+    },
     getRecipeIngridients: (state) => state.recipeIngridients as RecipeIngridient[],
     getRecipeById: (state) => {
       return (id: number) => {
@@ -38,19 +44,17 @@ export const useRecipesStore = defineStore({
       }
     },
 
-    async loadRecipeById() {
+    async loadRecipeById(id) {
       try {
-        const url = '/recipes';
-        const { data } = await api.get(url);
-        this.recipes = data.data;
-        // this.users = this.users.map((user) => {
-        //     user.roleName = user.roles?.map((o) => o.name).join(", ");
-        //     return user;
-        // });
+        const res = (await recipes.getById(id)).data;
+        if (res.data) {
+          this.currentRecipe = res.data;
+        }
       } catch (err) {
         console.log((err as AxiosError).message);
       }
     },
+
     async createRecipe(data: Recipe) {
       await recipes.create(data).then(() => {
         console.log('Новый рецепт добавлен');

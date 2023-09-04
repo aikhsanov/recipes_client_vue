@@ -2,10 +2,10 @@
   <form @submit="onSubmit" class="mt-5" autocomplete="off">
     <template class="flex flex-row">
       <div class="w-3/4 mr-5">
-        <ValidationInput name="recipeName" label="Название рецепта" class="mt-0" id="recipe-name" />
+        <ValidationInput name="title" label="Название рецепта" class="mt-0" id="recipe-name" />
 
         <ValidationInput
-          name="recipeShortDesc"
+          name="short_dsc"
           label="Короткое описание"
           placeholder=""
           id="recipe-desc"
@@ -13,7 +13,7 @@
         />
         <ValidationSelect
           class="w-2/4 mr-5"
-          name="categories"
+          name="category_id"
           label="Выберите категорию"
           placeholder="Одна или несколько категорий"
           searchable
@@ -24,7 +24,7 @@
           mode="tags"
           closeOnSelect
         />
-        <ValidationFileUpload name="recipeFile" label="Обложка рецепта" preview />
+        <ValidationFileUpload name="img_url" label="Обложка рецепта" preview />
         <hr class="my-5" />
         <div class="add-recipe-descritpion">
           <div class="" v-for="(step, ind) in stepsFields" :key="`steps-${step.key}`">
@@ -53,7 +53,7 @@
                 label="Выберите ингредиент"
                 placeholder="Ингредиент"
                 searchable
-                :searchFn="(val) => searchFn({ val, route: ingridients })"
+                :searchFn="(val, filters) => searchFn({ val, route: ingridients, filters })"
                 :clearOnBlur="false"
                 closeOnSelect
               />
@@ -64,7 +64,12 @@
                 placeholder="кг/гр"
                 searchable
                 :searchFn="
-                  (val) => searchFn({ val, route: collections, filters: { title: `EQ(${val})` } })
+                  (val, filters) =>
+                    searchFn({
+                      val,
+                      route: collections,
+                      filters: filters || { title: `LIKE(${val})` },
+                    })
                 "
                 :clearOnBlur="false"
                 closeOnSelect
@@ -112,8 +117,27 @@ import { computed, ref, onMounted } from 'vue';
 import searchFn from '@/helpers/searchFn';
 
 const recipes = useRecipesStore();
+const validationSchema = computed<object>(() => {
+  const obj = {
+    title: 'required',
+    short_dsc: 'required',
+    category_id: 'required',
+    description: 'required',
+    img_url: 'required',
+    ingridients: 'required',
+  };
+
+  return obj;
+});
+const { handleSubmit, setFieldError, validateField, setValues } = useForm({
+  validationSchema,
+});
 
 onMounted(async () => {
+  if (recipes.getCurrentRecipe) {
+    initRecipeEdit();
+    return;
+  }
   await recipesApi.getAll();
   addIngrs();
   addStep();
@@ -123,7 +147,6 @@ function addIngrs() {
   ingrPush({ id: '', unit_cid: null, quantity: '' });
 }
 function removeIngrs(ind) {
-  console.log(ind);
   ingrRemove(ind);
 }
 
@@ -131,26 +154,13 @@ function addStep() {
   stepsPush({ step_num: stepsFields.value.length - 1, step_description: '', step_img_url: '' });
 }
 function removeStep(ind) {
-  console.log(ind);
   stepsRemove(ind);
 }
-
-const validationSchema = computed<object>(() => {
-  const obj = {
-    recipeName: 'required',
-    recipeShortDesc: 'required',
-    categories: 'required',
-    description: 'required',
-    recipeFile: 'required',
-    ingridients: 'required',
-  };
-
-  return obj;
-});
-
-const { handleSubmit, setFieldError, validateField } = useForm({
-  validationSchema,
-});
+function initRecipeEdit() {
+  setValues({
+    ...recipes.getCurrentRecipe,
+  });
+}
 
 const { remove: ingrRemove, push: ingrPush, fields: ingrFields } = useFieldArray('ingridients');
 const { remove: stepsRemove, push: stepsPush, fields: stepsFields } = useFieldArray('steps');
@@ -171,12 +181,12 @@ async function onSuccess(values, actions) {
     }
 
     const data = {
-      title: values.recipeName,
-      short_dsc: values.recipeShortDesc,
+      title: values.title,
+      short_dsc: values.short_dsc,
       description: values.description,
       categories: values.categories,
       ingridients: values.ingridients,
-      img: values.recipeFile,
+      img: values.img_url,
     };
     console.log(data);
     await recipes.createRecipe(data);
@@ -185,7 +195,6 @@ async function onSuccess(values, actions) {
   }
 }
 function onInvalidSubmit({ values, errors, results }) {
-  debugger;
   validateDynamicFields(values, 'ingridients');
   validateDynamicFields(values, 'description');
 }

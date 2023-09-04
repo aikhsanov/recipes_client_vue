@@ -69,6 +69,18 @@ const router = createRouter({
       meta: { layout: 'DefaultLayout' },
       component: () => import('../views/recipes/add/AddRecipe.vue'),
     },
+    {
+      path: '/recipes/edit/:id',
+      name: 'editRecipe',
+      meta: { layout: 'DefaultLayout' },
+      component: () => import('../views/recipes/edit/EditRecipe.vue'),
+    },
+    {
+      path: '/recipes/:id',
+      name: 'recipeView',
+      meta: { layout: 'DefaultLayout' },
+      component: () => import('../views/recipes/RecipeView.vue'),
+    },
   ],
 });
 
