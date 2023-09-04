@@ -2,25 +2,20 @@
   <form @submit="onSubmit" class="mt-5" autocomplete="off">
     <template class="flex flex-row">
       <div class="w-3/4 mr-5">
-        <ValidationInput
-          name="recipeName"
-          placeholder="Название рецепта"
-          class="mt-0"
-          label=""
-          id="recipe-name"
-        />
+        <ValidationInput name="recipeName" label="Название рецепта" class="mt-0" id="recipe-name" />
 
         <ValidationInput
           name="recipeShortDesc"
-          label=""
-          placeholder="Короткое описание"
+          label="Короткое описание"
+          placeholder=""
           id="recipe-desc"
           type="textarea"
         />
         <ValidationSelect
           class="w-2/4 mr-5"
           name="categories"
-          placeholder="Выберите категорию"
+          label="Выберите категорию"
+          placeholder="Одна или несколько категорий"
           searchable
           :searchFn="
             (val) => searchFn({ val, route: categories, filters: { title: `LIKE(${val})` } })
@@ -35,14 +30,13 @@
           <div class="" v-for="(step, ind) in stepsFields" :key="`steps-${step.key}`">
             <ValidationInput
               :name="`description[${ind}].step_description`"
-              placeholder="Описание шага"
-              label=""
+              label="Описание шага"
               id="recipe-desc"
               type="textarea"
             />
             <ValidationFileUpload
               :name="`description[${ind}].step_img_url`"
-              label="Фото для шага"
+              label="Фото шага"
               preview
             />
             <BaseButton type="button" text="Удалить шаг" @click="removeStep(ind)" />
@@ -52,11 +46,12 @@
         </div>
         <div class="add-recipe-ingridients">
           <div class="" v-for="(ingr, ind) in ingrFields" :key="`ingridients-${ingr.key}`">
-            <div class="flex flex-row mt-5 items-center">
+            <div class="flex flex-row mt-5 items-end">
               <ValidationSelect
                 class="w-1/4 mr-5"
                 :name="`ingridients[${ind}].id`"
-                placeholder="Выберите ингредиенты"
+                label="Выберите ингредиент"
+                placeholder="Ингредиент"
                 searchable
                 :searchFn="(val) => searchFn({ val, route: ingridients })"
                 :clearOnBlur="false"
@@ -65,7 +60,8 @@
               <ValidationSelect
                 class="w-1/4 mr-5"
                 :name="`ingridients[${ind}].unit_cid`"
-                placeholder="Мера"
+                label="Мера"
+                placeholder="кг/гр"
                 searchable
                 :searchFn="
                   (val) => searchFn({ val, route: collections, filters: { title: `EQ(${val})` } })
@@ -76,11 +72,12 @@
               <ValidationInput
                 class="w-1/4 mr-5"
                 :name="`ingridients[${ind}].quantity`"
-                placeholder="Количество"
+                label="Количество"
+                placeholder="1 - 100000"
               />
               <BaseButton
                 type="button"
-                class="my-0 bg-tomato-800 hover:bg-tomato-900 px-3"
+                class="my-3 bg-tomato-800 hover:bg-tomato-900 px-3"
                 @click="removeIngrs(ind)"
               >
                 <template #icn>

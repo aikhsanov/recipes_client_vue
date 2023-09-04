@@ -3,7 +3,7 @@
     <label
       v-if="props.label"
       :for="props.name"
-      :class="`text-gray-700 text-md font-semibold
+      :class="`text-gray-600 text-md font-semibold
           ${props.customLabelClass || ''}`"
     >
       {{ props.label }}
