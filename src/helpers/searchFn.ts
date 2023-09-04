@@ -10,9 +10,9 @@ export default async function searchFn({
   filters?: object;
 }) {
   const data: object = filters
-    ? filters
+    ? { filters }
     : {
-        filters: { name: `LIKE(${val})` },
+        filters: { title: `LIKE(${val})` },
       };
 
   return await route[apiMethod](data);

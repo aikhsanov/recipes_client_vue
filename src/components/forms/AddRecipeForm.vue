@@ -18,7 +18,8 @@
           placeholder="Одна или несколько категорий"
           searchable
           :searchFn="
-            (val) => searchFn({ val, route: categories, filters: { title: `LIKE(${val})` } })
+            (val, filters) =>
+              searchFn({ val, route: categories, filters: filters || { title: `LIKE(${val})` } })
           "
           :clearOnBlur="false"
           mode="tags"
@@ -184,7 +185,7 @@ async function onSuccess(values, actions) {
       title: values.title,
       short_dsc: values.short_dsc,
       description: values.description,
-      categories: values.categories,
+      category_id: values.category_id,
       ingridients: values.ingridients,
       img: values.img_url,
     };

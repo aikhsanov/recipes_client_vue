@@ -123,7 +123,7 @@ async function onSearch(val: any, open: boolean = false, initial: boolean = fals
   }
   if (val && !open && initial) {
     const filters = {
-      filters: { id: `EQ(${val})` },
+      id: `EQ(${val})`,
     };
     const res: object | [] = (await props.searchFn(val, filters))?.data;
     if (res?.data?.length) {
