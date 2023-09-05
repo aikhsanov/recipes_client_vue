@@ -195,7 +195,7 @@ async function onSuccess(values, actions) {
         description: values.description,
         category_id: values.category_id,
         ingridients: values.ingridients,
-        img: img_url,
+        img: img_url?.data,
       };
       console.log(data);
       await recipes.createRecipe(data);

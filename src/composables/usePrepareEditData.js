@@ -5,10 +5,12 @@ export default function usePrepareEditData(values) {
 
   const data = {};
   console.log(values);
-  for (const key in values) {
-    if (form.getForm[key] && form.getForm[key].dirty) {
-      data[key] = values[key];
-    }
+  for (const key in form.getForm) {
+    console.log(key, 'KEY');
+    console.log(values[`description`], 'values[key]');
+    // if (form.getForm[key].dirty && values[key]) {
+    //   data[key] = values[key];
+    // }
   }
   return data;
 }

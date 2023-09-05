@@ -11,6 +11,7 @@
       :apiName="apiName"
       :entityId="entityId"
       :preview="preview"
+      @update:modelValue="setFieldDirty"
     />
     <span
       v-if="errorMessage && meta.touched"
@@ -51,7 +52,10 @@ const emits = defineEmits<{
 const { errorMessage, value, meta } = useField(() => props.name, undefined, {
   syncVModel: true,
 });
-
+function setFieldDirty() {
+  console.log('setting field dirty');
+  form.setField({ name: props.name, value: { dirty: true } });
+}
 const { name } = toRefs(props);
 onMounted(() => {
   // if (props.modelValue) value.value = props.modelValue;
