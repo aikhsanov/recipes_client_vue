@@ -135,9 +135,10 @@ const validationSchema = computed<object>(() => {
 
 const edit = ref<boolean>(false);
 
-const { handleSubmit, setFieldError, validateField, setValues, resetForm } = useForm({
-  validationSchema,
-});
+const { handleSubmit, setFieldError, validateField, setValues, resetForm, useIsFieldDirty } =
+  useForm({
+    validationSchema,
+  });
 
 onMounted(async () => {
   if (recipes.getCurrentRecipe) {
@@ -207,8 +208,9 @@ async function onSuccess(values, actions) {
 async function onSuccessEdit(values, actions) {
   try {
     console.log('editing saving....');
-    const data = usePrepareEditData(values);
-    console.log(data, 'DATA');
+    // const data = usePrepareEditData(values);
+    const res = useIsFieldDirty(values.description[0].step_img_url);
+    console.log(res, 'DATA');
   } catch (e) {
     useToaster(e, 'error');
     throw new Error(e);
