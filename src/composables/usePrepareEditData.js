@@ -16,10 +16,18 @@ export default function usePrepareEditData(values) {
   for (const key of dirtyFields) {
     const path = splitFieldPath(key);
     console.log(path);
-    path.reduce((acc, n) => {
+    path.reduce((acc, n, i, arr) => {
+      const pv = arr[i - 1];
+      const nx = arr[i + 1];
+      if (i === 0) {
+        acc[n] = !isNaN(parseInt(nx)) ? [] : {};
+      }
+      if (!isNaN(parseInt(n))) {
+        acc[pv].push[];
+      }
       data[n] = acc[n];
       return acc;
-    }, values);
+    }, {});
   }
   console.log(data, 'DATA');
   return data;
