@@ -119,6 +119,7 @@ import searchFn from '@/helpers/searchFn';
 import usePrepareEditData from '@/composables/usePrepareEditData';
 import { useIsFieldDirty } from 'vee-validate';
 import useToaster from '@/composables/useToaster';
+import prepareForm from '@/helpers/form';
 
 const recipes = useRecipesStore();
 const validationSchema = computed<object>(() => {
@@ -158,7 +159,11 @@ function removeIngrs(ind) {
 }
 
 function addStep() {
-  stepsPush({ step_num: stepsFields.value.length - 1, step_description: '', step_img_url: '' });
+  stepsPush({
+    step_num: stepsFields.value.length ? stepsFields.value.length - 1 : 1,
+    step_description: '',
+    step_img_url: '',
+  });
 }
 function removeStep(ind) {
   stepsRemove(ind);
@@ -200,24 +205,12 @@ async function onSuccess(values, actions) {
     //   img: values.img_url,
     // };
     // console.log(data);
-    const formData = new FormData();
-    for (const mainKey in values) {
-      if (Array.isArray(values[mainKey])) {
-        const arr = values[mainKey];
-        arr.forEach((el, ind) => {
-          if (typeof el === 'object') {
-            for (const propKey in el) {
-              if (el[propKey]) formData.append(`${mainKey}[${ind}].${propKey}`, '');
-            }
-          }
-        });
-      }
-    }
+    const formData = prepareForm(values);
 
     if (edit.value) {
-      await recipes.updateRecipe(recipes.getCurrentRecipe.id, data);
+      await recipes.updateRecipe(recipes.getCurrentRecipe.id, formData);
     } else {
-      await recipes.createRecipe(data);
+      await recipes.createRecipe(formData);
     }
   } catch (e) {
     actions.setErrors({ name: e.message });
@@ -226,6 +219,7 @@ async function onSuccess(values, actions) {
 
 function onInvalidSubmit({ values, errors, results }) {
   console.log(errors, 'ERRORS');
+
   validateDynamicFields(values, 'ingridients');
   validateDynamicFields(values, 'description');
 }
