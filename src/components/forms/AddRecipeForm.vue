@@ -110,13 +110,14 @@ import ingridients from '@/api/ingridients';
 import categories from '@/api/categories';
 import recipesApi from '@/api/recipes';
 import ValidationFileUpload from '@/components/validation/ValidationFileUpload.vue';
-import { useFieldArray, useForm } from 'vee-validate';
+import { useFieldArray, useForm, useIsFormDirty } from 'vee-validate';
 import { useRecipesStore } from '@/stores/recipes';
 import { Recipe } from '@/types/recipes';
 import BaseButton from '@/components/base/BaseButton.vue';
 import { computed, ref, onMounted } from 'vue';
 import searchFn from '@/helpers/searchFn';
 import usePrepareEditData from '@/composables/usePrepareEditData';
+import { useIsFieldDirty } from 'vee-validate';
 import useToaster from '@/composables/useToaster';
 
 const recipes = useRecipesStore();
@@ -135,10 +136,9 @@ const validationSchema = computed<object>(() => {
 
 const edit = ref<boolean>(false);
 
-const { handleSubmit, setFieldError, validateField, setValues, resetForm, useIsFieldDirty } =
-  useForm({
-    validationSchema,
-  });
+const { handleSubmit, setFieldError, validateField, setValues, resetForm } = useForm({
+  validationSchema,
+});
 
 onMounted(async () => {
   if (recipes.getCurrentRecipe) {
@@ -180,40 +180,33 @@ async function onSuccess(values, actions) {
     validateDynamicFields(values, 'ingridients');
     validateDynamicFields(values, 'description');
 
-    if (edit.value) {
-      await onSuccessEdit(values, actions);
-    } else {
-      console.log('CREATE saving....');
-      const img_url = await recipes.uploadRecipeImage(values.img_url);
-      for (const el of values.description) {
+    if (typeof values.img_url !== 'string') {
+      values.img_url = (await recipes.uploadRecipeImage(values.img_url))?.data;
+    }
+
+    for (const el of values.description) {
+      if (typeof el.step_img_url !== 'string') {
         const res = await recipes.uploadRecipeImage(el.step_img_url);
         el.step_img_url = res.data;
       }
+    }
 
-      const data = {
-        title: values.title,
-        short_dsc: values.short_dsc,
-        description: values.description,
-        category_id: values.category_id,
-        ingridients: values.ingridients,
-        img: img_url?.data,
-      };
-      console.log(data);
+    const data = {
+      title: values.title,
+      short_dsc: values.short_dsc,
+      description: values.description,
+      category_id: values.category_id,
+      ingridients: values.ingridients,
+      img: values.img_url,
+    };
+    console.log(data);
+    if (edit.value) {
+      await recipes.updateRecipe(recipes.getCurrentRecipe.id, data);
+    } else {
       await recipes.createRecipe(data);
     }
   } catch (e) {
     actions.setErrors({ name: e.message });
-  }
-}
-async function onSuccessEdit(values, actions) {
-  try {
-    console.log('editing saving....');
-    // const data = usePrepareEditData(values);
-    const res = useIsFieldDirty(values.description[0].step_img_url);
-    console.log(res, 'DATA');
-  } catch (e) {
-    useToaster(e, 'error');
-    throw new Error(e);
   }
 }
 
