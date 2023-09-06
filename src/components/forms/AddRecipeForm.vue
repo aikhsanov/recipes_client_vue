@@ -180,26 +180,40 @@ async function onSuccess(values, actions) {
     validateDynamicFields(values, 'ingridients');
     validateDynamicFields(values, 'description');
 
-    if (typeof values.img_url !== 'string') {
-      values.img_url = (await recipes.uploadRecipeImage(values.img_url))?.data;
-    }
+    // if (typeof values.img_url !== 'string') {
+    //   values.img_url = (await recipes.uploadRecipeImage(values.img_url))?.data;
+    // }
+    //
+    // for (const el of values.description) {
+    //   if (typeof el.step_img_url !== 'string') {
+    //     const res = await recipes.uploadRecipeImage(el.step_img_url);
+    //     el.step_img_url = res.data;
+    //   }
+    // }
 
-    for (const el of values.description) {
-      if (typeof el.step_img_url !== 'string') {
-        const res = await recipes.uploadRecipeImage(el.step_img_url);
-        el.step_img_url = res.data;
+    // const data = {
+    //   title: values.title,
+    //   short_dsc: values.short_dsc,
+    //   description: values.description,
+    //   category_id: values.category_id,
+    //   ingridients: values.ingridients,
+    //   img: values.img_url,
+    // };
+    // console.log(data);
+    const formData = new FormData();
+    for (const mainKey in values) {
+      if (Array.isArray(values[mainKey])) {
+        const arr = values[mainKey];
+        arr.forEach((el, ind) => {
+          if (typeof el === 'object') {
+            for (const propKey in el) {
+              if (el[propKey]) formData.append(`${mainKey}[${ind}].${propKey}`, '');
+            }
+          }
+        });
       }
     }
 
-    const data = {
-      title: values.title,
-      short_dsc: values.short_dsc,
-      description: values.description,
-      category_id: values.category_id,
-      ingridients: values.ingridients,
-      img: values.img_url,
-    };
-    console.log(data);
     if (edit.value) {
       await recipes.updateRecipe(recipes.getCurrentRecipe.id, data);
     } else {
@@ -221,7 +235,9 @@ function validateDynamicFields(values, mainName) {
   values[mainName]?.forEach((obj, ind) => {
     for (const o in obj) {
       if (!obj[o]) {
-        setFieldError(`${mainName}[${ind}].${o}`, `Поле должны быть заполнено`);
+        if (o !== 'step_img_url') {
+          setFieldError(`${mainName}[${ind}].${o}`, `Поле должны быть заполнено`);
+        }
       }
     }
   });

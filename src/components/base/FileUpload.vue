@@ -31,6 +31,7 @@ const props = defineProps<{
   customLabelClass?: string;
   disabled?: boolean;
   preview?: boolean;
+  getForm?: boolean;
   uploadFn?: Function;
   apiName?: string;
   entityId?: string;
@@ -54,10 +55,16 @@ onMounted(() => {
 
 async function onUpload(e: EventTarget): Promise<void> {
   const { files } = e.target;
-  let data = new FormData();
+  if (!props.getForm) {
+    value.value = files[0];
+  } else {
+    let data = new FormData();
+    data.append('file', files[0]);
+    value.value = data;
+  }
+
   img.value = URL.createObjectURL(files[0]);
-  data.append('file', files[0]);
-  value.value = data;
+
   let res;
   if (props.uploadFn) {
     res = (await props.uploadFn())?.data;

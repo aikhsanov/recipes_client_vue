@@ -10,6 +10,7 @@
       :uploadFn="uploadFn"
       :apiName="apiName"
       :entityId="entityId"
+      :getForm="getForm"
       :preview="preview"
       @update:modelValue="setFieldDirty"
     />
@@ -38,6 +39,7 @@ const props = defineProps<{
   customLabelClass?: string;
   disabled?: boolean;
   preview?: boolean;
+  getForm?: boolean;
   uploadFn?: Function;
   apiName?: string;
   entityId?: string;
