@@ -119,7 +119,7 @@ import searchFn from '@/helpers/searchFn';
 import usePrepareEditData from '@/composables/usePrepareEditData';
 import { useIsFieldDirty } from 'vee-validate';
 import useToaster from '@/composables/useToaster';
-import prepareForm from '@/helpers/form';
+import prepareForm, { prepareFn } from '@/helpers/form';
 
 const recipes = useRecipesStore();
 const validationSchema = computed<object>(() => {
@@ -151,6 +151,24 @@ onMounted(async () => {
   addStep();
 });
 
+// function buildFormData(formData, data, parentKey) {
+//   if (
+//     data &&
+//     typeof data === 'object' &&
+//     !(data instanceof Date) &&
+//     !(data instanceof File) &&
+//     !(data instanceof Blob)
+//   ) {
+//     Object.keys(data).forEach((key) => {
+//       buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
+//     });
+//   } else {
+//     const value = data == null ? '' : data;
+//
+//     formData.append(parentKey, value);
+//   }
+// }
+
 function addIngrs() {
   ingrPush({ id: '', unit_cid: null, quantity: '' });
 }
@@ -160,7 +178,7 @@ function removeIngrs(ind) {
 
 function addStep() {
   stepsPush({
-    step_num: stepsFields.value.length ? stepsFields.value.length - 1 : 1,
+    step_num: stepsFields.value.length,
     step_description: '',
     step_img_url: '',
   });
@@ -196,21 +214,22 @@ async function onSuccess(values, actions) {
     //   }
     // }
 
-    // const data = {
-    //   title: values.title,
-    //   short_dsc: values.short_dsc,
-    //   description: values.description,
-    //   category_id: values.category_id,
-    //   ingridients: values.ingridients,
-    //   img: values.img_url,
-    // };
+    const data = {
+      title: values.title,
+      short_dsc: values.short_dsc,
+      description: values.description,
+      category_id: values.category_id,
+      ingridients: values.ingridients,
+      img: values.img_url,
+    };
     // console.log(data);
-    const formData = prepareForm(values);
-
+    const formData = new FormData();
+    prepareFn(data, '', formData);
+    console.log(formData, 'preData');
     if (edit.value) {
       await recipes.updateRecipe(recipes.getCurrentRecipe.id, formData);
     } else {
-      await recipes.createRecipe(formData);
+      await recipes.createRecipe(data);
     }
   } catch (e) {
     actions.setErrors({ name: e.message });

@@ -5,43 +5,66 @@ export default function prepareForm(values) {
   return formData;
 }
 
-function prepareFn(values, key = '', formData) {
+// function prepareFn(values, key = '', formData) {
+//   try {
+//     // TODO: переделать луп под массив и под объекты
+//     for (const mainKey in values) {
+//       if (Array.isArray(values[mainKey])) {
+//         const arr = values[mainKey];
+//         const arrOfObjects = arr.find((el) => typeof el === 'object');
+//         if (!arrOfObjects) {
+//           arr.forEach((el, ind) => {
+//             formData.append(`${mainKey}`, el);
+//           });
+//         } else {
+//           arr.forEach((el, ind) => {
+//             const newKey = key ? `${key}[${mainKey}][${ind}]` : `${mainKey}[${ind}]`;
+//             prepareFn(el, newKey, formData);
+//           });
+//         }
+//       } else if (
+//         typeof values[mainKey] === 'object' &&
+//         !Array.isArray(values[mainKey]) &&
+//         !mainKey.includes('img')
+//         // TODO: нормальная проверка на пикчу
+//       ) {
+//         const obj = values[mainKey];
+//         for (const propKey in obj) {
+//           const el = obj[propKey];
+//           const newKey = key ? `${key}.${mainKey}.${propKey}` : `${mainKey}.${propKey}`;
+//           if (typeof el === 'object' || Array.isArray(el)) {
+//             prepareFn(el, newKey, formData);
+//           } else {
+//             const name = key ? `${key}.${mainKey}.${propKey}` : `${mainKey}.${propKey}`;
+//             formData.append(`${name}`, el);
+//           }
+//         }
+//       } else {
+//         const name = key ? `${key}.${mainKey}` : `${mainKey}`;
+//         formData.append(`${name}`, values[mainKey]);
+//       }
+//     }
+//   } catch (e) {
+//     console.error(e);
+//   }
+// }
+
+export function prepareFn(mainObj, parentKey = '', formData) {
   try {
-    for (const mainKey in values) {
-      if (Array.isArray(values[mainKey])) {
-        const arr = values[mainKey];
-        const arrOfObjects = arr.find((el) => typeof el === 'object');
-        if (!arrOfObjects) {
-          arr.forEach((el, ind) => {
-            formData.append(`${mainKey}`, el);
-          });
-        } else {
-          arr.forEach((el, ind) => {
-            const newKey = key ? `${key}[${mainKey}][${ind}]` : `${mainKey}[${ind}]`;
-            prepareFn(el, newKey, formData);
-          });
-        }
-      } else if (
-        typeof values[mainKey] === 'object' &&
-        !Array.isArray(values[mainKey]) &&
-        !mainKey.includes('img')
-      ) {
-        const obj = values[mainKey];
-        for (const propKey in obj) {
-          const el = obj[propKey];
-          const newKey = key ? `${key}.${mainKey}.${propKey}` : `${mainKey}.${propKey}`;
-          if (typeof el === 'object' || Array.isArray(el)) {
-            prepareFn(el, newKey, formData);
-          } else {
-            const name = key ? `${key}.${mainKey}.${propKey}` : `${mainKey}.${propKey}`;
-            formData.append(`${name}`, el);
-          }
-        }
-      } else {
-        const name = key ? `${key}.${mainKey}` : `${mainKey}`;
-        formData.append(`${name}`, values[mainKey]);
-      }
+    if (
+      typeof mainObj === 'object' &&
+      !(mainObj instanceof File) &&
+      !(mainObj instanceof Date) &&
+      !(mainObj instanceof Blob)
+    ) {
+      Object.keys(mainObj).forEach((el) => {
+        const key = parentKey ? `${parentKey}[${el}]` : `${el}`;
+        debugger;
+        prepareFn(mainObj[el], key, formData);
+      });
     }
+    formData.append(`${parentKey}`, mainObj);
+    debugger;
   } catch (e) {
     console.error(e);
   }
