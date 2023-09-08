@@ -151,24 +151,6 @@ onMounted(async () => {
   addStep();
 });
 
-// function buildFormData(formData, data, parentKey) {
-//   if (
-//     data &&
-//     typeof data === 'object' &&
-//     !(data instanceof Date) &&
-//     !(data instanceof File) &&
-//     !(data instanceof Blob)
-//   ) {
-//     Object.keys(data).forEach((key) => {
-//       buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
-//     });
-//   } else {
-//     const value = data == null ? '' : data;
-//
-//     formData.append(parentKey, value);
-//   }
-// }
-
 function addIngrs() {
   ingrPush({ id: '', unit_cid: null, quantity: '' });
 }
@@ -225,7 +207,10 @@ async function onSuccess(values, actions) {
     // console.log(data);
     const formData = new FormData();
     prepareFn(data, '', formData);
-    console.log(formData, 'preData');
+    // console.log(formData, 'preData');
+    for (const pair of formData.entries()) {
+      console.log(`${pair[0]}, ${pair[1]}`);
+    }
     if (edit.value) {
       await recipes.updateRecipe(recipes.getCurrentRecipe.id, formData);
     } else {

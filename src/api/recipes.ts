@@ -11,7 +11,12 @@ const recipes = {
       },
     }),
   update: async (id: string | number, data: any, config?: any) =>
-    await api.patch(`recipes/${id}`, data, config),
+    await api.patch(`recipes/${id}`, data, {
+      ...config,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }),
   delete: async (id: string | number, config?: any) => await api.delete(`recipes/${id}`, config),
   uploadImageById: async (id, data: any, config?: any) =>
     await api.post(`/recipes/${id}/images`, data, {
