@@ -4,19 +4,18 @@ export default function usePrepareEditData(formData) {
   try {
     const form = useFormStore();
 
-    const data = {};
     // console.log(values);
     const dirtyFields = Object.keys(form.getForm).filter((el) => form.getForm[el].dirty);
+    const dirtyArr = dirtyFields.map((path) => splitFieldPath(path).join('.'));
+    const deletItems = [];
+    for (const pair of formData.entries()) {
+      const pairRep = splitFieldPath(pair[0]).join('.');
 
-    for (const key of dirtyFields) {
-      const path = key.replace(/\[([^\[\]]*)\]/g, '.$1.');
-      for (const pair of formData.entries()) {
-        const pairRep = pair[0].replace(/\[([^\[\]]*)\]/g, '.$1.');
-        if (pairRep !== path) {
-          formData.delete(pair[0]);
-        }
+      if (!dirtyArr.includes(pairRep)) {
+        deletItems.push(pair[0]);
       }
     }
+    deletItems.forEach((el) => formData.delete(el));
   } catch (e) {
     console.error(e);
   }

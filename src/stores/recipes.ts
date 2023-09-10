@@ -71,19 +71,9 @@ export const useRecipesStore = defineStore({
       }
     },
 
-    async updateRecipe(
-      id: number,
-      data: {
-        title: string;
-        ingredients: string;
-        text: string;
-        img_url: string;
-      }
-    ) {
-      await api.put('/recipes/' + id, data).then(() => {
-        console.log('Рецепт изменен');
-      });
-      await this.loadRecipes();
+    async updateRecipe(id: number, data: FormData) {
+      await recipes.update(id, data);
+      // await this.loadRecipes();
     },
     async deleteRecipe(id: number) {
       await api.delete('/recipes/' + id).then(() => {

@@ -21,6 +21,8 @@
       :options="props.options"
       :class="`${customClass || ''}`"
       :searchFn="searchFn"
+      @initial="onInitialFetch"
+      @update:modelValue="onModelUpdate"
     />
     <span
       v-if="errorMessage && meta.touched"
@@ -64,21 +66,42 @@ const emits = defineEmits<{
   'update:modelValue': [val: number | string];
 }>();
 const form = useFormStore();
+const initial = ref(false);
+
 onMounted(() => {
   form.setField({ name: props.name, value: { dirty: meta.dirty } });
 });
 
+function onInitialFetch(): void {
+  initial.value = true;
+  console.log(initial.value, 'init fn');
+}
+function onModelUpdate(): void {
+  if (initial.value) {
+    form.setField({ name: props.name, value: { dirty: false } });
+    initial.value = false;
+    return;
+  }
+  form.setField({ name: props.name, value: { dirty: meta.dirty } });
+}
+
 const { errorMessage, value, meta } = useField(() => props.name, undefined, {
   syncVModel: true,
 });
-watch(
-  () => meta.dirty,
-  (nv, ov) => {
-    if (nv !== ov) {
-      form.setField({ name: props.name, value: { dirty: meta.dirty } });
-    }
-  }
-);
+// watch(
+//   () => meta.dirty,
+//   (nv, ov) => {
+//     if (nv !== ov) {
+//       console.log(initial.value);
+//       if (initial.value) {
+//         form.setField({ name: props.name, value: { dirty: false } });
+//         initial.value = false;
+//         return;
+//       }
+//       form.setField({ name: props.name, value: { dirty: meta.dirty } });
+//     }
+//   }
+// );
 </script>
 
 <style scoped></style>

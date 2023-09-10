@@ -82,12 +82,14 @@ const value = ref<any>(props.modelValue || null);
 
 const emits = defineEmits<{
   'update:modelValue': [val: number | string | object];
+  initial;
 }>();
 
 onMounted(async () => {
   if (props.searchable) {
     if (props.modelValue) {
       await onSearch(props.modelValue, false, true);
+      emits('initial');
       return;
     }
     await onSearch('', true);
