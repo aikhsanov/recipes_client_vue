@@ -112,13 +112,9 @@ import recipesApi from '@/api/recipes';
 import ValidationFileUpload from '@/components/validation/ValidationFileUpload.vue';
 import { useFieldArray, useForm, useIsFormDirty } from 'vee-validate';
 import { useRecipesStore } from '@/stores/recipes';
-import { Recipe } from '@/types/recipes';
 import BaseButton from '@/components/base/BaseButton.vue';
 import { computed, ref, onMounted } from 'vue';
 import searchFn from '@/helpers/searchFn';
-import usePrepareEditData from '@/composables/usePrepareEditData';
-import { useIsFieldDirty } from 'vee-validate';
-import useToaster from '@/composables/useToaster';
 import prepareForm, { prepareFn } from '@/helpers/form';
 
 const recipes = useRecipesStore();
@@ -185,17 +181,6 @@ async function onSuccess(values, actions) {
     validateDynamicFields(values, 'ingridients');
     validateDynamicFields(values, 'description');
 
-    // if (typeof values.img_url !== 'string') {
-    //   values.img_url = (await recipes.uploadRecipeImage(values.img_url))?.data;
-    // }
-    //
-    // for (const el of values.description) {
-    //   if (typeof el.step_img_url !== 'string') {
-    //     const res = await recipes.uploadRecipeImage(el.step_img_url);
-    //     el.step_img_url = res.data;
-    //   }
-    // }
-
     const data = {
       title: values.title,
       short_dsc: values.short_dsc,
@@ -204,18 +189,12 @@ async function onSuccess(values, actions) {
       ingridients: values.ingridients,
       img_url: values.img_url,
     };
-    // console.log(data);
+
     const formData = new FormData();
     prepareFn(data, '', formData);
-    // for (const pair of formData.entries()) {
-    //   console.log(`${pair[0]}, ${pair[1]}`);
-    // }
+
     // if (edit.value) {
     //   usePrepareEditData(formData);
-    // }
-    // console.log(formData, 'preData');
-    // for (const pair of formData.entries()) {
-    //   console.log(`${pair[0]}, ${pair[1]}`);
     // }
 
     if (edit.value) {

@@ -4,6 +4,7 @@ import api from '@/api/api';
 import recipes from '@/api/recipes';
 import { Recipe } from '@/types/recipes';
 import { RecipeIngridient } from '@/types/ingridients';
+import useToaster from '@/composables/useToaster';
 
 export const useRecipesStore = defineStore({
   id: 'recipes',
@@ -32,13 +33,8 @@ export const useRecipesStore = defineStore({
   actions: {
     async loadRecipes() {
       try {
-        const url = '/recipes';
-        const { data } = await api.get(url);
-        this.recipes = data.data;
-        // this.users = this.users.map((user) => {
-        //     user.roleName = user.roles?.map((o) => o.name).join(", ");
-        //     return user;
-        // });
+        const res = (await recipes.getAll()).data;
+        this.recipes = res.data;
       } catch (err) {
         console.log((err as AxiosError).message);
       }
@@ -56,10 +52,14 @@ export const useRecipesStore = defineStore({
     },
 
     async createRecipe(data: FormData) {
-      await recipes.create(data).then(() => {
-        console.log('Новый рецепт добавлен');
-      });
-      await this.loadRecipes();
+      try {
+        await recipes.create(data);
+        useToaster('Рецепт добавлен!', 'success');
+        await this.loadRecipes();
+      } catch (e) {
+        useToaster(e.message, 'error');
+        throw new Error(e.message);
+      }
     },
 
     async uploadRecipeImage(data: File) {
@@ -72,13 +72,18 @@ export const useRecipesStore = defineStore({
     },
 
     async updateRecipe(id: number, data: FormData) {
-      await recipes.update(id, data);
-      // await this.loadRecipes();
+      try {
+        await recipes.update(id, data);
+        useToaster('Изменения сохранены!', 'success');
+        await this.loadRecipeById(id);
+      } catch (e) {
+        useToaster(e.message, 'error');
+        throw new Error(e.message);
+      }
     },
+
     async deleteRecipe(id: number) {
-      await api.delete('/recipes/' + id).then(() => {
-        console.log('Рецепт удален');
-      });
+      await recipes.delete(id);
       await this.loadRecipes();
     },
   },
