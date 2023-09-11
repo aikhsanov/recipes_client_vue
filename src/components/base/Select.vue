@@ -89,7 +89,6 @@ onMounted(async () => {
   if (props.searchable) {
     if (props.modelValue) {
       await onSearch(props.modelValue, false, true);
-      emits('initial');
       return;
     }
     await onSearch('', true);
@@ -128,6 +127,7 @@ async function onSearch(val: any, open: boolean = false, initial: boolean = fals
       id: `EQ(${val})`,
     };
     const res: object | [] = (await props.searchFn(val, filters))?.data;
+    emits('initial');
     if (res?.data?.length) {
       searchedData.value = res?.data;
       model.value = res?.data[0].id;

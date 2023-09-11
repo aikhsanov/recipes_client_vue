@@ -202,7 +202,7 @@ async function onSuccess(values, actions) {
       description: values.description,
       category_id: values.category_id,
       ingridients: values.ingridients,
-      img: values.img_url,
+      img_url: values.img_url,
     };
     // console.log(data);
     const formData = new FormData();
@@ -210,18 +210,18 @@ async function onSuccess(values, actions) {
     // for (const pair of formData.entries()) {
     //   console.log(`${pair[0]}, ${pair[1]}`);
     // }
-    if (edit.value) {
-      usePrepareEditData(formData);
-    }
+    // if (edit.value) {
+    //   usePrepareEditData(formData);
+    // }
     // console.log(formData, 'preData');
-    for (const pair of formData.entries()) {
-      console.log(`${pair[0]}, ${pair[1]}`);
-    }
+    // for (const pair of formData.entries()) {
+    //   console.log(`${pair[0]}, ${pair[1]}`);
+    // }
 
     if (edit.value) {
-      // await recipes.updateRecipe(recipes.getCurrentRecipe.id, formData);
+      await recipes.updateRecipe(recipes.getCurrentRecipe.id, formData);
     } else {
-      await recipes.createRecipe(data);
+      await recipes.createRecipe(formData);
     }
   } catch (e) {
     actions.setErrors({ name: e.message });

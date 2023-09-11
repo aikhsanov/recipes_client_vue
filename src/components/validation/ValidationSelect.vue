@@ -74,7 +74,6 @@ onMounted(() => {
 
 function onInitialFetch(): void {
   initial.value = true;
-  console.log(initial.value, 'init fn');
 }
 function onModelUpdate(): void {
   if (initial.value) {

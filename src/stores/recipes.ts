@@ -55,7 +55,7 @@ export const useRecipesStore = defineStore({
       }
     },
 
-    async createRecipe(data: Recipe) {
+    async createRecipe(data: FormData) {
       await recipes.create(data).then(() => {
         console.log('Новый рецепт добавлен');
       });
