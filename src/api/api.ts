@@ -2,6 +2,7 @@ import axios, { CreateAxiosDefaults } from 'axios';
 import type { AxiosRequestConfig } from 'axios';
 import router from '@/router';
 import { getToken, removeToken } from '../helpers/token';
+import useToaster from '@/composables/useToaster';
 
 const options = {
   // baseURL: 'http://api.receipts.haemmid.ru/',
@@ -23,6 +24,9 @@ AxiosInstance.interceptors.response.use(
         removeToken();
         return Promise.reject(resp?.response?.data?.message || 'Неизвестная ошибка');
       }
+    }
+    if (resp?.response?.data?.message !== 'Unauthorized') {
+      useToaster(resp?.response?.data?.message, 'error');
     }
     return Promise.reject(resp?.response?.data?.message || 'Неизвестная ошибка');
   }

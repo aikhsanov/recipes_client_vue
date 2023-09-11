@@ -20,10 +20,18 @@ import { provide, shallowRef } from 'vue';
 import router from '@/router';
 import layouts from '@/layouts/layouts.js';
 import { onMounted } from 'vue';
+import { useAuthStore } from '@/stores/auth';
 
 const UIStore = useUIStore();
+const auth = useAuthStore();
 
 const layout = shallowRef('div');
+
+router.beforeEach((to) => {
+  if (to?.meta?.auth && !auth.getMe) {
+    return { name: 'home' };
+  }
+});
 router.afterEach((to) => {
   layout.value = layouts[to.meta.layout] || 'div';
 });

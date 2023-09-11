@@ -6,7 +6,7 @@
         <div class="flex flex-col w-full">
           <nav class="h-16 flex flex-row items-start justify-between">
             <Select placeholder="Поиск рецептов" class="w-64" searchable></Select>
-            <AuthForm v-if="isSignedIn" />
+            <AuthForm v-if="!isSignedIn" />
             <div class="flex flex-row" v-else>
               <ProfileMenu />
               <BaseButton

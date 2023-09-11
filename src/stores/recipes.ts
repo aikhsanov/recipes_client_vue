@@ -36,7 +36,7 @@ export const useRecipesStore = defineStore({
         const res = (await recipes.getAll()).data;
         this.recipes = res.data;
       } catch (err) {
-        console.log((err as AxiosError).message);
+        console.log((err as AxiosError)?.message || err);
       }
     },
 
@@ -47,7 +47,7 @@ export const useRecipesStore = defineStore({
           this.currentRecipe = res.data;
         }
       } catch (err) {
-        console.log((err as AxiosError).message);
+        console.log((err as AxiosError)?.message || err);
       }
     },
 
@@ -57,8 +57,7 @@ export const useRecipesStore = defineStore({
         useToaster('Рецепт добавлен!', 'success');
         await this.loadRecipes();
       } catch (e) {
-        useToaster(e.message, 'error');
-        throw new Error(e.message);
+        throw new Error((e as AxiosError)?.message || e);
       }
     },
 
@@ -77,8 +76,7 @@ export const useRecipesStore = defineStore({
         useToaster('Изменения сохранены!', 'success');
         await this.loadRecipeById(id);
       } catch (e) {
-        useToaster(e.message, 'error');
-        throw new Error(e.message);
+        throw new Error((e as AxiosError)?.message || e);
       }
     },
 

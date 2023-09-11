@@ -60,19 +60,19 @@ const router = createRouter({
     {
       path: '/admin-panel/ingridients',
       name: 'Ingridients',
-      meta: { layout: 'AdminLayout' },
+      meta: { layout: 'AdminLayout', auth: true },
       component: () => import('../views/admin/Ingridients.vue'),
     },
     {
       path: '/recipes/add',
       name: 'addRecipe',
-      meta: { layout: 'DefaultLayout' },
+      meta: { layout: 'DefaultLayout', auth: true },
       component: () => import('../views/recipes/add/AddRecipe.vue'),
     },
     {
       path: '/recipes/edit/:id',
       name: 'editRecipe',
-      meta: { layout: 'DefaultLayout' },
+      meta: { layout: 'DefaultLayout', auth: true },
       component: () => import('../views/recipes/edit/EditRecipe.vue'),
     },
     {
