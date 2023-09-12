@@ -148,7 +148,7 @@ onMounted(async () => {
 });
 
 function addIngrs() {
-  ingrPush({ id: '', unit_cid: null, quantity: '' });
+  ingrPush({ ingridientId: null, unit_cid: null, quantity: null });
 }
 function removeIngrs(ind) {
   ingrRemove(ind);
