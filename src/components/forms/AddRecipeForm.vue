@@ -50,7 +50,7 @@
             <div class="flex flex-row mt-5 items-end">
               <ValidationSelect
                 class="w-1/4 mr-5"
-                :name="`ingridients[${ind}].id`"
+                :name="`ingridients[${ind}].ingridientId`"
                 label="Выберите ингредиент"
                 placeholder="Ингредиент"
                 searchable
