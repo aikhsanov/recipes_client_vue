@@ -30,13 +30,13 @@
         <div class="add-recipe-descritpion">
           <div class="" v-for="(step, ind) in stepsFields" :key="`steps-${step.key}`">
             <ValidationInput
-              :name="`description[${ind}].step_description`"
+              :name="`recipe_steps[${ind}].description`"
               label="Описание шага"
               id="recipe-desc"
               type="textarea"
             />
             <ValidationFileUpload
-              :name="`description[${ind}].step_img_url`"
+              :name="`recipe_steps[${ind}].img_url`"
               label="Фото шага"
               preview
             />
@@ -123,7 +123,7 @@ const validationSchema = computed<object>(() => {
     title: 'required',
     short_dsc: 'required',
     category_id: 'required',
-    description: 'required',
+    recipe_steps: 'required',
     img_url: 'required',
     ingridients: 'required',
   };
@@ -156,9 +156,9 @@ function removeIngrs(ind) {
 
 function addStep() {
   stepsPush({
-    step_num: stepsFields.value.length,
-    step_description: '',
-    step_img_url: '',
+    order: stepsFields.value.length,
+    description: '',
+    img_url: '',
   });
 }
 function removeStep(ind) {
@@ -184,7 +184,7 @@ async function onSuccess(values, actions) {
     const data = {
       title: values.title,
       short_dsc: values.short_dsc,
-      description: values.description,
+      recipe_steps: values.recipe_steps,
       category_id: values.category_id,
       ingridients: values.ingridients,
       img_url: values.img_url,
