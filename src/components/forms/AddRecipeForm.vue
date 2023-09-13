@@ -50,7 +50,7 @@
             <div class="flex flex-row mt-5 items-end">
               <ValidationSelect
                 class="w-1/4 mr-5"
-                :name="`ingridients[${ind}].ingridientId`"
+                :name="`recipe_ingridients[${ind}].ingridientId`"
                 label="Выберите ингредиент"
                 placeholder="Ингредиент"
                 searchable
@@ -60,7 +60,7 @@
               />
               <ValidationSelect
                 class="w-1/4 mr-5"
-                :name="`ingridients[${ind}].unit_cid`"
+                :name="`recipe_ingridients[${ind}].unit_cid`"
                 label="Мера"
                 placeholder="кг/гр"
                 searchable
@@ -77,7 +77,7 @@
               />
               <ValidationInput
                 class="w-1/4 mr-5"
-                :name="`ingridients[${ind}].quantity`"
+                :name="`recipe_ingridients[${ind}].quantity`"
                 label="Количество"
                 placeholder="1 - 100000"
                 maska="#######"
@@ -125,7 +125,7 @@ const validationSchema = computed<object>(() => {
     category_id: 'required',
     recipe_steps: 'required',
     img_url: 'required',
-    ingridients: 'required',
+    recipe_ingridients: 'required',
   };
 
   return obj;
@@ -173,20 +173,24 @@ function initRecipeEdit() {
   });
 }
 
-const { remove: ingrRemove, push: ingrPush, fields: ingrFields } = useFieldArray('ingridients');
-const { remove: stepsRemove, push: stepsPush, fields: stepsFields } = useFieldArray('description');
+const {
+  remove: ingrRemove,
+  push: ingrPush,
+  fields: ingrFields,
+} = useFieldArray('recipe_ingridients');
+const { remove: stepsRemove, push: stepsPush, fields: stepsFields } = useFieldArray('recipe_steps');
 
 async function onSuccess(values, actions) {
   try {
-    validateDynamicFields(values, 'ingridients');
-    validateDynamicFields(values, 'description');
+    validateDynamicFields(values, 'recipe_ingridients');
+    validateDynamicFields(values, 'recipe_steps');
 
     const data = {
       title: values.title,
       short_dsc: values.short_dsc,
       recipe_steps: values.recipe_steps,
       category_id: values.category_id,
-      ingridients: values.ingridients,
+      recipe_ingridients: values.recipe_ingridients,
       img_url: values.img_url,
     };
 
