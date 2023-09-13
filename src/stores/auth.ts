@@ -4,7 +4,7 @@ import { AxiosError } from 'axios';
 import auth from '@/api/auth';
 import { Ingridient } from '@/types/ingridients';
 import ingridients from '@/api/ingridients';
-import { storeToken, removeToken } from '@/helpers/token';
+import { storeToken, removeToken, getToken } from '@/helpers/token';
 
 type userData = {
   username: string;
@@ -21,9 +21,11 @@ export const useAuthStore = defineStore({
   id: 'users',
   state: () => ({
     me: {} as User,
+    isAuthed: !!getToken() as boolean,
   }),
   getters: {
     getMe: (state) => (Object.keys(state.me).length ? (state.me as User) : null),
+    getIsAuthed: (state) => state.isAuthed,
   },
   actions: {
     async register(data: userData) {

@@ -44,9 +44,6 @@ import { computed, onMounted } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 
 const auth = useAuthStore();
-onMounted(async () => {
-  await auth.fetchCurrentUser();
-});
 </script>
 
 <style scoped></style>

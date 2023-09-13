@@ -6,7 +6,7 @@
         <div class="flex flex-col w-full">
           <nav class="h-16 flex flex-row items-start justify-between">
             <Select placeholder="Поиск рецептов" class="w-64" searchable></Select>
-            <AuthForm v-if="!isSignedIn" />
+            <AuthForm v-if="!auth.getIsAuthed" />
             <div class="flex flex-row" v-else>
               <ProfileMenu />
               <BaseButton
@@ -34,15 +34,17 @@ import ProfileMenu from '@/components/profile/ProfileMenu.vue';
 import AuthForm from '@/components/forms/AuthForm.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
 import { useAuthStore } from '@/stores/auth';
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const auth = useAuthStore();
-
+onMounted(async () => {
+  if (!auth.getMe) {
+    await auth.fetchCurrentUser();
+  }
+});
 console.log(route, 'ROUTE');
-
-const isSignedIn = computed<boolean>(() => !!auth.getMe);
 </script>
 
 <style scoped></style>
