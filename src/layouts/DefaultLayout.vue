@@ -10,17 +10,7 @@
             <div class="flex flex-row" v-else>
               <ProfileMenu />
               <BaseButton
-                class="
-                  mt-0
-                  w-auto
-                  text-white
-                  font-bold
-                  bg-tomato-800
-                  hover:bg-tomato-900
-                  px-5
-                  ml-5
-                  py-2
-                "
+                class="mt-0 w-auto text-white font-bold bg-tomato-800 hover:bg-tomato-900 px-5 ml-5 py-2"
                 type="link"
                 to="/recipes/add"
                 text="Добавить рецепт"
@@ -52,7 +42,7 @@ const auth = useAuthStore();
 
 console.log(route, 'ROUTE');
 
-const isSignedIn = computed<boolean>(() => Object.values(auth.getMe).length > 0);
+const isSignedIn = computed<boolean>(() => !!auth.getMe);
 </script>
 
 <style scoped></style>

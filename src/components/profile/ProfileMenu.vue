@@ -28,7 +28,7 @@ const auth = useAuthStore();
 
 const menu = [
   { text: 'Настройки', to: '/settings', type: 'link', icon: 'icn icn-settings' },
-  { text: 'Выйти', action: () => console.log('logout'), type: 'button' },
+  { text: 'Выйти', action: () => auth.logout(), type: 'button' },
 ];
 </script>
 

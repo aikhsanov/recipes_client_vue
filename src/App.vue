@@ -29,6 +29,7 @@ const layout = shallowRef('div');
 
 router.beforeEach((to) => {
   if (to?.meta?.auth && !auth.getMe) {
+    console.log(to?.meta?.auth);
     return { name: 'home' };
   }
 });

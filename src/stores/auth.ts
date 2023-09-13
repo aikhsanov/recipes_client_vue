@@ -4,7 +4,7 @@ import { AxiosError } from 'axios';
 import auth from '@/api/auth';
 import { Ingridient } from '@/types/ingridients';
 import ingridients from '@/api/ingridients';
-import { storeToken } from '@/helpers/token';
+import { storeToken, removeToken } from '@/helpers/token';
 
 type userData = {
   username: string;
@@ -23,7 +23,7 @@ export const useAuthStore = defineStore({
     me: {} as User,
   }),
   getters: {
-    getMe: (state) => state.me,
+    getMe: (state) => (Object.keys(state.me).length ? (state.me as User) : null),
   },
   actions: {
     async register(data: userData) {
@@ -46,7 +46,12 @@ export const useAuthStore = defineStore({
       return res;
     },
 
-    async me() {
+    async logout() {
+      removeToken();
+      this.me = {};
+    },
+
+    async fetchCurrentUser() {
       const res = (await auth.me()).data;
       if (res?.data) {
         this.me = res.data;
