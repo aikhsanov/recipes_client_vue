@@ -42,8 +42,13 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
 import { useAuthStore } from '@/stores/auth';
+import { useRecipesStore } from '@/stores/recipes';
 
 const auth = useAuthStore();
+const recipes = useRecipesStore();
+onMounted(async () => {
+  await recipes.loadRecipes();
+});
 </script>
 
 <style scoped></style>

@@ -156,7 +156,7 @@ function removeIngrs(ind) {
 
 function addStep() {
   stepsPush({
-    order: stepsFields.value.length,
+    order: stepsFields.value.length + 1,
     description: '',
     img_url: '',
   });
