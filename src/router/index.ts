@@ -54,13 +54,13 @@ const router = createRouter({
     {
       path: '/admin-panel',
       name: 'adminPanel',
-      meta: { layout: 'AdminLayout' },
+      meta: { layout: 'AdminLayout', auth: true, role: 'admin' },
       component: () => import('../views/admin/AdminPanel.vue'),
     },
     {
       path: '/admin-panel/ingridients',
-      name: 'Ingridients',
-      meta: { layout: 'AdminLayout', auth: true },
+      name: 'ingridients',
+      meta: { layout: 'AdminLayout', auth: true, role: 'admin' },
       component: () => import('../views/admin/Ingridients.vue'),
     },
     {

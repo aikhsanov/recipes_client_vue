@@ -28,8 +28,16 @@ const auth = useAuthStore();
 
 const layout = shallowRef('div');
 
-router.beforeEach((to) => {
+router.beforeEach(async (to) => {
+  debugger;
+  if (!auth.getMe) {
+    await auth.fetchCurrentUser();
+  }
+  debugger;
   if (to?.meta?.auth && !auth.getIsAuthed) {
+    return { name: 'home' };
+  }
+  if (to?.meta?.auth && auth.getIsAuthed && to?.meta?.role && to?.meta?.role !== auth.getMe.role) {
     return { name: 'home' };
   }
   // return to;

@@ -21,7 +21,7 @@ export const useAuthStore = defineStore({
   id: 'users',
   state: () => ({
     me: {} as User,
-    isAuthed: !!getToken() as boolean,
+    isAuthed: false,
   }),
   getters: {
     getMe: (state) => (Object.keys(state.me).length ? (state.me as User) : null),
@@ -44,6 +44,7 @@ export const useAuthStore = defineStore({
       if (res.data) {
         storeToken(res?.data?.token);
         this.me = res.data;
+        this.isAuthed = true;
       }
       return res;
     },
@@ -51,12 +52,18 @@ export const useAuthStore = defineStore({
     async logout() {
       removeToken();
       this.me = {};
+      this.isAuthed = false;
     },
 
     async fetchCurrentUser() {
-      const res = (await auth.me()).data;
-      if (res?.data) {
-        this.me = res.data;
+      try {
+        const res = (await auth.me()).data;
+        if (res?.data) {
+          this.me = res.data;
+          this.isAuthed = true;
+        }
+      } catch (e) {
+        throw new Error(e);
       }
     },
   },

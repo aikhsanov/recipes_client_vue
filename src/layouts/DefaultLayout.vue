@@ -10,7 +10,17 @@
             <div class="flex flex-row" v-else>
               <ProfileMenu />
               <BaseButton
-                class="mt-0 w-auto text-white font-bold bg-tomato-800 hover:bg-tomato-900 px-5 ml-5 py-2"
+                class="
+                  mt-0
+                  w-auto
+                  text-white
+                  font-bold
+                  bg-tomato-800
+                  hover:bg-tomato-900
+                  px-5
+                  ml-5
+                  py-2
+                "
                 type="link"
                 to="/recipes/add"
                 text="Добавить рецепт"
@@ -39,11 +49,11 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const auth = useAuthStore();
-onMounted(async () => {
-  if (!auth.getMe) {
-    await auth.fetchCurrentUser();
-  }
-});
+// onMounted(async () => {
+//   if (!auth.getMe) {
+//     await auth.fetchCurrentUser();
+//   }
+// });
 console.log(route, 'ROUTE');
 </script>
 
