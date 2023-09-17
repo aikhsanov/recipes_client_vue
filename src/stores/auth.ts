@@ -61,9 +61,10 @@ export const useAuthStore = defineStore({
         if (res?.data) {
           this.me = res.data;
           this.isAuthed = true;
+          return res;
         }
       } catch (e) {
-        throw new Error(e);
+        return Promise.reject(e);
       }
     },
   },

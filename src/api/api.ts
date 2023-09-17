@@ -20,7 +20,7 @@ AxiosInstance.interceptors.response.use(
   },
   (resp) => {
     if (resp?.response?.status === 500) {
-      if (resp?.response?.data?.message.includes('TokenExpiredError')) {
+      if (resp?.response?.data?.message?.includes('TokenExpiredError')) {
         removeToken();
         return Promise.reject(resp?.response?.data?.message || 'Неизвестная ошибка');
       }
