@@ -40,6 +40,16 @@ export const useRecipesStore = defineStore({
       }
     },
 
+    async loadLatestRecipes() {
+      try {
+        const config = { params: { order: { createdAt: 'desc' }, limit: 6 } };
+        const res = (await recipes.getAll(config)).data;
+        this.recipes = res.data;
+      } catch (err) {
+        console.log((err as AxiosError)?.message || err);
+      }
+    },
+
     async loadRecipeById(id) {
       try {
         const res = (await recipes.getById(id)).data;
