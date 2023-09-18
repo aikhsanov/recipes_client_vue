@@ -3,6 +3,7 @@
     <div class="flex flex-col w-full">
       <section class="mt-16">
         <!--          <h3 class="text-gray-600 text-2xl font-medium">Блок 1</h3>-->
+        <h3 class="text-gray-600 text-2xl font-medium">Новые рецепты</h3>
         <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-6">
           <!--          <div-->
           <!--            class="templ col-span-2 h-80 w-full mx-auto rounded-md shadow-md overflow-hidden"-->
@@ -19,6 +20,7 @@
           <!--          <div-->
           <!--            class="w-full h-80 max-w-sm mx-auto rounded-md shadow-md overflow-hidden templ"-->
           <!--          ></div>-->
+
           <router-link
             v-for="(recipe, ind) in recipes.getRecipes"
             :key="recipe.title"
@@ -42,7 +44,7 @@
         </div>
       </section>
       <section class="mt-16">
-        <h3 class="text-gray-600 text-2xl font-medium">Блок 2</h3>
+        <h3 class="text-gray-600 text-2xl font-medium">Рецепты с огурцами</h3>
         <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-6">
           <div
             class="w-full h-80 max-w-sm mx-auto rounded-md shadow-md overflow-hidden bg-[#B6C454]"
@@ -68,6 +70,7 @@ const auth = useAuthStore();
 const recipes = useRecipesStore();
 onMounted(async () => {
   await recipes.loadRecipes();
+  await recipes.loadFiltered({ filters: { '$Ingridient.id$': 'EQ(5)' } });
 });
 </script>
 

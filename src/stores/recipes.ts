@@ -10,11 +10,13 @@ export const useRecipesStore = defineStore({
   id: 'recipes',
   state: () => ({
     recipes: [] as Recipe[],
+    latestRecipes: [] as Recipe[],
     recipeIngridients: [] as RecipeIngridient,
     currentRecipe: {} as Recipe,
   }),
   getters: {
     getRecipes: (state) => state.recipes as Recipe[],
+    getLatestRecipes: (state) => state.latestRecipes as Recipe[],
     getCurrentRecipe: (state) => {
       if (Object.keys(state.currentRecipe as Recipe).length) {
         return state.currentRecipe;
@@ -44,6 +46,14 @@ export const useRecipesStore = defineStore({
       try {
         const config = { params: { order: { createdAt: 'desc' }, limit: 6 } };
         const res = (await recipes.getAll(config)).data;
+        this.latestRecipes = res.data;
+      } catch (err) {
+        console.log((err as AxiosError)?.message || err);
+      }
+    },
+    async loadFiltered(data?: {}, config?: any) {
+      try {
+        const res = (await recipes.getAllFiltered(data, config)).data;
         this.recipes = res.data;
       } catch (err) {
         console.log((err as AxiosError)?.message || err);
