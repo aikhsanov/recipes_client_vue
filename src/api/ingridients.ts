@@ -5,6 +5,8 @@ const ingridients = {
   getAllFiltered: async (data: any, config?: any) =>
     await api.post('/ingridients/filter', data, config),
   getById: async (id: string | number, config?) => await api.get(`/ingridients/${id}`, config),
+  getRecipesByIngridient: async (id: string | number, config?) =>
+    await api.get(`/ingridients/${id}/recipes`, config),
   create: async (data: any, config?: any) => await api.post('/ingridients', data, config),
   uploadImage: async (id, data: any, config?: any) =>
     await api.post(`/ingridients/${id}/images`, data, {

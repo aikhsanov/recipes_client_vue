@@ -32,10 +32,10 @@
             <div class="w-full h-full">
               <img :src="recipe.img_url" alt="" class="w-full h-full object-cover" />
               <div
-                class="recipe-preview-text w-full absolute bottom-0 p-2 opacity-80 h-1/3 bg-white"
+                class="recipe-preview-text w-full absolute bottom-0 p-2 opacity-80 h-2/5 bg-white"
               >
                 <h3 class="font-bold mb-2 line-clamp-2">{{ recipe.title }}</h3>
-                <p :class="`w-full ${recipe.title.length > 75 ? 'line-clamp-1' : 'line-clamp-2'}`">
+                <p :class="`w-full ${recipe.title.length > 40 ? 'line-clamp-1' : 'line-clamp-2'}`">
                   {{ recipe.short_dsc }}
                 </p>
               </div>
@@ -46,15 +46,24 @@
       <section class="mt-16">
         <h3 class="text-gray-600 text-2xl font-medium">Рецепты с огурцами</h3>
         <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-6">
-          <div
-            class="w-full h-80 max-w-sm mx-auto rounded-md shadow-md overflow-hidden bg-[#B6C454]"
-          ></div>
-          <div
-            class="w-full h-80 max-w-sm mx-auto rounded-md shadow-md overflow-hidden bg-[#B6C454]"
-          ></div>
-          <div
-            class="w-full h-80 max-w-sm mx-auto rounded-md shadow-md overflow-hidden bg-[#B6C454]"
-          ></div>
+          <router-link
+            v-for="(recipe, ind) in recipes.getRecipeByIngridients"
+            :key="recipe.title"
+            :to="`/recipes/${recipe.id}`"
+            class="w-full h-80 max-w-sm mx-auto rounded-md shadow-md overflow-hidden relative"
+          >
+            <div class="w-full h-full">
+              <img :src="recipe.img_url" alt="" class="w-full h-full object-cover" />
+              <div
+                class="recipe-preview-text w-full absolute bottom-0 p-2 opacity-80 h-2/5 bg-white"
+              >
+                <h3 class="font-bold mb-2 line-clamp-2">{{ recipe.title }}</h3>
+                <p :class="`w-full ${recipe.title.length > 75 ? 'line-clamp-1' : 'line-clamp-2'}`">
+                  {{ recipe.short_dsc }}
+                </p>
+              </div>
+            </div>
+          </router-link>
         </div>
       </section>
     </div>
@@ -69,8 +78,8 @@ import { useRecipesStore } from '@/stores/recipes';
 const auth = useAuthStore();
 const recipes = useRecipesStore();
 onMounted(async () => {
-  await recipes.loadRecipes();
-  await recipes.loadFiltered({ filters: { '$Ingridient.id$': 'EQ(5)' } });
+  await recipes.loadLatestRecipes();
+  await recipes.loadRecipeByIngridients(1);
 });
 </script>
 

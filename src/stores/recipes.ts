@@ -5,13 +5,14 @@ import recipes from '@/api/recipes';
 import { Recipe } from '@/types/recipes';
 import { RecipeIngridient } from '@/types/ingridients';
 import useToaster from '@/composables/useToaster';
+import ingridients from '@/api/ingridients';
 
 export const useRecipesStore = defineStore({
   id: 'recipes',
   state: () => ({
     recipes: [] as Recipe[],
     latestRecipes: [] as Recipe[],
-    recipeIngridients: [] as RecipeIngridient,
+    recipesByIngridient: [] as RecipeIngridient,
     currentRecipe: {} as Recipe,
   }),
   getters: {
@@ -24,7 +25,7 @@ export const useRecipesStore = defineStore({
         return null;
       }
     },
-    getRecipeIngridients: (state) => state.recipeIngridients as RecipeIngridient[],
+    getRecipeByIngridients: (state) => state.recipesByIngridient as RecipeIngridient[],
     getRecipeById: (state) => {
       return (id: number) => {
         const index = state.recipes.findIndex((recipe: Recipe) => recipe.id === id);
@@ -51,10 +52,10 @@ export const useRecipesStore = defineStore({
         console.log((err as AxiosError)?.message || err);
       }
     },
-    async loadFiltered(data?: {}, config?: any) {
+    async loadRecipeByIngridients(id?: number, config?: any) {
       try {
-        const res = (await recipes.getAllFiltered(data, config)).data;
-        this.recipes = res.data;
+        const res = (await ingridients.getRecipesByIngridient(id, config)).data;
+        this.recipesByIngridient = res.data;
       } catch (err) {
         console.log((err as AxiosError)?.message || err);
       }
