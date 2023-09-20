@@ -88,7 +88,7 @@
                 @click="removeIngrs(ind)"
               >
                 <template #icn>
-                  <i class="icn icn-trash"></i>
+                  <IconBase icon-color="none"><IconTrash /></IconBase>
                 </template>
               </BaseButton>
             </div>
@@ -116,6 +116,8 @@ import BaseButton from '@/components/base/BaseButton.vue';
 import { computed, ref, onMounted } from 'vue';
 import searchFn from '@/helpers/searchFn';
 import prepareForm, { prepareFn } from '@/helpers/form';
+import IconBase from '@/components/icons/IconBase.vue';
+import IconTrash from '@/components/icons/IconTrash.vue';
 
 const recipes = useRecipesStore();
 const validationSchema = computed<object>(() => {
