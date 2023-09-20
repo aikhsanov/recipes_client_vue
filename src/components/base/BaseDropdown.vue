@@ -97,10 +97,17 @@
                   :class="`w-full h-full flex align-items-center ${item.class || ''} `"
                   v-if="item.type === 'link'"
                 >
-                  <i v-if="item.icon" :class="`mr-2 ${item.icon}`" /><span
-                    class="leading-6 font-bold"
-                    >{{ item.text }}</span
-                  ></router-link
+                  <IconBase
+                    v-if="item.icon"
+                    :class="`mr-2`"
+                    icon-color="none"
+                    stroke-color="black"
+                    width="24"
+                    height="24"
+                  >
+                    <component :is="item.icon" />
+                  </IconBase>
+                  <span class="leading-6 font-bold">{{ item.text }}</span></router-link
                 >
                 <button
                   type="button"
@@ -110,7 +117,16 @@
                   role="menuitem"
                   v-if="item.type === 'button'"
                 >
-                  <i v-if="item.icon" :class="`mr-2 ${item.icon}`" />
+                  <IconBase
+                    v-if="item.icon"
+                    :class="`mr-2`"
+                    icon-color="none"
+                    stroke-color="black"
+                    width="24"
+                    height="24"
+                  >
+                    <component :is="item.icon" />
+                  </IconBase>
                   <span class="leading-6 font-bold">{{ item.text }}</span>
                 </button>
               </li>
@@ -124,6 +140,7 @@
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import IconBase from '@/components/icons/IconBase.vue';
 
 const props = defineProps<{
   dropdownItems: [];

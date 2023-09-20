@@ -7,11 +7,11 @@
     :aria-labelledby="iconName"
     role="presentation"
     :stroke-width="strokeWidth"
-    class="w-6"
     fill="none"
     :stroke="strokeColor"
+    :class="class"
   >
-    <title :id="iconName" lang="en">{{ iconName }} icon</title>
+    <title :id="iconName">{{ iconName }} icon</title>
     <g :fill="iconColor">
       <slot />
     </g>
@@ -29,6 +29,10 @@ export default {
     width: {
       type: [Number, String],
       default: 18,
+    },
+    class: {
+      type: [String],
+      default: '',
     },
     viewBox: {
       type: [Number, String],

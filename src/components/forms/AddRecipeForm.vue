@@ -88,7 +88,7 @@
                 @click="removeIngrs(ind)"
               >
                 <template #icn>
-                  <IconBase icon-color="none"><IconTrash /></IconBase>
+                  <IconBase icon-color="none" width="24" height="24"><IconTrash /></IconBase>
                 </template>
               </BaseButton>
             </div>
