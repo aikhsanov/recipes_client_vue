@@ -45,7 +45,7 @@ export const useRecipesStore = defineStore({
 
     async loadLatestRecipes() {
       try {
-        const config = { params: { order: { createdAt: 'desc' }, limit: 6 } };
+        const config = { params: { order: { createdAt: 'desc' }, limit: 5 } };
         const res = (await recipes.getAll(config)).data;
         this.latestRecipes = res.data;
       } catch (err) {

@@ -64,7 +64,8 @@ export const useAuthStore = defineStore({
           return res;
         }
       } catch (e) {
-        return Promise.reject(e);
+        console.error(e);
+        return;
       }
     },
   },

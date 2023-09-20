@@ -29,24 +29,14 @@ const auth = useAuthStore();
 const layout = shallowRef('div');
 
 router.beforeEach(async (to, from) => {
-  try {
-    if (!auth.getMe && to.name !== 'home') {
-      await auth.fetchCurrentUser();
-    }
+  if (!auth.getMe) {
+    await auth.fetchCurrentUser();
+  }
 
-    if (to?.meta?.auth && !auth.getIsAuthed) {
-      return { name: 'home' };
-    }
-    if (
-      to?.meta?.auth &&
-      auth.getIsAuthed &&
-      to?.meta?.role &&
-      to?.meta?.role !== auth.getMe.role
-    ) {
-      return { name: 'home' };
-    }
-  } catch (e) {
-    console.error('Navigation error:', e);
+  if (to?.meta?.auth && !auth.getIsAuthed) {
+    return { name: 'home' };
+  }
+  if (to?.meta?.auth && auth.getIsAuthed && to?.meta?.role && to?.meta?.role !== auth.getMe.role) {
     return { name: 'home' };
   }
 });

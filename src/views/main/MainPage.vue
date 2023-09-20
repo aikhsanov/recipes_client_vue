@@ -22,7 +22,7 @@
           <!--          ></div>-->
 
           <router-link
-            v-for="(recipe, ind) in recipes.getRecipes"
+            v-for="(recipe, ind) in recipes.getLatestRecipes"
             :key="recipe.title"
             :to="`/recipes/${recipe.id}`"
             :class="`w-full h-80  mx-auto rounded-md shadow-md overflow-hidden relative ${
