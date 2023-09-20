@@ -22,6 +22,7 @@
         bottom-0
         right-0
         fixed
+        z-40
       "
     />
   </transition>
@@ -49,7 +50,7 @@
       justify-center
       bg-white rounded-lg shadow dark:bg-gray-700
       max-w-5xl
-      z-70
+      z-50
       md:h-auto ${props.class || ''}`"
     >
       <slot name="prepend"></slot>
