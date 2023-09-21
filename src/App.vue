@@ -1,13 +1,9 @@
 <template>
-  <div>
-    <Suspense>
-      <main class="mb-4">
-        <component :is="layout || 'div'">
-          <RouterView />
-        </component>
-      </main>
-    </Suspense>
-  </div>
+  <Suspense>
+    <component :is="layout || 'div'">
+      <RouterView />
+    </component>
+  </Suspense>
 </template>
 
 <script setup lang="ts">

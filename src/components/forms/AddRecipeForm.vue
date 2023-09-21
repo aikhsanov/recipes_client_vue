@@ -1,7 +1,7 @@
 <template>
   <form @submit="onSubmit" class="mt-5" autocomplete="off">
     <template class="flex flex-row">
-      <div class="w-3/4 mr-5">
+      <div class="w-full">
         <ValidationInput name="title" label="Название рецепта" class="mt-0" id="recipe-name" />
 
         <ValidationInput
@@ -12,7 +12,7 @@
           type="textarea"
         />
         <ValidationSelect
-          class="w-2/4 mr-5"
+          class=""
           name="category_id"
           label="Выберите категорию"
           placeholder="Одна или несколько категорий"
@@ -47,9 +47,9 @@
         </div>
         <div class="add-recipe-ingridients">
           <div class="" v-for="(ingr, ind) in ingrFields" :key="`ingridients-${ingr.key}`">
-            <div class="flex flex-row mt-5 items-end">
+            <div class="flex flex-row mt-5 items-end justify-between gap-x-2">
               <ValidationSelect
-                class="w-1/4 mr-5"
+                class="w-2/4"
                 :name="`recipe_ingridients[${ind}].ingridientId`"
                 label="Выберите ингредиент"
                 placeholder="Ингредиент"
@@ -59,7 +59,7 @@
                 closeOnSelect
               />
               <ValidationSelect
-                class="w-1/4 mr-5"
+                class="w-1/4"
                 :name="`recipe_ingridients[${ind}].unit_cid`"
                 label="Мера"
                 placeholder="кг/гр"
@@ -76,7 +76,7 @@
                 closeOnSelect
               />
               <ValidationInput
-                class="w-1/4 mr-5"
+                class="w-1/4"
                 :name="`recipe_ingridients[${ind}].quantity`"
                 label="Количество"
                 placeholder="1 - 100000"
@@ -94,7 +94,7 @@
             </div>
             <hr class="my-5" />
           </div>
-          <BaseButton type="button" text="Добавить ингредиент" @click="addIngrs" />
+          <BaseButton class="mb-3" type="button" text="Добавить ингредиент" @click="addIngrs" />
         </div>
       </div>
     </template>

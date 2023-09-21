@@ -1,8 +1,9 @@
 <template>
-  <header class="p-4 border-1 border-b-gray-400">
-    <nav class="h-16 flex flex-row items-start justify-between container mx-auto">
+  <header class="p-4 border-2 border-b-gray-200">
+    <nav class="h-11 flex flex-row items-start container justify-between container mx-auto">
+      <h1 class="text-4xl text-gray-500 font-bold block w-3/12">Едим Вкусно</h1>
       <AuthForm v-if="!auth.getIsAuthed" />
-      <div class="flex flex-row ml-auto" v-else>
+      <div class="flex flex-row" v-else>
         <ProfileMenu />
         <BaseButton
           class="mt-0 w-auto text-white font-bold bg-tomato-800 hover:bg-tomato-900 px-5 ml-5 py-2"
@@ -13,11 +14,16 @@
       </div>
     </nav>
   </header>
-  <div class="container mx-auto min-h-screen p-4">
+  <div class="container mx-auto min-h-screen py-4">
     <main>
       <div class="flex flex-row justify-between">
         <div class="flex flex-col w-full">
-          <Select placeholder="Поиск рецептов" class="w-64" searchable></Select>
+          <Select
+            placeholder="Поиск рецептов"
+            class="w-full"
+            searchable
+            v-if="route.meta.search"
+          ></Select>
           <slot />
         </div>
         <aside class="ml-6 w-1/4 h-[calc(100vh-32px)] templ" v-if="route.meta.aside">

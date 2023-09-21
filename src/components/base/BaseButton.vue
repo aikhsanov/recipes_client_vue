@@ -2,7 +2,7 @@
   <button
     v-if="props.type !== 'link'"
     :type="props.type"
-    :class="`mr-2 my-2 cursor-pointer px-5 py-1 w-auto text-white bg-light-slate-gray-900 hover:bg-light-slate-gray-800 min-w-28  h-11 shadow-md flex items-center justify-center ${
+    :class="`cursor-pointer px-5 py-1 w-auto text-white bg-light-slate-gray-900 hover:bg-light-slate-gray-800 min-w-28  h-11 shadow-md flex items-center justify-center ${
       props.class || ''
     } `"
   >
@@ -12,7 +12,7 @@
   <router-link
     v-else
     :to="props.to"
-    :class="`mr-2 my-2 cursor-pointer rounded-sm bg-light-slate-gray-900 hover:bg-light-slate-gray-800 min-w-28 h-11 shadow-md ${
+    :class="`cursor-pointer rounded-sm bg-light-slate-gray-900 hover:bg-light-slate-gray-800 min-w-28 h-11 shadow-md ${
       props.class || 'px-5 py-1 text-white w-auto'
     }`"
   >
