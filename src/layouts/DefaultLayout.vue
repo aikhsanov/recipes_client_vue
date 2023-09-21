@@ -1,32 +1,23 @@
 <template>
+  <header class="p-4 border-1 border-b-gray-400">
+    <nav class="h-16 flex flex-row items-start justify-between container mx-auto">
+      <AuthForm v-if="!auth.getIsAuthed" />
+      <div class="flex flex-row ml-auto" v-else>
+        <ProfileMenu />
+        <BaseButton
+          class="mt-0 w-auto text-white font-bold bg-tomato-800 hover:bg-tomato-900 px-5 ml-5 py-2"
+          type="link"
+          to="/recipes/add"
+          text="Добавить рецепт"
+        />
+      </div>
+    </nav>
+  </header>
   <div class="container mx-auto min-h-screen p-4">
-    <!--    <header class=""></header>-->
     <main>
       <div class="flex flex-row justify-between">
         <div class="flex flex-col w-full">
-          <nav class="h-16 flex flex-row items-start justify-between">
-            <Select placeholder="Поиск рецептов" class="w-64" searchable></Select>
-            <AuthForm v-if="!auth.getIsAuthed" />
-            <div class="flex flex-row" v-else>
-              <ProfileMenu />
-              <BaseButton
-                class="
-                  mt-0
-                  w-auto
-                  text-white
-                  font-bold
-                  bg-tomato-800
-                  hover:bg-tomato-900
-                  px-5
-                  ml-5
-                  py-2
-                "
-                type="link"
-                to="/recipes/add"
-                text="Добавить рецепт"
-              />
-            </div>
-          </nav>
+          <Select placeholder="Поиск рецептов" class="w-64" searchable></Select>
           <slot />
         </div>
         <aside class="ml-6 w-1/4 h-[calc(100vh-32px)] templ" v-if="route.meta.aside">
