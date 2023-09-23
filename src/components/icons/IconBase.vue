@@ -7,7 +7,7 @@
     :aria-labelledby="iconName"
     role="presentation"
     :stroke-width="strokeWidth"
-    fill="none"
+    :fill="iconColor"
     :stroke="strokeColor"
     :class="class"
   >
