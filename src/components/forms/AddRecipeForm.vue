@@ -110,7 +110,7 @@ import ingridients from '@/api/ingridients';
 import categories from '@/api/categories';
 import recipesApi from '@/api/recipes';
 import ValidationFileUpload from '@/components/validation/ValidationFileUpload.vue';
-import { useFieldArray, useForm, useIsFormDirty } from 'vee-validate';
+import { useFieldArray, useForm, useIsFormDirty, useIsFormValid } from 'vee-validate';
 import { useRecipesStore } from '@/stores/recipes';
 import BaseButton from '@/components/base/BaseButton.vue';
 import { computed, ref, onMounted } from 'vue';
@@ -182,7 +182,7 @@ const {
 } = useFieldArray('recipe_ingridients');
 const { remove: stepsRemove, push: stepsPush, fields: stepsFields } = useFieldArray('recipe_steps');
 
-async function onSuccess(values, actions) {
+async function onSuccess(values, actions, ...rest) {
   try {
     validateDynamicFields(values, 'recipe_ingridients');
     validateDynamicFields(values, 'recipe_steps');
@@ -216,8 +216,8 @@ async function onSuccess(values, actions) {
 function onInvalidSubmit({ values, errors, results }) {
   console.log(errors, 'ERRORS');
 
-  validateDynamicFields(values, 'ingridients');
-  validateDynamicFields(values, 'description');
+  validateDynamicFields(values, 'recipe_ingridients');
+  validateDynamicFields(values, 'recipe_steps');
 }
 
 function validateDynamicFields(values, mainName) {
