@@ -1,5 +1,5 @@
 <template>
-  <form @submit="onSubmit" class="mt-5" autocomplete="off">
+  <form @submit.prevent="onSubmit" class="mt-5" autocomplete="off">
     <template class="flex flex-row">
       <div class="w-full">
         <ValidationInput name="title" label="Название рецепта" class="mt-0" id="recipe-name" />
@@ -135,9 +135,10 @@ const validationSchema = computed<object>(() => {
 
 const edit = ref<boolean>(false);
 
-const { handleSubmit, setFieldError, validateField, setValues, resetForm } = useForm({
-  validationSchema,
-});
+const { handleSubmit, setFieldError, validateField, setValues, resetForm, errors, errorBag } =
+  useForm({
+    validationSchema,
+  });
 
 onMounted(async () => {
   if (recipes.getCurrentRecipe) {
@@ -186,6 +187,8 @@ async function onSuccess(values, actions, ...rest) {
   try {
     validateDynamicFields(values, 'recipe_ingridients');
     validateDynamicFields(values, 'recipe_steps');
+
+    if (Object.keys(errors.value)?.length) return;
 
     const data = {
       title: values.title,

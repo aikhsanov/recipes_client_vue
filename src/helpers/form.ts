@@ -5,10 +5,11 @@ export default function prepareForm(values) {
   return formData;
 }
 
-export function prepareFn(data, parentKey = '', formData) {
+export function prepareFn(data: object, parentKey: string, formData: FormData) {
   try {
     if (
       typeof data === 'object' &&
+      data !== null &&
       !(data instanceof File) &&
       !(data instanceof Date) &&
       !(data instanceof Blob)
