@@ -183,7 +183,7 @@ const {
 } = useFieldArray('recipe_ingridients');
 const { remove: stepsRemove, push: stepsPush, fields: stepsFields } = useFieldArray('recipe_steps');
 
-async function onSuccess(values, actions, ...rest) {
+async function onSuccess(values, actions) {
   try {
     validateDynamicFields(values, 'recipe_ingridients');
     validateDynamicFields(values, 'recipe_steps');
@@ -217,8 +217,6 @@ async function onSuccess(values, actions, ...rest) {
 }
 
 function onInvalidSubmit({ values, errors, results }) {
-  console.log(errors, 'ERRORS');
-
   validateDynamicFields(values, 'recipe_ingridients');
   validateDynamicFields(values, 'recipe_steps');
 }
