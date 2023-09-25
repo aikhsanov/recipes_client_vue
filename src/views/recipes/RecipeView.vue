@@ -52,7 +52,7 @@
         class="flex flex-row justify-between items-center"
         v-for="ingridient in currentRecipe.recipe_ingridients"
       >
-        <p>{{ ingridient.title }}</p>
+        <p>{{ ingridient.ingridient.title }}</p>
         <p>
           {{ ingridient.quantity }}<span>{{ ingridient.unit }}</span>
         </p>
