@@ -24,9 +24,10 @@
       :noResultsText="props.noResultsText"
       :noOptionsText="props.noOptionsText"
       :clearOnBlur="props.clearOnBlur"
+      :delay="delay"
       :options="props.options || selectOptions"
       :class="`${customClass}`"
-      @search-change="(val) => onSearch(val)"
+      @search-change="debouncedSearch"
       @open="onSearch('', true)"
     />
   </div>
@@ -36,6 +37,7 @@
 import { computed, onMounted, ref } from 'vue';
 import Multiselect from '@vueform/multiselect';
 import { watch } from 'vue';
+import debounce from 'lodash.debounce';
 
 interface Option {
   label: string;
@@ -75,6 +77,7 @@ const props = defineProps<{
   openDirection?: string;
   noResultsText?: string;
   noOptionsText?: string;
+  delay?: number;
 }>();
 
 const searchedData = ref<[]>([]);
@@ -113,6 +116,8 @@ const selectOptions = computed<Option[]>(() =>
     value: e?.id || e?.value,
   }))
 );
+
+const debouncedSearch = debounce((val) => onSearch(val), 800);
 
 async function onSearch(val: any, open: boolean = false, initial: boolean = false): Promise<void> {
   if (val && !open && !initial && props?.searchFn) {

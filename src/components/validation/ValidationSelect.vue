@@ -21,6 +21,7 @@
       :options="props.options"
       :class="`${customClass || ''}`"
       :searchFn="searchFn"
+      :delay="delay"
       @initial="onInitialFetch"
       @update:modelValue="onModelUpdate"
     />
@@ -60,6 +61,7 @@ const props = defineProps<{
   openDirection?: string;
   noResultsText?: string;
   noOptionsText?: string;
+  delay?: number;
 }>();
 
 const emits = defineEmits<{

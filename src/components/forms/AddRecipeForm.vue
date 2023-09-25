@@ -72,7 +72,7 @@
                       filters: filters || { title: `LIKE(${val})` },
                     })
                 "
-                :clearOnBlur="false"
+                :clearOnBlur="true"
                 closeOnSelect
               />
               <ValidationInput
