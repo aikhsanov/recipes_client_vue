@@ -65,20 +65,31 @@
 <script setup lang="ts">
 import { useRecipesStore } from '@/stores/recipes';
 import { useRoute } from 'vue-router';
-import { computed, onMounted, toRef } from 'vue';
+import { computed, onMounted, ref, toRef } from 'vue';
 import { storeToRefs } from 'pinia';
 import IconBase from '@/components/icons/IconBase.vue';
 import IconAvatar from '@/components/icons/IconAvatar.vue';
 import IconClock from '@/components/icons/IconClock.vue';
 import IconPie from '@/components/icons/IconPie.vue';
+import collections from '@/api/collections';
 
 const route = useRoute();
 const recipes = useRecipesStore();
+const units = ref({});
 
 const { currentRecipe } = storeToRefs(useRecipesStore());
 
-onMounted(() => {
-  recipes.loadRecipeById(route.params.id);
+onMounted(async () => {
+  await recipes.loadRecipeById(route.params.id);
+  units.value = (
+    await collections.getAllFiltered({
+      filters: { collection: 'EQ(units)' },
+      attributes: ['title'],
+    })
+  )?.data?.reduce((p, n) => {
+    p[n.id] = n;
+    return p;
+  }, {});
 });
 </script>
 
