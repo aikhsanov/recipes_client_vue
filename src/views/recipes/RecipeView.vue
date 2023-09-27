@@ -54,7 +54,7 @@
       >
         <p>{{ ingridient.ingridient.title }}</p>
         <p>
-          {{ ingridient.quantity }}<span>{{ ingridient.unit }}</span>
+          {{ ingridient.quantity }}<span> {{ units[ingridient.unit_cid]?.title }}</span>
         </p>
       </div>
     </div>
@@ -84,9 +84,9 @@ onMounted(async () => {
   units.value = (
     await collections.getAllFiltered({
       filters: { collection: 'EQ(units)' },
-      attributes: ['title'],
+      attributes: ['title', 'id'],
     })
-  )?.data?.reduce((p, n) => {
+  )?.data?.data.reduce((p, n) => {
     p[n.id] = n;
     return p;
   }, {});
