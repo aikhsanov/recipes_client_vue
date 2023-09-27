@@ -47,15 +47,27 @@
         {{ currentRecipe?.short_dsc }}
       </p>
     </div>
+    <hr />
     <div class="my-5">
-      <div
-        class="flex flex-row justify-between items-center"
-        v-for="ingridient in currentRecipe.recipe_ingridients"
-      >
-        <p>{{ ingridient.ingridient.title }}</p>
+      <h4 class="text-lg font-bold">Ингредиенты:</h4>
+      <div v-for="ingridient in currentRecipe.recipe_ingridients">
+        <div class="flex flex-row justify-between items-center">
+          <p>{{ ingridient.ingridient.title }}</p>
+          <p>
+            {{ ingridient.quantity }}<span>{{ units[ingridient.unit_cid]?.title }}</span>
+          </p>
+        </div>
+        <hr class="my-2" />
+      </div>
+    </div>
+    <div class="my-5">
+      <div class="mb-2" v-for="step in currentRecipe.recipe_steps">
+        <h5 class="text-xl font-bold">Шаг {{ step.order }}</h5>
+        <img :src="step.img_url" />
         <p>
-          {{ ingridient.quantity }}<span> {{ units[ingridient.unit_cid]?.title }}</span>
+          {{ step.description }}
         </p>
+        <hr class="my-2" />
       </div>
     </div>
     <!--    {{ currentRecipe }}-->
