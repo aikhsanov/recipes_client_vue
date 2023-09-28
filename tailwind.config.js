@@ -3,6 +3,7 @@ module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx,vue}'],
   theme: {
     extend: {
+      filter: ['hover', 'focus'],
       colors: {
         'saddle-brown': '#a65111',
         'olive-green': {
