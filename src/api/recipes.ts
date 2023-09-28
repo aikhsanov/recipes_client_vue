@@ -35,6 +35,11 @@ const recipes = {
         'Content-Type': 'multipart/form-data',
       },
     }),
+
+  addFavorites: async (data: any, config?: any) =>
+    await api.post(`/recipes/favorite`, data, {
+      ...config,
+    }),
 };
 
 export default recipes;

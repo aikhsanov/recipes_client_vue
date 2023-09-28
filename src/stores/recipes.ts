@@ -101,6 +101,16 @@ export const useRecipesStore = defineStore({
       }
     },
 
+    async addToFavorites(data) {
+      try {
+        await recipes.addFavorites(data);
+        await this.loadRecipeById(id);
+      } catch (e) {
+        throw new Error((e as AxiosError)?.message || e);
+      }
+
+    }
+
     async deleteRecipe(id: number) {
       await recipes.delete(id);
       await this.loadRecipes();
