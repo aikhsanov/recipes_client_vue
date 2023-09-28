@@ -15,9 +15,10 @@
         <IconBase
           width="24"
           height="24"
-          icon-color="none"
+          :icon-color="`${isFaved ? 'black' : 'none'}`"
           stroke-color="black"
           class="hover:cursor-pointer hover:scale-125"
+          @click="addFavs"
         >
           <IconHeart />
         </IconBase>
@@ -128,11 +129,29 @@ import IconComments from '@/components/icons/IconComments.vue';
 const route = useRoute();
 const recipes = useRecipesStore();
 const units = ref({});
+const isFaved = ref(null);
 
 const { currentRecipe } = storeToRefs(useRecipesStore());
+const { me } = storeToRefs(useAuthStore());
+
+async function addFavs() {
+  await recipes.addToFavorites({ userId: me.value.id, recipeId: route.params.id });
+  isFaved.value = !!(
+    await recipes.loadFavoriteRecipe({
+      userId: me.value.id,
+      recipeId: route.params.id,
+    })
+  ).data;
+}
 
 onMounted(async () => {
   await recipes.loadRecipeById(route.params.id);
+  isFaved.value = !!(
+    await recipes.loadFavoriteRecipe({
+      userId: me.value.id,
+      recipeId: route.params.id,
+    })
+  ).data;
   units.value = (
     await collections.getAllFiltered({
       filters: { collection: 'EQ(units)' },

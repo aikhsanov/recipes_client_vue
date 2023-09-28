@@ -37,7 +37,17 @@ const recipes = {
     }),
 
   addFavorites: async (data: any, config?: any) =>
+    await api.post(`/recipes/favorite/add`, data, {
+      ...config,
+    }),
+
+  getFavoriteRecipe: async (data: any, config?: any) =>
     await api.post(`/recipes/favorite`, data, {
+      ...config,
+    }),
+
+  getAllFavoriteRecipes: async (data: any, config?: any) =>
+    await api.post(`/recipes/favorite/all`, data, {
       ...config,
     }),
 };
