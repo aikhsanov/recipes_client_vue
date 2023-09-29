@@ -106,7 +106,7 @@ export const useRecipesStore = defineStore({
 
     async loadFavoriteRecipe(data: RecipeFavData) {
       try {
-        return (await recipes.getFavoriteRecipe(data)).data;
+        this.inFavorites = !!(await recipes.getFavoriteRecipe(data)).data;
       } catch (e) {
         throw new Error((e as AxiosError)?.message || e);
       }
@@ -123,7 +123,7 @@ export const useRecipesStore = defineStore({
     async addToFavorites(data: RecipeFavData) {
       try {
         await recipes.addFavorites(data);
-        this.inFavorites = !!(await recipes.getFavoriteRecipe(data)).data;
+        await this.loadFavoriteRecipe(data);
       } catch (e) {
         throw new Error((e as AxiosError)?.message || e);
       }

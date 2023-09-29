@@ -32,6 +32,7 @@
         >
           <IconThumbUp />
         </IconBase>
+        <p>{{ currentRecipe?.likes }}</p>
         <IconBase
           width="24"
           height="24"
@@ -147,6 +148,7 @@ async function addLikes() {
 
 onMounted(async () => {
   await recipes.loadRecipeById(recipeId.value);
+  await recipes.loadFavoriteRecipe({ userId: userId.value, recipeId: recipeId.value });
   units.value = (
     await collections.getAllFiltered({
       filters: { collection: 'EQ(units)' },
