@@ -28,19 +28,12 @@
         <ValidationFileUpload name="img_url" label="Обложка рецепта" preview />
         <hr class="my-5" />
         <ValidationInput
-          class="w-1/4"
+          class="w-2/4"
           name="cooking_time"
           label="Время приготовления в мин."
-          placeholder="1 - 100000"
           maska="#######"
         />
-        <ValidationInput
-          class="w-1/4"
-          name="portion"
-          label="Количество порций"
-          placeholder="1 - 100000"
-          maska="#######"
-        />
+        <ValidationInput class="w-2/4" name="portion" label="Количество порций" maska="#######" />
         <hr class="my-5" />
         <div class="add-recipe-descritpion">
           <div class="" v-for="(step, ind) in stepsFields" :key="`steps-${step.key}`">
@@ -212,6 +205,8 @@ async function onSuccess(values, actions) {
       short_dsc: values.short_dsc,
       recipe_steps: values.recipe_steps,
       category_id: values.category_id,
+      cooking_time: values.cooking_time,
+      portion: values.portion,
       recipe_ingridients: values.recipe_ingridients,
       img_url: values.img_url,
     };

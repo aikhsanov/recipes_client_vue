@@ -28,6 +28,7 @@
           icon-color="none"
           stroke-color="black"
           class="hover:cursor-pointer hover:scale-125"
+          @click="addLikes"
         >
           <IconThumbUp />
         </IconBase>
@@ -125,6 +126,7 @@ import { useAuthStore } from '@/stores/auth';
 import IconThumbUp from '@/components/icons/IconThumbUp.vue';
 import IconHeart from '@/components/icons/IconHeart.vue';
 import IconComments from '@/components/icons/IconComments.vue';
+import recipeApi from '@/api/recipes';
 
 const route = useRoute();
 const recipes = useRecipesStore();
@@ -142,6 +144,9 @@ async function addFavs() {
       recipeId: route.params.id,
     })
   ).data;
+}
+async function addLikes() {
+  await recipeApi.addLikes({ userId: me.value.id, recipeId: route.params.id });
 }
 
 onMounted(async () => {

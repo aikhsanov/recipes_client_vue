@@ -50,6 +50,11 @@ const recipes = {
     await api.post(`/recipes/favorite/all`, data, {
       ...config,
     }),
+
+  addLikes: async (data: any, config?: any) =>
+    await api.post(`/recipes/like/add`, data, {
+      ...config,
+    }),
 };
 
 export default recipes;
