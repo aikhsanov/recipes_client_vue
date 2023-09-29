@@ -27,6 +27,21 @@
         />
         <ValidationFileUpload name="img_url" label="Обложка рецепта" preview />
         <hr class="my-5" />
+        <ValidationInput
+          class="w-1/4"
+          name="cooking_time"
+          label="Время приготовления в мин."
+          placeholder="1 - 100000"
+          maska="#######"
+        />
+        <ValidationInput
+          class="w-1/4"
+          name="portion"
+          label="Количество порций"
+          placeholder="1 - 100000"
+          maska="#######"
+        />
+        <hr class="my-5" />
         <div class="add-recipe-descritpion">
           <div class="" v-for="(step, ind) in stepsFields" :key="`steps-${step.key}`">
             <ValidationInput
@@ -126,6 +141,8 @@ const validationSchema = computed<object>(() => {
     short_dsc: 'required',
     category_id: 'required',
     recipe_steps: 'required',
+    cooking_time: 'required',
+    portion: 'required',
     img_url: 'required',
     recipe_ingridients: 'required',
   };
