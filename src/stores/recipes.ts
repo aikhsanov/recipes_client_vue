@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import type { AxiosError } from 'axios';
 import api from '@/api/api';
 import recipes from '@/api/recipes';
-import { Recipe } from '@/types/recipes';
+import { Recipe, RecipeFavData } from '@/types/recipes';
 import { RecipeIngridient } from '@/types/ingridients';
 import useToaster from '@/composables/useToaster';
 import ingridients from '@/api/ingridients';
@@ -15,6 +15,7 @@ export const useRecipesStore = defineStore({
     recipesByIngridient: [] as RecipeIngridient,
     favoriteRecipes: [] as Recipe,
     currentRecipe: {} as Recipe,
+    inFavorites: false as Boolean,
   }),
   getters: {
     getRecipes: (state) => state.recipes as Recipe[],
@@ -27,6 +28,7 @@ export const useRecipesStore = defineStore({
       }
     },
     getRecipeByIngridients: (state) => state.recipesByIngridient as RecipeIngridient[],
+    getInFavorites: (state) => state.getInFavorites,
     getRecipeById: (state) => {
       return (id: number) => {
         const index = state.recipes.findIndex((recipe: Recipe) => recipe.id === id);
@@ -102,7 +104,7 @@ export const useRecipesStore = defineStore({
       }
     },
 
-    async loadFavoriteRecipe(data) {
+    async loadFavoriteRecipe(data: RecipeFavData) {
       try {
         return (await recipes.getFavoriteRecipe(data)).data;
       } catch (e) {
@@ -110,7 +112,7 @@ export const useRecipesStore = defineStore({
       }
     },
 
-    async loadFavorites(data) {
+    async loadFavorites(data: { userId: number }) {
       try {
         this.favoriteRecipes = (await recipes.getAllFavoriteRecipes(data)).data;
       } catch (e) {
@@ -118,10 +120,19 @@ export const useRecipesStore = defineStore({
       }
     },
 
-    async addToFavorites(data) {
+    async addToFavorites(data: RecipeFavData) {
       try {
         await recipes.addFavorites(data);
-        // await this.loadRecipeById(id);
+        this.inFavorites = !!(await recipes.getFavoriteRecipe(data)).data;
+      } catch (e) {
+        throw new Error((e as AxiosError)?.message || e);
+      }
+    },
+
+    async addToLikes(data: RecipeFavData) {
+      try {
+        await recipes.addLikes(data);
+        await this.loadRecipeById(this.currentRecipe.id);
       } catch (e) {
         throw new Error((e as AxiosError)?.message || e);
       }

@@ -12,3 +12,8 @@ export interface Recipe {
   description: string;
   img_url: string;
 }
+
+export interface RecipeFavData {
+  userId: number;
+  recipeId: number;
+}

@@ -15,7 +15,7 @@
         <IconBase
           width="24"
           height="24"
-          :icon-color="`${isFaved ? 'black' : 'none'}`"
+          :icon-color="`${inFavorites ? 'black' : 'none'}`"
           stroke-color="black"
           class="hover:cursor-pointer hover:scale-125"
           @click="addFavs"
@@ -130,33 +130,23 @@ import recipeApi from '@/api/recipes';
 
 const route = useRoute();
 const recipes = useRecipesStore();
-const units = ref({});
-const isFaved = ref(null);
+const units = ref<object>({});
 
-const { currentRecipe } = storeToRefs(useRecipesStore());
+const userId = computed<number>(() => me.value.id);
+const recipeId = computed<number>(() => parseInt(<string>route.params.id));
+
+const { currentRecipe, inFavorites } = storeToRefs(useRecipesStore());
 const { me } = storeToRefs(useAuthStore());
 
 async function addFavs() {
-  await recipes.addToFavorites({ userId: me.value.id, recipeId: route.params.id });
-  isFaved.value = !!(
-    await recipes.loadFavoriteRecipe({
-      userId: me.value.id,
-      recipeId: route.params.id,
-    })
-  ).data;
+  await recipes.addToFavorites({ userId: userId.value, recipeId: recipeId.value });
 }
 async function addLikes() {
-  await recipeApi.addLikes({ userId: me.value.id, recipeId: route.params.id });
+  await recipes.addToLikes({ userId: userId.value, recipeId: recipeId.value });
 }
 
 onMounted(async () => {
-  await recipes.loadRecipeById(route.params.id);
-  isFaved.value = !!(
-    await recipes.loadFavoriteRecipe({
-      userId: me.value.id,
-      recipeId: route.params.id,
-    })
-  ).data;
+  await recipes.loadRecipeById(recipeId.value);
   units.value = (
     await collections.getAllFiltered({
       filters: { collection: 'EQ(units)' },
