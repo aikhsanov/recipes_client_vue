@@ -55,6 +55,11 @@ const recipes = {
     await api.post(`/recipes/like/add`, data, {
       ...config,
     }),
+
+  addComment: async (id: number, data: any, config?: any) =>
+    await api.post(`/recipes/${id}/comment/add`, data, {
+      ...config,
+    }),
 };
 
 export default recipes;

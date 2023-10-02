@@ -39,6 +39,10 @@
           icon-color="none"
           stroke-color="black"
           class="hover:cursor-pointer hover:scale-125"
+          @click="
+            toggleComments();
+            scrollToComments();
+          "
         >
           <IconComments />
         </IconBase>
@@ -110,13 +114,26 @@
       </div>
     </div>
     <!--    {{ currentRecipe }}-->
+    <div class="my-5" v-if="commentsOpen" ref="comments">
+      <h5 class="text-xl font-bold mb-2">Комментарии</h5>
+      <div class="mb-2" v-for="comment in currentRecipe.recipe_comments">
+        <p class="font-bold">
+          {{ comment.user.username }}
+        </p>
+        <p class="mt-2">
+          {{ comment.comment }}
+        </p>
+        <hr class="my-2" />
+      </div>
+    </div>
+    <AddComment />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useRecipesStore } from '@/stores/recipes';
 import { useRoute } from 'vue-router';
-import { computed, onMounted, ref, toRef } from 'vue';
+import { computed, nextTick, onMounted, ref, toRef } from 'vue';
 import { storeToRefs } from 'pinia';
 import IconBase from '@/components/icons/IconBase.vue';
 import IconAvatar from '@/components/icons/IconAvatar.vue';
@@ -127,11 +144,13 @@ import { useAuthStore } from '@/stores/auth';
 import IconThumbUp from '@/components/icons/IconThumbUp.vue';
 import IconHeart from '@/components/icons/IconHeart.vue';
 import IconComments from '@/components/icons/IconComments.vue';
-import recipeApi from '@/api/recipes';
+import AddComment from '@/components/forms/AddComment.vue';
 
 const route = useRoute();
 const recipes = useRecipesStore();
 const units = ref<object>({});
+const commentsOpen = ref<boolean>(false);
+const comments = ref<HTMLDivElement>();
 
 const userId = computed<number>(() => me.value.id);
 const recipeId = computed<number>(() => parseInt(<string>route.params.id));
@@ -144,6 +163,15 @@ async function addFavs() {
 }
 async function addLikes() {
   await recipes.addToLikes({ userId: userId.value, recipeId: recipeId.value });
+}
+
+function toggleComments() {
+  commentsOpen.value = !commentsOpen.value;
+}
+
+async function scrollToComments() {
+  await nextTick();
+  comments.value.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 onMounted(async () => {

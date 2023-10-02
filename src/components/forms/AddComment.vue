@@ -20,6 +20,8 @@ import { computed } from 'vue';
 import { useForm } from 'vee-validate';
 import { useAuthStore } from '../../stores/auth';
 import { useRecipesStore } from '../../stores/recipes';
+import ValidationInput from '@/components/validation/ValidationInput.vue';
+import BaseButton from '@/components/base/BaseButton.vue';
 
 const auth = useAuthStore();
 const recipes = useRecipesStore();
@@ -35,7 +37,7 @@ const { handleSubmit, isSubmitting } = useForm({
 
 const onSubmit = handleSubmit(async (values, actions) => {
   try {
-    const res = await recipes.addComment({
+    const res = await recipes.addComment(recipes.getCurrentRecipe.id, {
       comment: values.comment,
       userId: auth.getMe.id,
     });

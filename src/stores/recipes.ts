@@ -128,6 +128,14 @@ export const useRecipesStore = defineStore({
         throw new Error((e as AxiosError)?.message || e);
       }
     },
+    async addComment(id: number, data: RecipeFavData) {
+      try {
+        await recipes.addComment(id, data);
+        await this.loadRecipeById(this.currentRecipe.id);
+      } catch (e) {
+        throw new Error((e as AxiosError)?.message || e);
+      }
+    },
 
     async addToLikes(data: RecipeFavData) {
       try {
