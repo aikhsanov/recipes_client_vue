@@ -46,6 +46,7 @@
         >
           <IconComments />
         </IconBase>
+        <p>{{ commentsAmount }}</p>
       </div>
     </div>
     <img :src="currentRecipe.img_url" class="w-full h-[40rem] object-cover object-bottom" />
@@ -152,11 +153,12 @@ const units = ref<object>({});
 const commentsOpen = ref<boolean>(false);
 const comments = ref<HTMLDivElement>();
 
-const userId = computed<number>(() => me.value.id);
-const recipeId = computed<number>(() => parseInt(<string>route.params.id));
-
 const { currentRecipe, inFavorites } = storeToRefs(useRecipesStore());
 const { me } = storeToRefs(useAuthStore());
+
+const userId = computed<number>(() => me.value.id);
+const commentsAmount = computed<number>(() => currentRecipe?.value?.recipe_comments?.length);
+const recipeId = computed<number>(() => parseInt(route.params.id));
 
 async function addFavs() {
   await recipes.addToFavorites({ userId: userId.value, recipeId: recipeId.value });
