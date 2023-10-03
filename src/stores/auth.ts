@@ -5,6 +5,7 @@ import auth from '@/api/auth';
 import { Ingridient } from '@/types/ingridients';
 import ingridients from '@/api/ingridients';
 import { storeToken, removeToken, getToken } from '@/helpers/token';
+import useToaster from '@/composables/useToaster';
 
 type userData = {
   username: string;
@@ -61,6 +62,20 @@ export const useAuthStore = defineStore({
         if (res?.data) {
           this.me = res.data;
           this.isAuthed = true;
+          return res;
+        }
+      } catch (e) {
+        console.error(e);
+        return;
+      }
+    },
+
+    async updateCurrentUser(data) {
+      try {
+        const res = (await auth.update(data)).data;
+        if (res?.data) {
+          this.me = res.data;
+          useToaster('Изменения сохранения', 'success');
           return res;
         }
       } catch (e) {
