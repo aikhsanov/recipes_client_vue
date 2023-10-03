@@ -93,7 +93,7 @@
     <hr />
     <div class="my-5">
       <h4 class="text-lg font-bold mb-2">Ингредиенты:</h4>
-      <div v-for="ingridient in currentRecipe.recipe_ingridients">
+      <div v-for="ingridient in currentRecipe.recipe_ingridients" :key="ingridient.id">
         <div class="flex flex-row justify-between items-center">
           <p>{{ ingridient.ingridient.title }}</p>
           <p class="font-bold">
@@ -105,7 +105,7 @@
       </div>
     </div>
     <div class="my-5">
-      <div class="mb-2" v-for="step in currentRecipe.recipe_steps">
+      <div class="mb-2" v-for="step in currentRecipe.recipe_steps" :key="step.id">
         <h5 class="text-xl font-bold mb-2">Шаг {{ step.order }}</h5>
         <img :src="step.img_url" />
         <p class="mt-2">
@@ -115,18 +115,38 @@
       </div>
     </div>
     <!--    {{ currentRecipe }}-->
+
     <div class="my-5" v-if="commentsOpen" ref="comments">
       <h5 class="text-xl font-bold mb-2">Комментарии</h5>
-      <div class="mb-2" v-for="comment in currentRecipe.recipe_comments">
-        <p class="font-bold">
-          {{ comment.user.username }}
-        </p>
+      <div class="mb-2" v-for="comment in currentRecipe.recipe_comments" :key="comment.id">
+        <div class="flex flex-row justify-between">
+          <div>
+            <img v-if="comment.user.user_img" :src="comment.user.user_img" />
+            <IconBase v-else view-box="0 0 250 250" width="18" height="18">
+              <IconAvatar />
+            </IconBase>
+            <span class="font-bold ml-2">
+              {{ comment.user.username }}
+            </span>
+          </div>
+          <span class="text-gray-500">
+            {{ moment(comment.createdAt).format('DD.MM.YYYY HH:mm') }}
+          </span>
+        </div>
+
         <p class="mt-2">
           {{ comment.comment }}
         </p>
         <hr class="my-2" />
       </div>
     </div>
+    <BaseButton
+      type="submit"
+      text="Показать комментарии"
+      class="text-white w-full bg-light-slate-gray-900 hover:bg-light-slate-gray-800"
+      @click="toggleComments"
+      v-if="commentsAmount && !commentsOpen"
+    />
     <AddComment />
   </div>
 </template>
@@ -146,6 +166,8 @@ import IconThumbUp from '@/components/icons/IconThumbUp.vue';
 import IconHeart from '@/components/icons/IconHeart.vue';
 import IconComments from '@/components/icons/IconComments.vue';
 import AddComment from '@/components/forms/AddComment.vue';
+import BaseButton from '@/components/base/BaseButton.vue';
+import moment from 'moment';
 
 const route = useRoute();
 const recipes = useRecipesStore();
