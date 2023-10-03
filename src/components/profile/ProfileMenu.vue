@@ -8,17 +8,17 @@
           block
           rounded-full
           border border-gray-100
-          p-1
           hover:bg-gray-100
           shadow-md
           flex
           items-center
+          justify-center
         "
         type="button"
         aria-haspopup="true"
         aria-expanded="true"
       >
-        <img v-if="auth?.getMe?.img_url" :src="auth?.getMe?.img_url" />
+        <img v-if="auth?.getMe?.user_img" :src="auth?.getMe?.user_img" class="rounded-full" />
         <IconBase v-else view-box="0 0 250 250" class="h-9 w-9 avatar-icon" icon-color="#ced59d"
           ><IconAvatar
         /></IconBase>
@@ -44,7 +44,7 @@ import IconAvatar from '@/components/icons/IconAvatar.vue';
 const auth = useAuthStore();
 
 const menu = [
-  { text: 'Настройки', to: '/settings', type: 'link', icon: IconSettings },
+  { text: 'Настройки', to: 'user/settings', type: 'link', icon: IconSettings },
   { text: 'Выйти', action: () => auth.logout(), type: 'button' },
 ];
 </script>

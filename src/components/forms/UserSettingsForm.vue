@@ -20,10 +20,15 @@ import BaseButton from '../base/BaseButton.vue';
 import ValidationFileUpload from '../validation/ValidationFileUpload.vue';
 import { useForm } from 'vee-validate';
 import { useAuthStore } from '../../stores/auth';
+import { onMounted } from 'vue';
 
 const auth = useAuthStore();
 
-const { handleSubmit, isSubmitting } = useForm({
+onMounted(() => {
+  initUserEdit();
+});
+
+const { handleSubmit, isSubmitting, resetForm } = useForm({
   initialValues: {
     username: '',
     password: '',
@@ -31,6 +36,14 @@ const { handleSubmit, isSubmitting } = useForm({
   },
 });
 
+function initUserEdit() {
+  resetForm({
+    values: {
+      user_img: auth.getMe.user_img,
+      username: auth.getMe.username,
+    },
+  });
+}
 const onSubmit = handleSubmit(async (values, actions) => {
   try {
     const data = new FormData();

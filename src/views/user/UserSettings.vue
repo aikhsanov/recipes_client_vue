@@ -1,5 +1,7 @@
 <template>
-  <UserSettingsForm />
+  <div class="w-1/2 mx-auto">
+    <UserSettingsForm />
+  </div>
 </template>
 
 <script setup>
