@@ -6,6 +6,7 @@ import { Recipe, RecipeFavData } from '@/types/recipes';
 import { RecipeIngridient } from '@/types/ingridients';
 import useToaster from '@/composables/useToaster';
 import ingridients from '@/api/ingridients';
+import { useAuthStore } from '@/stores/auth';
 
 export const useRecipesStore = defineStore({
   id: 'recipes',
@@ -112,9 +113,10 @@ export const useRecipesStore = defineStore({
       }
     },
 
-    async loadFavorites(data: { userId: number }) {
+    async loadFavorites() {
       try {
-        this.favoriteRecipes = (await recipes.getAllFavoriteRecipes(data)).data;
+        const auth = useAuthStore();
+        this.favoriteRecipes = (await recipes.getAllFavoriteRecipes({ userId: auth.getMe })).data;
       } catch (e) {
         throw new Error((e as AxiosError)?.message || e);
       }

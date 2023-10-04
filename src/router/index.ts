@@ -87,6 +87,12 @@ const router = createRouter({
       meta: { layout: 'DefaultLayout' },
       component: () => import('../views/user/UserSettings.vue'),
     },
+    {
+      path: '/recipes/favorite/all',
+      name: 'favoriteRecipes',
+      meta: { layout: 'DefaultLayout' },
+      component: () => import('../views/FavoriteRecipes'),
+    },
   ],
 });
 
