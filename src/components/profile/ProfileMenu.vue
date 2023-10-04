@@ -2,7 +2,18 @@
   <BaseDropdown :dropdownItems="menu" links activatorClass="pt-0 pl-5 ml-0">
     <template #activator>
       <button
-        class="h-11 w-11 block rounded-full border border-gray-100 hover:bg-gray-100 shadow-md flex items-center justify-center"
+        class="
+          h-11
+          w-11
+          block
+          rounded-full
+          border border-gray-100
+          hover:bg-gray-100
+          shadow-md
+          flex
+          items-center
+          justify-center
+        "
         type="button"
         aria-haspopup="true"
         aria-expanded="true"
@@ -33,11 +44,13 @@ import imageUrl from '@/assets/img/icons/avatar-green.svg';
 import IconSettings from '@/components/icons/IconSettings.vue';
 import IconBase from '@/components/icons/IconBase.vue';
 import IconAvatar from '@/components/icons/IconAvatar.vue';
+import IconHeart from '@/components/icons/IconHeart.vue';
 
 const auth = useAuthStore();
 
 const menu = [
   { text: 'Настройки', to: 'user/settings', type: 'link', icon: IconSettings },
+  { text: 'Избранное', to: 'recipes/favorite/all', type: 'link', icon: IconHeart },
   { text: 'Выйти', action: () => auth.logout(), type: 'button' },
 ];
 </script>

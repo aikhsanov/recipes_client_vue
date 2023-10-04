@@ -29,7 +29,8 @@ export const useRecipesStore = defineStore({
       }
     },
     getRecipeByIngridients: (state) => state.recipesByIngridient as RecipeIngridient[],
-    getInFavorites: (state) => state.getInFavorites,
+    getInFavorites: (state) => state.inFavorites,
+    getFavoriteRecipes: (state) => state.favoriteRecipes,
     getRecipeById: (state) => {
       return (id: number) => {
         const index = state.recipes.findIndex((recipe: Recipe) => recipe.id === id);
@@ -107,7 +108,7 @@ export const useRecipesStore = defineStore({
 
     async loadFavoriteRecipe(data: RecipeFavData) {
       try {
-        this.inFavorites = !!(await recipes.getFavoriteRecipe(data)).data;
+        this.inFavorites = !!(await recipes.getFavoriteRecipe(data)).data?.data;
       } catch (e) {
         throw new Error((e as AxiosError)?.message || e);
       }
@@ -116,7 +117,9 @@ export const useRecipesStore = defineStore({
     async loadFavorites() {
       try {
         const auth = useAuthStore();
-        this.favoriteRecipes = (await recipes.getAllFavoriteRecipes({ userId: auth.getMe })).data;
+        this.favoriteRecipes = (
+          await recipes.getAllFavoriteRecipes({ userId: auth.getMe.id })
+        ).data?.data;
       } catch (e) {
         throw new Error((e as AxiosError)?.message || e);
       }

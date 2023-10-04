@@ -1,5 +1,12 @@
 <template>
-  <router-link :to="`/recipes/${entry?.id}`" :class="wrapClass">
+  <router-link
+    :to="`/recipes/${entry?.id}`"
+    :class="`${
+      wrapClass
+        ? wrapClass
+        : 'w-full h-80 max-w-sm mx-auto rounded-md shadow-md overflow-hidden relative'
+    }`"
+  >
     <div class="w-full h-full">
       <img :src="entry?.img_url" alt="" class="w-full h-full object-cover" />
       <div class="recipe-preview-text w-full absolute bottom-0 p-2 opacity-80 h-2/5 bg-white">

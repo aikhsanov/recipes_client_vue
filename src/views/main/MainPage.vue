@@ -22,7 +22,6 @@
             v-for="recipe in recipes.getRecipeByIngridients"
             :key="recipe.title"
             :entry="recipe"
-            wrap-class="w-full h-80 max-w-sm mx-auto rounded-md shadow-md overflow-hidden relative"
           >
           </RecipeCard>
         </div>

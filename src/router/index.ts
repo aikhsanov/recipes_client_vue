@@ -91,7 +91,7 @@ const router = createRouter({
       path: '/recipes/favorite/all',
       name: 'favoriteRecipes',
       meta: { layout: 'DefaultLayout' },
-      component: () => import('../views/FavoriteRecipes'),
+      component: () => import('../views/FavoriteRecipes.vue'),
     },
   ],
 });

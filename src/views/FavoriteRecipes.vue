@@ -1,5 +1,11 @@
 <template>
-  <RecipeCard v-for="recipe in recipes.getAllFavoriteRecipes" :entry="recipe" :key="recipe.title" />
+  <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
+    <RecipeCard
+      v-for="recipe in recipes.getFavoriteRecipes"
+      :entry="recipe?.recipe"
+      :key="recipe.recipe.title"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
