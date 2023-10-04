@@ -2,23 +2,16 @@
   <BaseDropdown :dropdownItems="menu" links activatorClass="pt-0 pl-5 ml-0">
     <template #activator>
       <button
-        class="
-          h-11
-          w-11
-          block
-          rounded-full
-          border border-gray-100
-          hover:bg-gray-100
-          shadow-md
-          flex
-          items-center
-          justify-center
-        "
+        class="h-11 w-11 block rounded-full border border-gray-100 hover:bg-gray-100 shadow-md flex items-center justify-center"
         type="button"
         aria-haspopup="true"
         aria-expanded="true"
       >
-        <img v-if="auth?.getMe?.user_img" :src="auth?.getMe?.user_img" class="rounded-full" />
+        <img
+          v-if="auth?.getMe?.user_img"
+          :src="auth?.getMe?.user_img"
+          class="rounded-full object-cover w-full h-full"
+        />
         <IconBase v-else view-box="0 0 250 250" class="h-9 w-9 avatar-icon" icon-color="#ced59d"
           ><IconAvatar
         /></IconBase>
