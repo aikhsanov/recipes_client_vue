@@ -28,7 +28,7 @@
       :options="props.options || selectOptions"
       :class="`${customClass}`"
       @search-change="debouncedSearch"
-      @open="onSearch('', true)"
+      @open="!noInitSearch ? onSearch('', true) : null"
     />
   </div>
 </template>
@@ -65,6 +65,7 @@ const props = defineProps<{
   customLabelClass?: string;
   searchable?: boolean;
   clearOnBlur?: boolean;
+  noInitSearch?: boolean;
   options?: [];
   createOption?: boolean;
   closeOnSelect?: boolean;
@@ -89,7 +90,7 @@ const emits = defineEmits<{
 }>();
 
 onMounted(async () => {
-  if (props.searchable) {
+  if (props.searchable && !props.noInitSearch) {
     if (props.modelValue) {
       await onSearch(props.modelValue, false, true);
       return;

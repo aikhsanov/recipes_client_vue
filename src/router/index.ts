@@ -88,10 +88,16 @@ const router = createRouter({
       component: () => import('../views/user/UserSettings.vue'),
     },
     {
-      path: '/recipes/favorite/all',
+      path: '/user/favorites',
       name: 'favoriteRecipes',
       meta: { layout: 'DefaultLayout' },
-      component: () => import('../views/FavoriteRecipes.vue'),
+      component: () => import('../views/user/FavoriteRecipes.vue'),
+    },
+    {
+      path: '/user/myrecipes',
+      name: 'myRecipes',
+      meta: { layout: 'DefaultLayout' },
+      component: () => import('../views/user/MyRecipes.vue'),
     },
   ],
 });

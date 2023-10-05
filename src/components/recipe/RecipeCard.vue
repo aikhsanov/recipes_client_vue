@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :to="`/recipes/${entry?.id}`"
+    :to="to ? to : `/recipes/${entry?.id}`"
     :class="`${
       wrapClass
         ? wrapClass
@@ -41,6 +41,7 @@
 const props = defineProps<{
   entry?: object;
   wrapClass?: string;
+  to?: string;
 }>();
 </script>
 

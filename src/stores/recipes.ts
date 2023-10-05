@@ -77,6 +77,18 @@ export const useRecipesStore = defineStore({
       }
     },
 
+    async loadUserRecipes(id?: number) {
+      try {
+        const auth = useAuthStore();
+        const res = (await recipes.getAllByUser(id || auth.getMe.id)).data;
+        if (res.data) {
+          this.recipes = res.data;
+        }
+      } catch (err) {
+        console.log((err as AxiosError)?.message || err);
+      }
+    },
+
     async createRecipe(data: FormData) {
       try {
         await recipes.create(data);

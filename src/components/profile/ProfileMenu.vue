@@ -45,12 +45,14 @@ import IconSettings from '@/components/icons/IconSettings.vue';
 import IconBase from '@/components/icons/IconBase.vue';
 import IconAvatar from '@/components/icons/IconAvatar.vue';
 import IconHeart from '@/components/icons/IconHeart.vue';
+import IconBook from '@/components/icons/IconBook.vue';
 
 const auth = useAuthStore();
 
 const menu = [
-  { text: 'Настройки', to: 'user/settings', type: 'link', icon: IconSettings },
-  { text: 'Избранное', to: 'recipes/favorite/all', type: 'link', icon: IconHeart },
+  { text: 'Настройки', to: '/user/settings', type: 'link', icon: IconSettings },
+  { text: 'Избранное', to: '/user/favorites', type: 'link', icon: IconHeart },
+  { text: 'Мои рецепты', to: '/user/myrecipes', type: 'link', icon: IconBook },
   { text: 'Выйти', action: () => auth.logout(), type: 'button' },
 ];
 </script>

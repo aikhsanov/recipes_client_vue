@@ -26,6 +26,15 @@
             class="w-full"
             searchable
             v-if="route.meta.search"
+            :noInitSearch="true"
+            :searchFn="
+              (val, filters) =>
+                searchFn({
+                  val,
+                  route: recipes,
+                  filters: filters || { title: `LIKE(${val})` },
+                })
+            "
           ></Select>
           <slot />
         </div>
@@ -46,6 +55,8 @@ import BaseButton from '@/components/base/BaseButton.vue';
 import { useAuthStore } from '@/stores/auth';
 import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import searchFn from '@/helpers/searchFn';
+import recipes from '@/api/recipes';
 
 const route = useRoute();
 const auth = useAuthStore();
