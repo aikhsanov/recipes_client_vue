@@ -7,6 +7,10 @@
 
 <script setup lang="ts">
 import AddRecipeForm from '@/components/forms/AddRecipeForm.vue';
+import { onMounted } from 'vue';
+onMounted(() => {
+  console.log('parent is mounted');
+});
 </script>
 
 <style scoped></style>

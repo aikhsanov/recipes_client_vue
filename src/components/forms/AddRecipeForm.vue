@@ -144,6 +144,7 @@ const { handleSubmit, setFieldError, validateField, setValues, resetForm, errors
   });
 
 onMounted(async () => {
+  console.log('mounted');
   if (recipes.getCurrentRecipe) {
     initRecipeEdit();
     return;
