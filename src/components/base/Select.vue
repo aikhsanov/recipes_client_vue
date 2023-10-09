@@ -25,7 +25,7 @@
       :noOptionsText="props.noOptionsText"
       :clearOnBlur="props.clearOnBlur"
       :delay="delay"
-      :options="props.options || selectOptions"
+      :options="computedOptions || selectOptions"
       :class="`${customClass}`"
       @search-change="debouncedSearch"
       @open="!noInitSearch ? onSearch('', true) : null"
@@ -109,6 +109,14 @@ const model = computed<number | string | object>({
       emits('update:modelValue', newVal);
     }
   },
+});
+
+const computedOptions = computed<Option[]>(() => {
+  if (!props?.options?.length) return null;
+  return props.options?.map((e: DataItem) => ({
+    label: e?.name || e?.title,
+    value: e?.id || e?.value,
+  }));
 });
 
 const selectOptions = computed<Option[]>(() =>

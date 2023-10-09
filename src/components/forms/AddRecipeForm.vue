@@ -17,10 +17,7 @@
           label="Выберите категорию"
           placeholder="Одна или несколько категорий"
           searchable
-          :searchFn="
-            (val, filters) =>
-              searchFn({ val, route: categories, filters: filters || { title: `LIKE(${val})` } })
-          "
+          :options="categoriesCollection"
           :clearOnBlur="false"
           mode="tags"
           closeOnSelect
@@ -62,7 +59,7 @@
                 label="Выберите ингредиент"
                 placeholder="Ингредиент"
                 searchable
-                :searchFn="(val, filters) => searchFn({ val, route: ingridients, filters })"
+                :options="ingridientsCollection"
                 :clearOnBlur="false"
                 closeOnSelect
               />
@@ -72,14 +69,7 @@
                 label="Мера"
                 placeholder="кг/гр"
                 searchable
-                :searchFn="
-                  (val, filters) =>
-                    searchFn({
-                      val,
-                      route: collections,
-                      filters: filters || { title: `LIKE(${val})` },
-                    })
-                "
+                :options="unitCollection"
                 :clearOnBlur="true"
                 closeOnSelect
               />
@@ -144,6 +134,9 @@ const validationSchema = computed<object>(() => {
 });
 
 const edit = ref<boolean>(false);
+const categoriesCollection = ref<[]>([]);
+const ingridientsCollection = ref<[]>([]);
+const unitCollection = ref<[]>([]);
 
 const { handleSubmit, setFieldError, validateField, setValues, resetForm, errors, errorBag } =
   useForm({
@@ -156,6 +149,11 @@ onMounted(async () => {
     return;
   }
   await recipesApi.getAll();
+  categoriesCollection.value = (await categories.getAll())?.data?.data;
+  ingridientsCollection.value = (await ingridients.getAll())?.data?.data;
+  unitCollection.value = (
+    await collections.getAllFiltered({ filters: { collection: 'EQ(units)' } })
+  )?.data?.data;
   addIngrs();
   addStep();
 });
