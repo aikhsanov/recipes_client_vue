@@ -32,9 +32,11 @@
                 searchFn({
                   val,
                   route: recipes,
+                  apiMethod: 'getAllByTitle',
                   filters: filters || { title: `LIKE(${val})` },
                 })
             "
+            @keydown.enter="onMainSearch"
           ></Select>
           <slot />
         </div>
@@ -54,18 +56,23 @@ import AuthForm from '@/components/forms/AuthForm.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
 import { useAuthStore } from '@/stores/auth';
 import { computed, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import searchFn from '@/helpers/searchFn';
+import { useRecipesStore } from '@/stores/recipes';
 import recipes from '@/api/recipes';
 
 const route = useRoute();
 const auth = useAuthStore();
+const router = useRouter();
 // onMounted(async () => {
 //   if (!auth.getMe) {
 //     await auth.fetchCurrentUser();
 //   }
 // });
 console.log(route, 'ROUTE');
+async function onMainSearch(e) {
+  await router.push(`/recipes/search?text=${e.target.value}`);
+}
 </script>
 
 <style scoped></style>

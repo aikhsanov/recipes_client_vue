@@ -4,6 +4,8 @@ const recipes = {
   getAll: async (config?: any) => await api.get('/recipes', config),
   getAllFiltered: async (data: any, config?: any) =>
     await api.post('/recipes/filter', data, config),
+  getAllByTitle: async (data: any, config?: any) =>
+    await api.post('/recipes/bytitle', data, config),
   getById: async (id: string | number, config?) => await api.get(`/recipes/${id}`, config),
   getAllByUser: async (id: string | number, config?) =>
     await api.get(`/recipes/user/${id}`, config),

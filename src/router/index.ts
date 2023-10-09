@@ -82,6 +82,12 @@ const router = createRouter({
       component: () => import('../views/recipes/RecipeView.vue'),
     },
     {
+      path: '/recipes/search',
+      name: 'recipeSearch',
+      meta: { layout: 'DefaultLayout' },
+      component: () => import('../views/recipes/SearchResults.vue'),
+    },
+    {
       path: '/user/settings',
       name: 'userSettings',
       meta: { layout: 'DefaultLayout' },

@@ -14,6 +14,5 @@ export default async function searchFn({
     : {
         filters: { title: `LIKE(${val})` },
       };
-
   return await route[apiMethod](data);
 }

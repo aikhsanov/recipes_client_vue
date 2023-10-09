@@ -57,6 +57,15 @@ export const useRecipesStore = defineStore({
         console.log((err as AxiosError)?.message || err);
       }
     },
+    async searchRecipes(val) {
+      try {
+        const config = { params: { order: { createdAt: 'desc' }, limit: 5 } };
+        const res = (await recipes.getAllByTitle({ filters: { title: `LIKE(${val})` } })).data;
+        this.recipes = res.data;
+      } catch (err) {
+        console.log((err as AxiosError)?.message || err);
+      }
+    },
     async loadRecipeByIngridients(id?: number, config?: any) {
       try {
         const res = (await ingridients.getRecipesByIngridient(id, config)).data;
