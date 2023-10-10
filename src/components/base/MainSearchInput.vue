@@ -10,7 +10,6 @@
         searchFn({
           val,
           route: recipes,
-          apiMethod: 'getAllByTitle',
           filters: filters || { title: `LIKE(${val})` },
         })
     "
@@ -19,6 +18,7 @@
 </template>
 
 <script setup lang="ts">
+import recipes from '@/api/recipes';
 import Select from '@/components/base/Select.vue';
 import { useRoute, useRouter } from 'vue-router';
 import searchFn from '@/helpers/searchFn';

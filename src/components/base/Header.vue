@@ -1,5 +1,5 @@
 <template>
-  <header class="p-4 border-2 border-b-gray-200">
+  <header class="p-4 border-b-2 border-b-gray-200">
     <nav class="h-11 flex flex-row items-start container justify-between container mx-auto">
       <router-link to="/" class="w-3/12">
         <h1 class="text-4xl text-gray-500 font-bold">Едим Вкусно</h1>

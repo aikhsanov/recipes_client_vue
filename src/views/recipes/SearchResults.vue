@@ -36,12 +36,12 @@ const recipes = useRecipesStore();
 const route = useRoute();
 const text = computed<string>(() => route.query.text);
 
-async function loadSearchedRecipes(page = 1) {
-  await recipes.searchRecipes(text.value, { params: { limit: 20, page } });
-}
-onMounted(async () => {
-  await loadSearchedRecipes();
-});
+// async function loadSearchedRecipes(page = 1) {
+//   await recipes.searchRecipes(text.value, { params: { limit: 20, page } });
+// }
+// onMounted(async () => {
+//   await loadSearchedRecipes();
+// });
 </script>
 
 <style scoped></style>

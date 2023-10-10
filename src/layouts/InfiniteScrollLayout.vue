@@ -1,10 +1,6 @@
 <template>
-  <InfiniteScroll
-    customWrapperClass="h-2/3 w-full overflow-auto"
-    :loadFn="loadSearchedRecipes"
-    :pageMeta="recipes.getDataMeta"
-  >
-    <Header />
+  <Header />
+  <InfiniteScroll customWrapperClass="h-2/3 w-full overflow-auto">
     <div class="container mx-auto min-h-screen py-4">
       <main>
         <div class="flex flex-row justify-between">
@@ -18,8 +14,8 @@
         </div>
       </main>
     </div>
-    <footer></footer>
   </InfiniteScroll>
+  <footer></footer>
 </template>
 
 <script setup lang="ts">
@@ -28,18 +24,22 @@ import { useRoute, useRouter } from 'vue-router';
 import MainSearchInput from '@/components/base/MainSearchInput.vue';
 import InfiniteScroll from '@/components/tools/InfiniteScroll.vue';
 import { useRecipesStore } from '@/stores/recipes';
-import { computed, onMounted } from 'vue';
+import { useInfiniteScrollStore } from '@/stores/infinite_scroll';
+import { computed, nextTick, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 
 const route = useRoute();
 const router = useRouter();
 const recipes = useRecipesStore();
+const { loadFn, pageMeta } = storeToRefs(useInfiniteScrollStore());
+
 const text = computed<string>(() => route.query.text);
 
-// async function loadSearchedRecipes(page = 1) {
-//   await recipes.searchRecipes(text.value, { params: { limit: 20, page } });
-// }
+async function loadSearchedRecipes(page = 1) {
+  await recipes.searchRecipes(text.value, { params: { limit: 20, page } }, true);
+}
 onMounted(async () => {
-  await loadSearchedRecipes();
+  nextTick(async () => await loadFn());
 });
 
 // onMounted(async () => {
