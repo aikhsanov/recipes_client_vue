@@ -19,6 +19,12 @@
   </header>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import AuthForm from '@/components/forms/AuthForm.vue';
+import ProfileMenu from '@/components/profile/ProfileMenu.vue';
+import BaseButton from '@/components/base/BaseButton.vue';
+import { useAuthStore } from '@/stores/auth';
+const auth = useAuthStore();
+</script>
 
 <style scoped></style>

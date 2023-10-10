@@ -84,7 +84,7 @@ const router = createRouter({
     {
       path: '/recipes/search',
       name: 'recipeSearch',
-      meta: { layout: 'DefaultLayout' },
+      meta: { layout: 'InfiniteScrollLayout' },
       component: () => import('../views/recipes/SearchResults.vue'),
     },
     {

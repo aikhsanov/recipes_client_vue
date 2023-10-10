@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="`scroll-wrapper overflow-y-scroll h-24 ${props.customWrapperClass || ''}`"
+    :class="`scroll-wrapper ${props.customWrapperClass || 'overflow-y-scroll h-24'}`"
     ref="scrollWrapper"
   >
     <slot />
