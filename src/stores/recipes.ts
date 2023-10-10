@@ -57,10 +57,12 @@ export const useRecipesStore = defineStore({
         console.log((err as AxiosError)?.message || err);
       }
     },
-    async searchRecipes(val) {
+    async searchRecipes(val: string, config: {}) {
       try {
-        const config = { params: { order: { createdAt: 'desc' }, limit: 5 } };
-        const res = (await recipes.getAllByTitle({ filters: { title: `LIKE(${val})` } })).data;
+        // const config = { params: { order: { createdAt: 'desc' }, limit: 5 } };
+        console.log(config, 'CONFIG');
+        const res = (await recipes.getAllByTitle({ filters: { title: `LIKE(${val})` } }, config))
+          .data;
         this.recipes = res.data;
       } catch (err) {
         console.log((err as AxiosError)?.message || err);
