@@ -17,10 +17,12 @@ export const useRecipesStore = defineStore({
     favoriteRecipes: [] as Recipe,
     currentRecipe: {} as Recipe,
     inFavorites: false as Boolean,
+    meta: {},
   }),
   getters: {
     getRecipes: (state) => state.recipes as Recipe[],
     getLatestRecipes: (state) => state.latestRecipes as Recipe[],
+    getDataMeta: (state) => state.meta,
     getCurrentRecipe: (state) => {
       if (Object.keys(state.currentRecipe as Recipe).length) {
         return state.currentRecipe;
@@ -64,6 +66,7 @@ export const useRecipesStore = defineStore({
         const res = (await recipes.getAllByTitle({ filters: { title: `LIKE(${val})` } }, config))
           .data;
         this.recipes = res.data;
+        this.meta = res._meta;
       } catch (err) {
         console.log((err as AxiosError)?.message || err);
       }
