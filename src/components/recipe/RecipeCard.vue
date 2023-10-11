@@ -7,22 +7,10 @@
         : 'w-full h-80 max-w-sm mx-auto rounded-md shadow-md overflow-hidden relative group'
     }`"
   >
-    <div class="w-full h-full">
+    <div class="w-full h-full group">
       <img :src="entry?.img_url" alt="" class="w-full h-full object-cover" />
       <div
-        class="
-          recipe-preview-text
-          w-full
-          absolute
-          bottom-0
-          p-2
-          opacity-80
-          h-2/5
-          bg-white
-          group-hover:h-4/5
-          transition-all
-          duration-500
-        "
+        class="recipe-preview-text w-full absolute bottom-0 p-2 opacity-80 h-2/5 bg-white transition-all duration-500 group-hover:h-4/5"
       >
         <h3 class="font-bold mb-2 line-clamp-2">{{ entry?.title }}</h3>
         <p
