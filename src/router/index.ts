@@ -102,7 +102,7 @@ const router = createRouter({
     {
       path: '/user/myrecipes',
       name: 'myRecipes',
-      meta: { layout: 'DefaultLayout' },
+      meta: { layout: 'InfiniteScrollLayout' },
       component: () => import('../views/user/MyRecipes.vue'),
     },
   ],
