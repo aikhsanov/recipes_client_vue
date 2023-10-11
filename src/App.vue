@@ -37,7 +37,8 @@ router.beforeEach(async (to, from) => {
   }
 });
 
-router.beforeEach((to) => {
+router.afterEach((to) => {
+  console.log(to, 'TO');
   layout.value = layouts[to.meta.layout] || 'div';
 });
 provide('app:layout', layout);

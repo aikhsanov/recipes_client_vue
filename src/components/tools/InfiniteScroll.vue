@@ -1,9 +1,11 @@
 <template>
+  <Spinner v-if="isLoadingMore" />
   <div
     :class="`scroll-wrapper ${props.customWrapperClass || 'overflow-y-scroll h-24'}`"
     ref="scrollWrapper"
   >
     <slot />
+
     <div class="sentinel h-0" ref="sentinel"></div>
   </div>
 </template>
@@ -12,6 +14,7 @@
 import { onMounted, ref } from 'vue';
 import { useInfiniteScrollStore } from '@/stores/infinite_scroll';
 import { storeToRefs } from 'pinia';
+import Spinner from '@/components/ui/Spinner.vue';
 
 const props = defineProps<{
   customWrapperClass?: string;
@@ -25,7 +28,7 @@ const isLoadingMore = ref<boolean>(false);
 const observer = ref(null);
 const target = ref(null);
 
-const { scrollFetch, pageMeta } = storeToRefs(useInfiniteScrollStore());
+const scrollStore = useInfiniteScrollStore();
 
 let options = {
   root: scrollWrapper.value,
@@ -43,8 +46,8 @@ async function fetchFn() {
   try {
     isLoadingMore.value = true;
     page.value += 1;
-    if (page.value <= pageMeta?.value?.pages) {
-      await scrollFetch?.value(page.value);
+    if (page.value <= scrollStore.pageMeta?.pages) {
+      await scrollStore.scrollFetch(page.value);
     } else {
       canLoadMore.value = false;
     }

@@ -29,8 +29,8 @@
 import { useRecipesStore } from '@/stores/recipes';
 import InfiniteScroll from '@/components/tools/InfiniteScroll.vue';
 import RecipeCard from '@/components/recipe/RecipeCard.vue';
-import { useRoute } from 'vue-router';
-import { computed, onMounted } from 'vue';
+import { onBeforeRouteLeave, useRoute } from 'vue-router';
+import { computed, onBeforeUnmount, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useInfiniteScrollStore } from '@/stores/infinite_scroll';
 
@@ -43,18 +43,17 @@ async function loadSearchedRecipes(page = 1) {
 }
 
 const scrollStore = useInfiniteScrollStore();
+scrollStore.setScrollFetchFn(loadSearchedRecipes);
 
-onMounted(() => {
-  scrollStore.setScrollFetchFn(loadSearchedRecipes);
-  scrollStore.setPageMeta(recipes.getDataMeta);
+onMounted(async () => {
+  await loadSearchedRecipes(1);
+  scrollStore.setPageMeta({ ...recipes.getDataMeta });
 });
 
-// async function loadSearchedRecipes(page = 1) {
-//   await recipes.searchRecipes(text.value, { params: { limit: 20, page } });
-// }
-// onMounted(async () => {
-//   await loadSearchedRecipes();
-// });
+onBeforeRouteLeave(() => {
+  scrollStore.clearState();
+  recipes.clearState();
+});
 </script>
 
 <style scoped></style>

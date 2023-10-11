@@ -18,5 +18,9 @@ export const useInfiniteScrollStore = defineStore({
     setPageMeta(meta) {
       this.pageMeta = meta;
     },
+    clearState() {
+      this.scrollFetch = null;
+      this.pageMeta = {};
+    },
   },
 });

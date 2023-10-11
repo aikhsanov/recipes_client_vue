@@ -33,17 +33,11 @@ const props = defineProps<{
   preview?: boolean;
   getForm?: boolean;
   uploadFn?: Function;
-  apiName?: string;
   entityId?: string;
 }>();
 
 const value = ref<FormData | object>({});
 const img = ref<string>('');
-const apiName = ref<string>('');
-
-if (props.apiName) {
-  apiName.value = await import(`../../api/${props.apiName}.ts`);
-}
 
 const emits = defineEmits<{
   'update:modelValue': [val: number | string | object];
@@ -68,8 +62,6 @@ async function onUpload(e: EventTarget): Promise<void> {
   let res;
   if (props.uploadFn) {
     res = (await props.uploadFn())?.data;
-  } else if (props.apiName) {
-    res = (await apiName.value.default.uploadImage(props.entityId, data))?.data;
   }
 
   if (res?.data) {

@@ -182,5 +182,15 @@ export const useRecipesStore = defineStore({
       await recipes.delete(id);
       await this.loadRecipes();
     },
+
+    clearState() {
+      this.recipes = [];
+      this.latestRecipes = [];
+      this.recipesByIngridient = [];
+      this.favoriteRecipes = [];
+      this.currentRecipe = {};
+      this.inFavorites = false;
+      this.meta = {};
+    },
   },
 });

@@ -31,11 +31,6 @@ import { storeToRefs } from 'pinia';
 const route = useRoute();
 const router = useRouter();
 const recipes = useRecipesStore();
-const { scrollFetch } = storeToRefs(useInfiniteScrollStore());
-
-onMounted(async () => {
-  await nextTick(async () => await scrollFetch.value());
-});
 
 // onMounted(async () => {
 //   if (!auth.getMe) {
