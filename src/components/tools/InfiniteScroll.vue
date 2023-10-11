@@ -10,11 +10,11 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { useInfiniteScrollStore } from '@/stores/infinite_scroll';
+import { storeToRefs } from 'pinia';
 
 const props = defineProps<{
   customWrapperClass?: string;
-  loadFn?: Function;
-  pageMeta?: object;
 }>();
 
 const scrollWrapper = ref(null);
@@ -24,6 +24,8 @@ const canLoadMore = ref<boolean>(true);
 const isLoadingMore = ref<boolean>(false);
 const observer = ref(null);
 const target = ref(null);
+
+const { scrollFetch, pageMeta } = storeToRefs(useInfiniteScrollStore());
 
 let options = {
   root: scrollWrapper.value,
@@ -41,8 +43,8 @@ async function fetchFn() {
   try {
     isLoadingMore.value = true;
     page.value += 1;
-    if (page.value <= props.pageMeta?.pages) {
-      await props.loadFn(page.value);
+    if (page.value <= pageMeta?.value?.pages) {
+      await scrollFetch?.value(page.value);
     } else {
       canLoadMore.value = false;
     }

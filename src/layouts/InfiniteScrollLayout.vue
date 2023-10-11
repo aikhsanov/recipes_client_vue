@@ -31,15 +31,10 @@ import { storeToRefs } from 'pinia';
 const route = useRoute();
 const router = useRouter();
 const recipes = useRecipesStore();
-const { loadFn, pageMeta } = storeToRefs(useInfiniteScrollStore());
+const { scrollFetch } = storeToRefs(useInfiniteScrollStore());
 
-const text = computed<string>(() => route.query.text);
-
-async function loadSearchedRecipes(page = 1) {
-  await recipes.searchRecipes(text.value, { params: { limit: 20, page } }, true);
-}
 onMounted(async () => {
-  nextTick(async () => await loadFn());
+  await nextTick(async () => await scrollFetch.value());
 });
 
 // onMounted(async () => {
