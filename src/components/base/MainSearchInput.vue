@@ -13,6 +13,7 @@
           filters: filters || { title: `LIKE(${val})` },
         })
     "
+    @select="redirectToRecipe"
     @keydown.enter="onMainSearch"
   ></Select>
 </template>
@@ -28,6 +29,9 @@ const router = useRouter();
 
 async function onMainSearch(e) {
   await router.push(`/recipes/search?text=${e.target.value}`);
+}
+async function redirectToRecipe(e) {
+  await router.push(`/recipes/${e}`);
 }
 </script>
 

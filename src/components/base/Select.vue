@@ -29,6 +29,7 @@
       :class="`${customClass}`"
       @search-change="debouncedSearch"
       @open="!noInitSearch ? onSearch('', true) : null"
+      @select="(e) => emits('select', e)"
     />
   </div>
 </template>
@@ -87,6 +88,7 @@ const value = ref<any>(props.modelValue || null);
 const emits = defineEmits<{
   'update:modelValue': [val: number | string | object];
   initial;
+  select;
 }>();
 
 onMounted(async () => {
