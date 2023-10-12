@@ -3,16 +3,8 @@
     placeholder="Поиск рецептов"
     class="w-full"
     searchable
-    v-if="route.meta.search"
     :noInitSearch="true"
-    :searchFn="
-      (val, filters) =>
-        searchFn({
-          val,
-          route: recipes,
-          filters: filters || { title: `LIKE(${val})` },
-        })
-    "
+    :searchFn="mainSearchFn"
     @select="redirectToRecipe"
     @keydown.enter="onMainSearch"
   ></Select>
@@ -23,9 +15,16 @@ import recipes from '@/api/recipes';
 import Select from '@/components/base/Select.vue';
 import { useRoute, useRouter } from 'vue-router';
 import searchFn from '@/helpers/searchFn';
+import recipesApi from '@/api/recipes';
 
 const route = useRoute();
 const router = useRouter();
+
+const props = defineProps<{
+  apiMethod?: string;
+  route: {};
+  filters?: {};
+}>();
 
 async function onMainSearch(e) {
   await router.push(`/recipes/search?text=${e.target.value}`);
@@ -33,6 +32,14 @@ async function onMainSearch(e) {
 async function redirectToRecipe(e) {
   await router.push(`/recipes/${e}`);
 }
+
+const mainSearchFn = (val) =>
+  searchFn({
+    val,
+    route: props.route,
+    apiMethod: props.apiMethod,
+    filters: { title: `LIKE(${val})`, ...props.filters },
+  });
 </script>
 
 <style scoped></style>

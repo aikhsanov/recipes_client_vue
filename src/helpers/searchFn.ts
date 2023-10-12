@@ -5,9 +5,9 @@ export default async function searchFn({
   filters,
 }: {
   val?: string;
-  route: {};
-  apiMethod: string;
-  filters?: object;
+  route: any;
+  apiMethod?: string;
+  filters?: {} | null;
 }) {
   const data: object = filters
     ? { filters }
