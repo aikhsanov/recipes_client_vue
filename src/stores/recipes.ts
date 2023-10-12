@@ -92,12 +92,13 @@ export const useRecipesStore = defineStore({
       }
     },
 
-    async loadUserRecipes(id?: number) {
+    async loadUserRecipes(id?: number, config?: any, infinite = false) {
       try {
         const auth = useAuthStore();
-        const res = (await recipes.getAllByUser(id || auth.getMe.id)).data;
+        const res = (await recipes.getAllByUser(id || auth.getMe.id, config)).data;
         if (res.data) {
-          this.recipes = res.data;
+          this.recipes = infinite ? [...this.recipes, ...res.data] : res.data;
+          this.meta = res._meta;
         }
       } catch (err) {
         console.log((err as AxiosError)?.message || err);
