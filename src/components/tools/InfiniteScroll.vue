@@ -1,12 +1,12 @@
 <template>
-  <Spinner v-if="isLoadingMore" />
   <div
     :class="`scroll-wrapper ${props.customWrapperClass || 'overflow-y-scroll h-24'}`"
     ref="scrollWrapper"
   >
     <slot />
-
+    <p class="text-center mb-5">Показаны все результаты поиска...</p>
     <div class="sentinel h-0" ref="sentinel"></div>
+    <Spinner custom-class="fixed top-1/2" v-if="isLoadingMore" />
   </div>
 </template>
 

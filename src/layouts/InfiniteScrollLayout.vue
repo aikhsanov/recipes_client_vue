@@ -1,8 +1,8 @@
 <template>
   <Header />
-  <InfiniteScroll customWrapperClass="h-2/3 w-full overflow-auto">
-    <div class="container mx-auto min-h-screen py-4">
-      <main>
+  <main>
+    <InfiniteScroll customWrapperClass="w-full overflow-auto">
+      <div class="container mx-auto min-h-screen py-4">
         <div class="flex flex-row justify-between">
           <div class="flex flex-col w-full">
             <slot />
@@ -11,9 +11,9 @@
             <slot name="aside" />
           </aside>
         </div>
-      </main>
-    </div>
-  </InfiniteScroll>
+      </div>
+    </InfiniteScroll>
+  </main>
   <footer></footer>
 </template>
 
