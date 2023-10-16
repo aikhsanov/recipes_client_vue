@@ -116,6 +116,7 @@ import searchFn from '@/helpers/searchFn';
 import prepareForm, { prepareFn } from '@/helpers/form';
 import IconBase from '@/components/icons/IconBase.vue';
 import IconTrash from '@/components/icons/IconTrash.vue';
+import useToaster from '@/composables/useToaster';
 
 const recipes = useRecipesStore();
 const validationSchema = computed<object>(() => {
@@ -163,6 +164,10 @@ function addIngrs() {
   ingrPush({ ingridientId: null, unit_cid: null, quantity: null });
 }
 function removeIngrs(ind) {
+  if (ind === 0) {
+    useToaster('Рецепт должен содержать хотя бы 1 ингредиент!', 'warning');
+    return;
+  }
   ingrRemove(ind);
 }
 
@@ -174,6 +179,10 @@ function addStep() {
   });
 }
 function removeStep(ind) {
+  if (ind === 0) {
+    useToaster('Рецепт должен содержать хотя бы 1 шаг!', 'warning');
+    return;
+  }
   stepsRemove(ind);
 }
 function initRecipeEdit() {

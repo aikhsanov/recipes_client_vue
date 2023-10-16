@@ -2,7 +2,7 @@
   <div class="w-1/2 mx-auto">
     <h3 class="text-gray-700 mb-5 text-2xl font-bold text-center">{{ currentRecipe.title }}</h3>
     <BaseButton
-      v-if="createdByCurrent"
+      v-if="isOwner"
       @click="toEdit"
       text="Редактировать"
       class="text-white w-full bg-light-slate-gray-900 hover:bg-light-slate-gray-800 my-5"
@@ -212,7 +212,7 @@ const { currentRecipe, inFavorites } = storeToRefs(useRecipesStore());
 const { me } = storeToRefs(useAuthStore());
 
 const userId = computed<number>(() => me?.value?.id);
-const createdByCurrent = computed<boolean>(
+const isOwner = computed<boolean>(
   () => userId?.value && userId?.value == currentRecipe?.value?.userId
 );
 const commentsAmount = computed<number>(() => currentRecipe?.value?.recipe_comments?.length);
