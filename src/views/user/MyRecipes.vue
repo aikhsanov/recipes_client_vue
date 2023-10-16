@@ -3,7 +3,7 @@
   <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
     <RecipeCard
       v-for="recipe in recipes.getRecipes"
-      :to="`/recipes/edit/${recipe.id}`"
+      :to="`/recipes/${recipe.id}`"
       :entry="recipe"
       :key="recipe.title"
     />

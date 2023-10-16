@@ -1,6 +1,12 @@
 <template>
   <div class="w-1/2 mx-auto">
     <h3 class="text-gray-700 mb-5 text-2xl font-bold text-center">{{ currentRecipe.title }}</h3>
+    <BaseButton
+      v-if="createdByCurrent"
+      @click="toEdit"
+      text="Редактировать"
+      class="text-white w-full bg-light-slate-gray-900 hover:bg-light-slate-gray-800 my-5"
+    />
     <div class="my-3 flex flex-row items-center justify-between">
       <div class="flex flex-row">
         <div class="mr-1">
@@ -167,7 +173,6 @@
       <template #activator-btn="{ toggle }">
         <BaseButton
           @click="toggle"
-          type="submit"
           text="Войдите, чтобы оставить комментарий"
           class="text-white w-full bg-light-slate-gray-900 hover:bg-light-slate-gray-800 my-5"
         />
@@ -178,7 +183,7 @@
 
 <script setup lang="ts">
 import { useRecipesStore } from '@/stores/recipes';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { computed, nextTick, onMounted, ref, toRef } from 'vue';
 import { storeToRefs } from 'pinia';
 import IconBase from '@/components/icons/IconBase.vue';
@@ -197,6 +202,7 @@ import useToaster from '@/composables/useToaster';
 import AuthForm from '@/components/forms/AuthForm.vue';
 
 const route = useRoute();
+const router = useRouter();
 const recipes = useRecipesStore();
 const units = ref<object>({});
 const commentsOpen = ref<boolean>(false);
@@ -205,9 +211,16 @@ const comments = ref<HTMLDivElement>();
 const { currentRecipe, inFavorites } = storeToRefs(useRecipesStore());
 const { me } = storeToRefs(useAuthStore());
 
-const userId = computed<number>(() => me.value.id);
+const userId = computed<number>(() => me?.value?.id);
+const createdByCurrent = computed<boolean>(
+  () => userId?.value && userId?.value == currentRecipe?.value?.userId
+);
 const commentsAmount = computed<number>(() => currentRecipe?.value?.recipe_comments?.length);
 const recipeId = computed<number>(() => parseInt(route.params.id));
+
+function toEdit() {
+  router.push(`/recipes/edit/${recipeId.value}`);
+}
 
 async function addFavs() {
   if (!userId.value) {
