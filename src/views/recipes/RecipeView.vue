@@ -120,8 +120,23 @@
       <h5 class="text-xl font-bold mb-2">Комментарии</h5>
       <div class="mb-2" v-for="comment in currentRecipe.recipe_comments" :key="comment.id">
         <div class="flex flex-row justify-between">
-          <div>
-            <img v-if="comment.user.user_img" :src="comment.user.user_img" />
+          <div class="w-1/3 flex items-center justify-start">
+            <div
+              v-if="comment.user.user_img"
+              class="
+                h-6
+                w-6
+                rounded-full
+                border border-gray-100
+                hover:bg-gray-100
+                shadow-md
+                inline-flex
+                items-center
+                justify-center
+              "
+            >
+              <img :src="comment.user.user_img" class="rounded-full object-cover w-full h-full" />
+            </div>
             <IconBase v-else view-box="0 0 250 250" width="18" height="18">
               <IconAvatar />
             </IconBase>
@@ -147,7 +162,17 @@
       @click="toggleComments"
       v-if="commentsAmount && !commentsOpen"
     />
-    <AddComment />
+    <AddComment v-if="userId" />
+    <AuthForm v-else>
+      <template #activator-btn="{ toggle }">
+        <BaseButton
+          @click="toggle"
+          type="submit"
+          text="Войдите, чтобы оставить комментарий"
+          class="text-white w-full bg-light-slate-gray-900 hover:bg-light-slate-gray-800 my-5"
+        />
+      </template>
+    </AuthForm>
   </div>
 </template>
 
@@ -168,6 +193,8 @@ import IconComments from '@/components/icons/IconComments.vue';
 import AddComment from '@/components/forms/AddComment.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
 import moment from 'moment';
+import useToaster from '@/composables/useToaster';
+import AuthForm from '@/components/forms/AuthForm.vue';
 
 const route = useRoute();
 const recipes = useRecipesStore();
@@ -183,9 +210,17 @@ const commentsAmount = computed<number>(() => currentRecipe?.value?.recipe_comme
 const recipeId = computed<number>(() => parseInt(route.params.id));
 
 async function addFavs() {
+  if (!userId.value) {
+    useToaster('Войдите, чтобы добавить в избранное', 'warning');
+    return;
+  }
   await recipes.addToFavorites({ userId: userId.value, recipeId: recipeId.value });
 }
 async function addLikes() {
+  if (!userId.value) {
+    useToaster('Войдите, чтобы оценить пост', 'warning');
+    return;
+  }
   await recipes.addToLikes({ userId: userId.value, recipeId: recipeId.value });
 }
 
@@ -200,7 +235,10 @@ async function scrollToComments() {
 
 onMounted(async () => {
   await recipes.loadRecipeById(recipeId.value);
-  await recipes.loadFavoriteRecipe({ userId: userId.value, recipeId: recipeId.value });
+  if (userId.value) {
+    await recipes.loadFavoriteRecipe({ userId: userId.value, recipeId: recipeId.value });
+  }
+
   units.value = (
     await collections.getAllFiltered({
       filters: { collection: 'EQ(units)' },
