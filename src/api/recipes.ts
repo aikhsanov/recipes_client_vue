@@ -55,6 +55,9 @@ const recipes = {
       ...config,
     }),
 
+  getAllRecipesByCategory: async (id: number, config?: any) =>
+    await api.get(`/recipes/category/${id}`, config),
+
   addLikes: async (data: any, config?: any) =>
     await api.post(`/recipes/like/add`, data, {
       ...config,

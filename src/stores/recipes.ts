@@ -105,6 +105,17 @@ export const useRecipesStore = defineStore({
       }
     },
 
+    async loadRecipesByCategory(id) {
+      try {
+        const res = (await recipes.getAllRecipesByCategory(id)).data;
+        if (res.data) {
+          this.recipes = res.data;
+        }
+      } catch (err) {
+        console.log((err as AxiosError)?.message || err);
+      }
+    },
+
     async createRecipe(data: FormData) {
       try {
         await recipes.create(data);
