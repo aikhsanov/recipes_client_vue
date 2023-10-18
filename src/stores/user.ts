@@ -3,7 +3,7 @@ import { User } from '@/types/user';
 import { AxiosError } from 'axios';
 import users from '@/api/users';
 
-const useUserStore = defineStore({
+export const useUserStore = defineStore({
   id: 'users',
   state: () => ({
     users: [] as User[],

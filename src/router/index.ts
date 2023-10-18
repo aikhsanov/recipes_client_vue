@@ -82,9 +82,23 @@ const router = createRouter({
       component: () => import('../views/recipes/RecipeView.vue'),
     },
     {
-      path: '/recipes/search',
+      path: '/recipes',
       name: 'recipeSearch',
       meta: { layout: 'InfiniteScrollLayout' },
+      children: [
+        {
+          path: 'search',
+          name: 'recipeSearch',
+          meta: { layout: 'InfiniteScrollLayout' },
+          component: () => import('../components/recipe/RecipesSearch.vue'),
+        },
+        {
+          path: 'by/category/:id',
+          name: 'recipeSearch',
+          meta: { layout: 'InfiniteScrollLayout' },
+          component: () => import('../components/recipe/RecipesByCategory.vue'),
+        },
+      ],
       component: () => import('../views/recipes/RecipesView.vue'),
     },
     {

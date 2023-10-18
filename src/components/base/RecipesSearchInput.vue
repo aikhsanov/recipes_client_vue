@@ -22,7 +22,7 @@ const router = useRouter();
 
 const props = defineProps<{
   apiMethod?: string;
-  route: {};
+  route?: {};
   filters?: {};
 }>();
 
@@ -36,7 +36,7 @@ async function redirectToRecipe(e) {
 const mainSearchFn = (val) =>
   searchFn({
     val,
-    route: props.route,
+    route: recipesApi,
     apiMethod: props.apiMethod,
     filters: { title: `LIKE(${val})`, ...props.filters },
   });

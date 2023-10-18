@@ -1,5 +1,4 @@
 <template>
-  <MainSearchInput :route="recipesApi" />
   <div class="flex flex-col w-full">
     <section class="mt-5">
       <h3 class="text-gray-600 text-2xl font-medium">Новые рецепты</h3>
@@ -33,16 +32,18 @@
 import { computed, onMounted } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { useRecipesStore } from '@/stores/recipes';
+
 import RecipeCard from '@/components/recipe/RecipeCard.vue';
-import MainSearchInput from '@/components/base/MainSearchInput.vue';
+
 import searchFn from '@/helpers/searchFn';
-import recipesApi from '@/api/recipes';
 
 const auth = useAuthStore();
 const recipes = useRecipesStore();
+
 onMounted(async () => {
   await recipes.loadLatestRecipes();
-  await recipes.loadRecipeByIngridients(1);
+
+  // await recipes.loadRecipeByIngridients(1);
 });
 </script>
 

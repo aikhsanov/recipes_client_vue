@@ -61,9 +61,6 @@ export const useRecipesStore = defineStore({
     },
     async searchRecipes(val: string, config: {}, infinite: boolean = false) {
       try {
-        // const config = { params: { order: { createdAt: 'desc' }, limit: 5 } };
-        console.log(config, 'CONFIG');
-        console.log(val, 'val');
         const res = (await recipes.getAllByTitle({ filters: { title: `LIKE(${val})` } }, config))
           .data;
         this.recipes = infinite ? [...this.recipes, ...res.data] : res?.data;
@@ -105,9 +102,11 @@ export const useRecipesStore = defineStore({
       }
     },
 
-    async loadRecipesByCategory(id) {
+    async loadRecipesByCategory(id, config: {}, infinite: boolean = false) {
       try {
-        const res = (await recipes.getAllRecipesByCategory(id)).data;
+        const res = (await recipes.getAllRecipesByCategory(id, config)).data;
+        this.recipes = infinite ? [...this.recipes, ...res.data] : res?.data;
+        this.meta = res._meta;
         if (res.data) {
           this.recipes = res.data;
         }
