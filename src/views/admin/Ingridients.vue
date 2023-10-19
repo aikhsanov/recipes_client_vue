@@ -30,16 +30,6 @@
         <!--      <ValidationSelect />-->
       </form>
       <h3 class="mt-10 mb-2 font-bold">Тест инфинит скролла</h3>
-      <InfiniteScroll
-        customWrapperClass="mt-5"
-        :loadFn="fetchIngridients"
-        :pageMeta="store.getDataMeta"
-        v-if="store.getIngridients.length"
-      >
-        <div v-for="ingr in store.getIngridients" :key="ingr.name">
-          <h5>{{ ingr.name }}</h5>
-        </div>
-      </InfiniteScroll>
     </div>
     <div class="flex-col w-1/3 ml-10">
       <h3 class="font-bold">Редактирование ингредиентов</h3>
@@ -166,7 +156,7 @@ async function searchFn(val, data = null) {
   data = data
     ? data
     : {
-        filters: { name: `LIKE(${val})` },
+        filters: { title: `LIKE(${val})` },
       };
   return await store.loadFilteredIngridients(data);
 }

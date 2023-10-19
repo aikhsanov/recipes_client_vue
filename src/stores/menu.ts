@@ -6,19 +6,21 @@ export const useMenuStore = defineStore({
   id: 'menu',
   state: () => ({
     menu: [
-      { name: 'Сегодняшние рецепты', path: '', id: 1 },
-      { name: 'Категории', children: [], id: 2 },
+      { name: 'Сегодняшние рецепты', path: '', slug: 'recipesbytoday' },
+      { name: 'Топ за месяц', path: '', slug: 'topmonth' },
+      { name: 'Категории', children: [], slug: 'categories' },
     ],
   }),
   getters: {
     getMenu: (state) => state.menu,
+    getCategoriesMenu: (state) => state.menu.find((el) => el.slug === 'categories')?.children,
   },
   actions: {
     async formMenu() {
       try {
         const categoriesList = (await categories.getAll()).data.data;
         console.log(categoriesList);
-        const catMenu = this.menu.find((el) => el.id === 2);
+        const catMenu = this.menu.find((el) => el.slug === 'categories');
         catMenu.children = categoriesList.map((c) => ({
           name: c.title,
           path: `recipes/by/category/${c.id}`,
