@@ -64,6 +64,12 @@ const router = createRouter({
       component: () => import('../views/admin/AdminIngridients.vue'),
     },
     {
+      path: '/admin-panel/recipes',
+      name: 'adminRecipes',
+      meta: { layout: 'AdminLayout', auth: true, role: 'admin' },
+      component: () => import('../views/admin/AdminRecipes.vue'),
+    },
+    {
       path: '/recipes/add',
       name: 'addRecipe',
       meta: { layout: 'DefaultLayout', auth: true },

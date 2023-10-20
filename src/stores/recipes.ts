@@ -50,6 +50,21 @@ export const useRecipesStore = defineStore({
       }
     },
 
+    async loadRecipesToApprove(page = 1) {
+      try {
+        const res = (
+          await recipes.getAllFiltered(
+            { filters: { status: 'EQ(new)' } },
+            { params: { limit: 20, page } }
+          )
+        ).data;
+        this.recipes = res.data;
+        this.meta = res._meta;
+      } catch (err) {
+        console.log((err as AxiosError)?.message || err);
+      }
+    },
+
     async loadLatestRecipes() {
       try {
         const config = { params: { order: { createdAt: 'desc' }, limit: 5 } };

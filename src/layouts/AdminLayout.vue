@@ -161,6 +161,10 @@ const adminMenu = [
     path: '/admin-panel/ingridients',
   },
   {
+    name: 'Рецепты',
+    path: '/admin-panel/recipes',
+  },
+  {
     name: 'UI Test',
     path: '/admin-panel',
   },
