@@ -22,6 +22,7 @@
       :class="`${customClass || ''}`"
       :searchFn="searchFn"
       :delay="delay"
+      @select="(e) => emits('select', e)"
       @initial="onInitialFetch"
       @update:modelValue="onModelUpdate"
     />
@@ -66,6 +67,7 @@ const props = defineProps<{
 
 const emits = defineEmits<{
   'update:modelValue': [val: number | string];
+  select;
 }>();
 const form = useFormStore();
 const initial = ref(false);

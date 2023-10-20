@@ -9,3 +9,15 @@ export default function useToaster(text, type) {
   }
   toast[type](text);
 }
+
+export const toasts = {
+  success(text?: string): void {
+    useToaster(text || 'Изменения сохранены', 'success');
+  },
+  danger(text?: string): void {
+    useToaster(text || 'Ошибка', 'danger');
+  },
+  warning(text?: string): void {
+    useToaster(text || 'Требуется действие со стороны пользователя', 'warning');
+  },
+};

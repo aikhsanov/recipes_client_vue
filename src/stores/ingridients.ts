@@ -4,6 +4,7 @@ import api from '@/api/api';
 import { Ingridient } from '@/types/ingridients';
 import ingridients from '@/api/ingridients';
 import { DataMeta } from '@/types/dataMeta';
+import useToaster, { toasts } from '@/composables/useToaster';
 
 export const useIngridientsStore = defineStore({
   id: 'ingridients',
@@ -72,9 +73,13 @@ export const useIngridientsStore = defineStore({
       }
     },
 
-    async updateIngridient(id: number, data: Ingridient) {
+    async updateIngridient(id: number, data: Ingridient): void {
       const res = (await ingridients.update(id, data)).data;
-      await this.loadIngridients();
+      console.log(res.data, 'REEEEEEEEES');
+      if (res.data) {
+        toasts.success();
+      }
+      // await this.loadIngridients();
       return res;
     },
 

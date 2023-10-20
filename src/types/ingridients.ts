@@ -1,8 +1,7 @@
 export interface Ingridient {
   id?: number;
-  name: string;
+  title: string;
   description: string;
-  img_url?: string;
 }
 export interface RecipeIngridient {
   id?: number;
