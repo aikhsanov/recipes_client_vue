@@ -23,7 +23,7 @@
       </tr>
     </tbody>
   </table>
-  <Pagination :page-meta="{ pages: 45, currentPage: 9 }" />
+  <Pagination :page-meta="recipes.getDataMeta" :fetch-fn="recipes.loadRecipesToApprove" />
 </template>
 
 <script setup lang="ts">
