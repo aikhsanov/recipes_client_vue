@@ -67,7 +67,13 @@ const router = createRouter({
       path: '/admin-panel/recipes',
       name: 'adminRecipes',
       meta: { layout: 'AdminLayout', auth: true, role: 'admin' },
-      component: () => import('../views/admin/AdminRecipes.vue'),
+      component: () => import('../views/admin/recipes/AdminRecipes.vue'),
+    },
+    {
+      path: '/admin-panel/recipes/preview/:id',
+      name: 'adminRecipesPreview',
+      meta: { layout: 'AdminLayout', auth: true, role: 'admin' },
+      component: () => import('../views/admin/recipes/AdminRecipesPreview.vue'),
     },
     {
       path: '/recipes/add',

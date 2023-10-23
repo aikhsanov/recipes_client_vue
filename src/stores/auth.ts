@@ -27,6 +27,7 @@ export const useAuthStore = defineStore({
   getters: {
     getMe: (state) => (Object.keys(state.me).length ? (state.me as User) : null),
     getIsAuthed: (state) => state.isAuthed,
+    isAdmin: (state) => state.me.role === 'admin',
   },
   actions: {
     async register(data: userData) {

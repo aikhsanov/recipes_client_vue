@@ -117,8 +117,10 @@ import prepareForm, { prepareFn } from '@/helpers/form';
 import IconBase from '@/components/icons/IconBase.vue';
 import IconTrash from '@/components/icons/IconTrash.vue';
 import useToaster from '@/composables/useToaster';
+import { useAuthStore } from '@/stores/auth';
 
 const recipes = useRecipesStore();
+const auth = useAuthStore();
 const validationSchema = computed<object>(() => {
   const obj = {
     title: 'required',

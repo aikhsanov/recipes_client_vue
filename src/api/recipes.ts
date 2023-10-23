@@ -67,6 +67,12 @@ const recipes = {
     await api.post(`/recipes/${id}/comment/add`, data, {
       ...config,
     }),
+
+  approveRecipe: async (id: string | number, config?) =>
+    await api.get(`/recipes/${id}/approve`, config),
+
+  declineRecipe: async (id: string | number, config?) =>
+    await api.get(`/recipes/${id}/decline`, config),
 };
 
 export default recipes;

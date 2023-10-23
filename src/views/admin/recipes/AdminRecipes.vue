@@ -15,6 +15,7 @@
         :class="`border-b ${
           ind % 2 === 0 ? 'bg-neutral-100' : 'bg-white'
         } dark:border-neutral-500 dark:bg-neutral-700`"
+        @click="redirectToRecipe(recipe.id)"
       >
         <td class="whitespace-nowrap px-6 py-4">{{ recipe.id }}</td>
         <td class="whitespace-nowrap px-6 py-4">{{ recipe.title }}</td>
@@ -30,12 +31,18 @@
 import { useRecipesStore } from '@/stores/recipes';
 import { onMounted } from 'vue';
 import Pagination from '@/components/base/Pagination.vue';
+import { useRouter } from 'vue-router';
 
 const recipes = useRecipesStore();
+const router = useRouter();
 
 onMounted(async () => {
   await recipes.loadRecipesToApprove();
 });
+
+const redirectToRecipe = (id: number | string): void => {
+  router.push(`/admin-panel/recipes/preview/${id}`);
+};
 </script>
 
 <style scoped></style>
