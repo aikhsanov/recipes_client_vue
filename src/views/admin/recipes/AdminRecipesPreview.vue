@@ -2,8 +2,14 @@
   <div class="w-1/2 mx-auto">
     <h3 class="text-gray-400 text-2xl font-bold text-center">Предпросмотр рецепта</h3>
     <AddRecipeForm v-if="recipes.getCurrentRecipe" />
-    <BaseButton text="Опубликовать" @click="approveRecipe" />
-    <BaseButton class="" text="Отказать" @click="declineRecipe" />
+    <div class="grid grid-cols-2 gap-6 mt-5">
+      <BaseButton text="Опубликовать" @click="approveRecipe" />
+      <BaseButton
+        class="bg-tomato-900 hover:bg-tomato-700"
+        text="Отказать"
+        @click="declineRecipe"
+      />
+    </div>
   </div>
 </template>
 

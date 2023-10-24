@@ -1,20 +1,20 @@
 <template>
-  <div class="flex flex-row">
-    <div class="flex-col w-1/2 mx-auto">
-      <h3 class="font-bold text-xl text-center">
-        Добавление и редактирование доступных ингредиентов
-      </h3>
+  <div class="">
+    <h3 class="font-bold text-xl text-center">
+      Добавление и редактирование доступных ингредиентов
+    </h3>
+    <div class="flex-col w-1/2 mx-auto mb-5" v-if="showForm">
       <div class="mt-12">
-        <Select
-          v-model="selectedIngr"
-          placeholder="Выберите ингредиент"
-          searchable
-          :searchFn="searchFn"
-          :clearOnBlur="false"
-          closeOnSelect
-          @select="onEdit"
-          label="Поиск по ингредиентам"
-        />
+        <!--        <Select-->
+        <!--          v-model="selectedIngr"-->
+        <!--          placeholder="Выберите ингредиент"-->
+        <!--          searchable-->
+        <!--          :searchFn="searchFn"-->
+        <!--          :clearOnBlur="false"-->
+        <!--          closeOnSelect-->
+        <!--          @select="onEdit"-->
+        <!--          label="Поиск по ингредиентам"-->
+        <!--        />-->
         <form @submit="onSubmit" class="mt-12">
           <ValidationInput
             id="ingridient-title"
@@ -29,12 +29,7 @@
             name="description"
             type="textarea"
           />
-          <!--          <ValidationFileUpload-->
-          <!--            id="ingridient-img"-->
-          <!--            name="ingridientImg"-->
-          <!--            label="Изображение"-->
-          <!--            preview-->
-          <!--          />-->
+
           <div class="grid gap-6 grid-cols-1" v-if="!selectedIngr">
             <BaseButton type="submit" text="Добавить" />
           </div>
@@ -50,6 +45,14 @@
         </form>
       </div>
     </div>
+    <TableComponent
+      :rows="ingridients.getIngridients"
+      :page-meta="ingridients.getDataMeta"
+      :columns="columns"
+      :fetch-fn="ingridients.loadIngridients"
+      :on-click-fn="onEdit"
+      :controls="controls"
+    />
   </div>
 </template>
 
@@ -66,13 +69,23 @@ import ValidationFileUpload from '@/components/validation/ValidationFileUpload.v
 import { useFormStore } from '@/stores/form';
 import usePrepareEditData from '@/composables/usePrepareEditData.js';
 import useToaster from '@/composables/useToaster';
+import TableComponent from '@/components/base/TableComponent.vue';
+import IconEdit from '@/components/icons/IconEdit.vue';
+import IconTrash from '@/components/icons/IconTrash.vue';
 
 const IngridientFiltered = ref<number | string>('');
 
 const form = useFormStore();
-const store = useIngridientsStore();
+const ingridients = useIngridientsStore();
 
 const selectedIngr = ref<number | string>('');
+const showForm = ref<boolean>(false);
+
+const columns: { name: string; value: string }[] = [
+  { name: '#', value: 'id' },
+  { name: 'Название', value: 'title' },
+  { name: 'Описание', value: 'description' },
+];
 
 const { handleSubmit, isSubmitting, setValues, setTouched, meta, resetForm } = useForm({
   initialValues: {
@@ -88,7 +101,7 @@ const { handleSubmit, isSubmitting, setValues, setTouched, meta, resetForm } = u
     fetchedIng: '',
   },
 });
-const id = computed(() => store?.getCurrentIngridient.id);
+const id = computed(() => ingridients?.getCurrentIngridient.id);
 
 const onSubmit = handleSubmit(async (values, actions) => {
   try {
@@ -96,7 +109,7 @@ const onSubmit = handleSubmit(async (values, actions) => {
       title: values.title,
       description: values.description,
     };
-    await store.createIngridient(data);
+    await ingridients.createIngridient(data);
   } catch (e) {
     actions.setErrors({ name: e.message });
   }
@@ -108,25 +121,26 @@ const editOnSave = handleSubmit(async (values, actions) => {
       title: values.title,
       description: values.description,
     };
-    await store.updateIngridient(id.value, data);
+    await ingridients.updateIngridient(id.value, data);
   } catch (e) {
     useToaster(e, 'error');
     throw new Error(e);
   }
 });
 
-const onEdit = handleSubmit(async (values, actions) => {
+const onEdit = async (id) => {
   try {
-    await store.loadIngridientById(selectedIngr.value);
-    if (store?.getCurrentIngridient) {
-      const { title, description, img_url } = store.getCurrentIngridient;
+    await ingridients.loadIngridientById(id);
+    showForm.value = true;
+    selectedIngr.value = id;
+    if (ingridients?.getCurrentIngridient) {
+      const { title, description, img_url } = ingridients.getCurrentIngridient;
       console.log(title, description, img_url);
       resetForm({
         values: {
           title,
           description,
           ingridientImg: img_url,
-          fetchedIng: values.selectedIngr,
         },
       });
     }
@@ -134,11 +148,11 @@ const onEdit = handleSubmit(async (values, actions) => {
     useToaster(e, 'error');
     throw new Error(e);
   }
-});
+};
 
 const onDelete = handleSubmit(async (values, actions) => {
   try {
-    const res = await store.deleteIngridient(values.selectedIngr);
+    const res = await ingridients.deleteIngridient(values.selectedIngr);
     console.log(res, 'RES');
     useToaster(res.message, 'success');
   } catch (e) {
@@ -146,7 +160,10 @@ const onDelete = handleSubmit(async (values, actions) => {
     throw new Error(e);
   }
 });
-
+const controls = [
+  { name: 'Редактировать', onClick: onEdit, icon: { component: IconEdit } },
+  { name: 'Удалить', onClick: onDelete, icon: { component: IconTrash }, class: 'bg-tomato-800' },
+];
 onMounted(async () => {
   await fetchIngridients(1);
 });
@@ -156,7 +173,7 @@ onUnmounted(() => {
 });
 
 async function fetchIngridients(page?: number) {
-  await store.loadIngridients({ params: { limit: 6, page } }, true);
+  await ingridients.loadIngridients({ page });
 }
 
 async function searchFn(val, data = null) {
@@ -165,7 +182,7 @@ async function searchFn(val, data = null) {
     : {
         filters: { title: `LIKE(${val})` },
       };
-  return await store.loadFilteredIngridients(data);
+  return await ingridients.loadFilteredIngridients(data);
 }
 </script>
 

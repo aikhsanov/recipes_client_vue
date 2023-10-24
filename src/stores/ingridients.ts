@@ -27,7 +27,7 @@ export const useIngridientsStore = defineStore({
   actions: {
     async loadIngridients(config: object, infinite: boolean = false) {
       try {
-        const { data }: Ingridient[] = await ingridients.getAll(config);
+        const { data }: Ingridient[] = await ingridients.getAll({ params: { ...config } });
         this.ingridients = infinite ? [...this.ingridients, ...data.data] : data?.data;
         this.dataMeta = data?._meta;
       } catch (err) {
