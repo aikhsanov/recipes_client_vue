@@ -53,6 +53,7 @@
       :on-click-fn="onEdit"
       :controls="controls"
     />
+    <BaseConfirm />
   </div>
 </template>
 
@@ -72,6 +73,10 @@ import useToaster from '@/composables/useToaster';
 import TableComponent from '@/components/base/TableComponent.vue';
 import IconEdit from '@/components/icons/IconEdit.vue';
 import IconTrash from '@/components/icons/IconTrash.vue';
+import BaseConfirm from '@/components/base/BaseConfirm.vue';
+import useModal from '@/composables/useModal';
+
+const { toggleModal } = useModal();
 
 const IngridientFiltered = ref<number | string>('');
 
@@ -152,9 +157,10 @@ const onEdit = async (id) => {
 
 const onDelete = handleSubmit(async (values, actions) => {
   try {
-    const res = await ingridients.deleteIngridient(values.selectedIngr);
-    console.log(res, 'RES');
-    useToaster(res.message, 'success');
+    toggleModal();
+    // const res = await ingridients.deleteIngridient(values.selectedIngr);
+    // console.log(res, 'RES');
+    // useToaster(res.message, 'success');
   } catch (e) {
     useToaster(e, 'error');
     throw new Error(e);

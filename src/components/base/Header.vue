@@ -5,6 +5,7 @@
         <h1 class="text-4xl text-gray-500 font-bold">Едим Вкусно</h1>
       </router-link>
       <BaseButton
+        v-if="!auth.getIsAuthed"
         type="button"
         text="Вход"
         @click="toggleModal"

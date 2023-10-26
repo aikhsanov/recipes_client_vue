@@ -1,10 +1,7 @@
 <template>
   <BaseModal>
     <template #default> Подтвердите действие </template>
-    <template #controls> <BaseButton text="Confirm" /> </template>
-    <template #activator="{ toggle }">
-      <slot name="activator" :toggle="toggle" />
-    </template>
+    <template #controls> <BaseButton text="Confirm" /><BaseButton text="Decline" /> </template>
   </BaseModal>
 </template>
 
