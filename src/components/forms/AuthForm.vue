@@ -85,16 +85,6 @@
       </template>
       <Spinner v-if="loading"></Spinner>
     </template>
-    <template #activator="{ toggle }">
-      <slot name="activator-btn" :toggle="toggle">
-        <BaseButton
-          type="button"
-          text="Вход"
-          @click="toggle"
-          class="mt-0 w-20 text-white font-bold bg-tomato-800 hover:bg-tomato-900"
-        ></BaseButton>
-      </slot>
-    </template>
   </BaseModal>
 </template>
 

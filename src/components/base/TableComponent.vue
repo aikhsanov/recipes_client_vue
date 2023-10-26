@@ -5,7 +5,7 @@
         <th scope="col" class="px-6 py-4" v-for="column in columns" :key="column.name">
           {{ column.name }}
         </th>
-        <th scope="col" class="px-6 py-4" v-if="controls.length">Действия</th>
+        <th scope="col" class="px-6 py-4 text-center" v-if="controls.length">Действия</th>
       </tr>
     </thead>
     <tbody>
@@ -23,7 +23,7 @@
         >
           {{ row[column.value] }}
         </td>
-        <td v-if="controls.length">
+        <td v-if="controls.length" class="whitespace-nowrap px-6 py-4 w-44">
           <div class="h-full flex flex-row justify-around items-center">
             <div
               :class="`rounded-md

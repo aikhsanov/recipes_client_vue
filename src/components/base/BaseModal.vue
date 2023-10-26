@@ -10,7 +10,7 @@
   >
     <div
       v-if="isOpen"
-      @click="toggleOpen"
+      @click="toggleModal"
       id="backdrop"
       class="
         w-full
@@ -59,7 +59,7 @@
           <slot name="modal-header-controls"></slot>
           <button
             type="button"
-            @click="toggleOpen"
+            @click="toggleModal"
             class="
               text-gray-400
               bg-transparent
@@ -89,7 +89,7 @@
           </button>
         </div>
         <div class="space-y-6 px-6 lg:px-8 pb-4 sm:pb-6 xl:pb-8 h-full relative">
-          <slot :toggle="toggleOpen">
+          <slot :toggle="toggleModal">
             <h4>Контент недоступен или отсутствует</h4>
           </slot>
         </div>
@@ -100,24 +100,26 @@
     </div>
   </transition>
 
-  <slot name="activator" :toggle="toggleOpen"></slot>
+  <!--  <slot name="activator" :toggle="toggleOpen"></slot>-->
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import useModal from '@/composables/useModal';
 
 const props = defineProps<{
   class?: string;
 }>();
 
-const isOpen = ref<boolean>(false);
+// const isOpen = ref<boolean>(false);
+const { isOpen, toggleModal } = useModal();
 
-function toggleOpen() {
-  isOpen.value = !isOpen.value;
-}
-defineExpose<{
-  toggleOpen: Function;
-}>({ toggleOpen });
+// function toggleOpen() {
+//   isOpen.value = !isOpen.value;
+// }
+// defineExpose<{
+//   toggleOpen: Function;
+// }>({ toggleOpen });
 </script>
 
 <style scoped></style>
