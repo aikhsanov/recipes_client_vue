@@ -76,7 +76,7 @@ import IconTrash from '@/components/icons/IconTrash.vue';
 import BaseConfirm from '@/components/base/BaseConfirm.vue';
 import useModal from '@/composables/useModal';
 
-const { toggleModal } = useModal();
+const { confirm } = useModal();
 
 const IngridientFiltered = ref<number | string>('');
 
@@ -157,7 +157,8 @@ const onEdit = async (id) => {
 
 const onDelete = handleSubmit(async (values, actions) => {
   try {
-    toggleModal();
+    const conf = await confirm();
+    console.log(conf, 'CONF');
     // const res = await ingridients.deleteIngridient(values.selectedIngr);
     // console.log(res, 'RES');
     // useToaster(res.message, 'success');
