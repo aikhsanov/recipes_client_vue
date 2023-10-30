@@ -1,9 +1,11 @@
 <template>
-  <BaseModal>
+  <BaseModal class="px-5 pb-5">
     <template #default> {{ confirmText || 'Подтвердите действие' }} </template>
     <template #controls>
-      <BaseButton text="Ок" @click="resConfirm(true)" />
-      <BaseButton text="Отмена" @click="resConfirm(false)" />
+      <div class="confirm-controls flex flex-row justify-around">
+        <BaseButton text="Ок" @click="resConfirm(true)" />
+        <BaseButton text="Отмена" @click="resConfirm(false)" />
+      </div>
     </template>
   </BaseModal>
 </template>
