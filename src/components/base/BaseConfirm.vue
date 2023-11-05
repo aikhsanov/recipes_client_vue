@@ -1,10 +1,13 @@
 <template>
-  <BaseModal class="px-5 pb-5">
-    <template #default> {{ confirmText || 'Подтвердите действие' }} </template>
+  <BaseModal class="w-96" contentClass="px-3 pb-3 pt-5">
+    <template #default>
+      <div class="mb-6 text-center font-bold">{{ confirmText || 'Подтвердите действие' }}</div>
+      <hr class="-mx-3" />
+    </template>
     <template #controls>
-      <div class="confirm-controls flex flex-row justify-around">
-        <BaseButton text="Ок" @click="resConfirm(true)" />
-        <BaseButton text="Отмена" @click="resConfirm(false)" />
+      <div class="confirm-controls flex flex-row w-1/2 ml-auto mt-3 justify-end">
+        <BaseButton text="Ок" @click="resConfirm(true)" class="mr-2" mode="confirm" />
+        <BaseButton text="Отмена" @click="resConfirm(false)" mode="danger" />
       </div>
     </template>
   </BaseModal>

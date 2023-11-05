@@ -48,14 +48,15 @@
       -translate-x-1/2
       fixed
       justify-center
+
       bg-white rounded-lg shadow dark:bg-gray-700
       max-w-5xl
       z-50
       md:h-auto ${props.class || ''}`"
     >
       <slot name="prepend"></slot>
-      <div class="flex flex-col w-full">
-        <div class="flex justify-between p-2" id="modal-close">
+      <div class="flex flex-col w-full relative">
+        <div class="flex justify-between p-1 absolute top-0 right-0 w-full z-50" id="modal-close">
           <slot name="modal-header-controls"></slot>
           <button
             type="button"
@@ -88,13 +89,16 @@
             </svg>
           </button>
         </div>
-        <div class="space-y-6 px-6 lg:px-8 pb-4 sm:pb-6 xl:pb-8 h-full relative">
+        <div
+          :class="`h-full ${contentClass || 'space-y-6 px-6 lg:px-8 py-6 sm:pb-6 xl:pb-6'}`"
+          id="modal-content"
+        >
           <slot :toggle="toggleModal">
             <h4>Контент недоступен или отсутствует</h4>
           </slot>
-        </div>
-        <div class="" id="modal-controls">
-          <slot name="controls"></slot>
+          <div class="" id="modal-controls">
+            <slot name="controls"></slot>
+          </div>
         </div>
       </div>
     </div>
@@ -109,6 +113,7 @@ import useModal from '@/composables/useModal';
 
 const props = defineProps<{
   class?: string;
+  contentClass?: string;
 }>();
 
 // const isOpen = ref<boolean>(false);
