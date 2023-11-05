@@ -5,7 +5,7 @@
         <th scope="col" class="px-6 py-4" v-for="column in columns" :key="column.name">
           {{ column.name }}
         </th>
-        <th scope="col" class="px-6 py-4 text-center" v-if="controls.length">Действия</th>
+        <th scope="col" class="px-6 py-4 text-center" v-if="!hideControls">Действия</th>
       </tr>
     </thead>
     <tbody>
@@ -23,9 +23,10 @@
         >
           {{ row[column.value] }}
         </td>
-        <td v-if="controls.length" class="whitespace-nowrap px-6 py-4 w-44">
+        <td v-if="!hideControls" class="whitespace-nowrap px-6 py-4 w-44">
           <div class="h-full flex flex-row justify-around items-center">
             <div
+              v-for="btn in controlBtns"
               :class="`rounded-md
               w-8
               h-8
@@ -34,7 +35,6 @@
               items-center
               justify-center ${btn.class || 'bg-blue-400'}`"
               :title="btn.name"
-              v-for="btn in controls"
               :key="btn.name"
               @click="(e) => btn?.onClick(row.id)"
             >
@@ -52,20 +52,40 @@
     </tbody>
   </table>
   <Pagination :page-meta="pageMeta" :fetch-fn="fetchFn" />
+  <BaseConfirm />
 </template>
 
 <script setup lang="ts">
 import Pagination from '@/components/base/Pagination.vue';
 import IconBase from '@/components/icons/IconBase.vue';
+import IconEdit from '@/components/icons/IconEdit.vue';
+import IconTrash from '@/components/icons/IconTrash.vue';
+import BaseConfirm from '@/components/base/BaseConfirm.vue';
+import { computed } from 'vue';
 
 const props = defineProps<{
   columns: [];
   rows: [];
-  controls: [];
+  controls?: [];
+  onEdit?: Function;
+  onDelete?: Function;
   onClickFn: Function;
+  hideControls?: boolean;
   pageMeta: {} | [];
   fetchFn: Function;
 }>();
+
+const controlBtns = computed(() =>
+  [
+    { name: 'Редактировать', onClick: props.onEdit, icon: { component: IconEdit } },
+    {
+      name: 'Удалить',
+      onClick: props.onDelete,
+      icon: { component: IconTrash },
+      class: 'bg-tomato-800',
+    },
+  ].concat(props?.controls || [])
+);
 </script>
 
 <style scoped></style>

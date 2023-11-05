@@ -12,7 +12,7 @@ export default function useModal() {
     console.log(isOpen.value);
   };
 
-  const confirm = async (): void => {
+  const confirm = async (): Promise<void> => {
     return new Promise((res, rej) => {
       toggleModal();
       resConfirm.value = (e) => {

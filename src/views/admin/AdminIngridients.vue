@@ -50,10 +50,9 @@
       :page-meta="ingridients.getDataMeta"
       :columns="columns"
       :fetch-fn="ingridients.loadIngridients"
-      :on-click-fn="onEdit"
-      :controls="controls"
+      :onDelete="onDelete"
+      :onEdit="onEdit"
     />
-    <BaseConfirm />
   </div>
 </template>
 
@@ -167,10 +166,7 @@ const onDelete = handleSubmit(async (values, actions) => {
     throw new Error(e);
   }
 });
-const controls = [
-  { name: 'Редактировать', onClick: onEdit, icon: { component: IconEdit } },
-  { name: 'Удалить', onClick: onDelete, icon: { component: IconTrash }, class: 'bg-tomato-800' },
-];
+
 onMounted(async () => {
   await fetchIngridients(1);
 });
