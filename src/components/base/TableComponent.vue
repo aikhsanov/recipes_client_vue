@@ -2,10 +2,10 @@
   <table class="table-auto min-w-full text-left text-sm font-light">
     <thead class="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
       <tr>
-        <th scope="col" class="px-6 py-4" v-for="column in columns" :key="column.name">
+        <th scope="col" class="px-6 py-2" v-for="column in columns" :key="column.name">
           {{ column.name }}
         </th>
-        <th scope="col" class="px-6 py-4 text-center" v-if="!hideControls">Действия</th>
+        <th scope="col" class="px-6 py-2 text-center" v-if="!hideControls">Действия</th>
       </tr>
     </thead>
     <tbody>
@@ -19,11 +19,11 @@
         <td
           v-for="(column, ind) in columns"
           :key="column.value"
-          class="whitespace-nowrap px-6 py-4"
+          class="whitespace-nowrap px-6 py-2"
         >
           {{ row[column.value] }}
         </td>
-        <td v-if="!hideControls" class="whitespace-nowrap px-6 py-4 w-44">
+        <td v-if="!hideControls" class="whitespace-nowrap px-6 py-2 w-44">
           <div class="h-full flex flex-row justify-around items-center">
             <div
               v-for="btn in controlBtns"

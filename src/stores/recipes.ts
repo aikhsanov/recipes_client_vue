@@ -206,7 +206,6 @@ export const useRecipesStore = defineStore({
 
     async deleteRecipe(id: number) {
       await recipes.delete(id);
-      await this.loadRecipes();
     },
 
     clearState() {

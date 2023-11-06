@@ -1,7 +1,9 @@
 <template>
   <BaseModal class="w-96" contentClass="px-3 pb-3 pt-5">
     <template #default>
-      <div class="mb-6 text-center font-bold">{{ confirmText || 'Подтвердите действие' }}</div>
+      <div class="mb-6 text-center font-bold min-h-[60px] flex items-center justify-center">
+        {{ confirmText || 'Подтвердите действие' }}
+      </div>
       <hr class="-mx-3" />
     </template>
     <template #controls>

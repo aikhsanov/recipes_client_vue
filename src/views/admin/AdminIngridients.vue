@@ -15,7 +15,7 @@
         <!--          @select="onEdit"-->
         <!--          label="Поиск по ингредиентам"-->
         <!--        />-->
-        <form @submit="onSubmit" class="mt-12">
+        <form @submit="onSubmit" class="mt-12 mb-5">
           <ValidationInput
             id="ingridient-title"
             placeholder="Название ингредиента"
@@ -33,14 +33,8 @@
           <div class="grid gap-6 grid-cols-1" v-if="!selectedIngr">
             <BaseButton type="submit" text="Добавить" />
           </div>
-          <div class="grid gap-6 grid-cols-2" v-else>
+          <div class="grid gap-6 grid-cols-1" v-else>
             <BaseButton type="button" text="Сохранить" @click.prevent="editOnSave" />
-            <BaseButton
-              class="bg-tomato-900 hover:bg-tomato-700"
-              type="button"
-              text="Удалить"
-              @click="onDelete"
-            />
           </div>
         </form>
       </div>

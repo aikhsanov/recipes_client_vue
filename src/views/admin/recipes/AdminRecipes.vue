@@ -17,6 +17,7 @@ import TableComponent from '@/components/base/TableComponent.vue';
 import { useRouter } from 'vue-router';
 import useToaster from '@/composables/useToaster';
 import useModal from '@/composables/useModal';
+import { toasts } from '@/composables/useToaster';
 
 const recipes = useRecipesStore();
 const router = useRouter();
@@ -29,22 +30,22 @@ onMounted(async () => {
 const redirectToRecipe = (id: number | string): void => {
   router.push(`/admin-panel/recipes/preview/${id}`);
 };
-const onEdit = async (id) => {
+const onEdit = async (id: number | string): Promise<void> => {
   try {
-    console.log('onEdit');
+    redirectToRecipe(id);
   } catch (e) {
     useToaster(e, 'error');
     throw new Error(e);
   }
 };
 
-const onDelete = async () => {
+const onDelete = async (id: number | string): Promise<void> => {
   try {
     const conf = await confirm();
-    console.log(conf, 'CONF');
-    // const res = await ingridients.deleteIngridient(values.selectedIngr);
-    // console.log(res, 'RES');
-    // useToaster(res.message, 'success');
+    if (conf) {
+      const res = await recipes.deleteRecipe(id);
+      toasts.success();
+    }
   } catch (e) {
     useToaster(e, 'error');
     throw new Error(e);
