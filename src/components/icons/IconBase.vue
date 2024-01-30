@@ -7,8 +7,8 @@
     :aria-labelledby="iconName"
     role="presentation"
     :stroke-width="strokeWidth"
-    :fill="iconColor"
-    :stroke="strokeColor"
+    :fill="iconColor || 'currentColor'"
+    :stroke="strokeColor || 'currentColor'"
     :class="class"
   >
     <title :id="iconName">{{ iconName }} icon</title>

@@ -12,15 +12,18 @@
           <slot name="aside">
             <ul v-if="menu.getMenu.length">
               <li v-for="item in menu.getMenu" :key="item.id" class="mb-1">
-                <template v-if="item?.children && item?.children?.length"
-                  ><p class="font-bold">{{ item?.name }}</p>
-                  <ul class="ml-3">
-                    <li v-for="child in item.children" :key="child.id" class="mb-1">
-                      <router-link class="hover:underline" :to="child?.path">{{
-                        child?.name
-                      }}</router-link>
-                    </li>
-                  </ul>
+                <template v-if="item?.children && item?.children?.length">
+                  <BaseAccordion :title="item?.name">
+                    <template #content>
+                      <ul class="ml-3">
+                        <li v-for="child in item.children" :key="child.id" class="mb-1">
+                          <router-link class="hover:underline" :to="child?.path">{{
+                            child?.name
+                          }}</router-link>
+                        </li>
+                      </ul>
+                    </template>
+                  </BaseAccordion>
                 </template>
                 <router-link v-else class="font-bold hover:underline" :to="item?.path">{{
                   item?.name
@@ -41,6 +44,7 @@ import { useRoute, useRouter } from 'vue-router';
 import RecipesSearchInput from '@/components/base/RecipesSearchInput.vue';
 import { useMenuStore } from '@/stores/menu';
 import { onMounted } from 'vue';
+import BaseAccordion from '@/components/base/BaseAccordion.vue';
 
 const route = useRoute();
 
