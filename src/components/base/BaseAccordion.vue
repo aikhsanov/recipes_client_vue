@@ -1,8 +1,12 @@
 <template>
-  <div class="group flex flex-col gap-2 font-bold" tabindex="2" @click="toggle">
-    <div class="flex cursor-pointer items-center justify-between">
-      <span>{{ title }}</span>
+  <div class="flex flex-col font-bold w-full cursor-pointer" tabindex="2" @click="toggle">
+    <div
+      class="flex items-center w-full transition-all"
+      :class="[noArrow ? 'justify-center' : 'justify-between', show ? 'mb-2' : '', wrapperClass]"
+    >
+      <span class="text-white">{{ title }}</span>
       <IconBase
+        v-if="!noArrow"
         iconColor="black"
         strokeColor="black"
         :class="show ? 'rotate-180 duration-500' : 'transition-all duration-500'"
@@ -15,7 +19,7 @@
     <div
       :class="
         show
-          ? 'visible max-h-screen opacity-100 duration-1000'
+          ? 'visible max-h-screen opacity-100 duration-500'
           : 'invisible h-auto max-h-0 items-center opacity-0 transition-all'
       "
     >
@@ -31,6 +35,8 @@ import { ref } from 'vue';
 
 const props = defineProps<{
   title?: string;
+  noArrow?: boolean;
+  wrapperClass?: string;
 }>();
 const show = ref(false);
 

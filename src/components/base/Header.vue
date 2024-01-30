@@ -1,15 +1,16 @@
 <template>
   <header class="p-4 border-b border-b-gray-200">
     <nav class="h-11 flex flex-row items-start container justify-between container mx-auto">
-      <router-link to="/" class="w-3/12">
-        <h1 class="text-4xl text-gray-500 font-bold">Едим Вкусно</h1>
-      </router-link>
+      <!--      <router-link to="/" class="w-3/12">-->
+      <!--        <h1 class="text-4xl text-gray-500 font-bold">Едим Вкусно</h1>-->
+      <!--      </router-link>-->
+      <RecipesSearchInput class="w-10/12" />
       <BaseButton
         v-if="!auth.getIsAuthed"
         type="button"
         text="Вход"
         @click="toggleModal"
-        class="mt-0 w-20 text-white font-bold bg-tomato-800 hover:bg-tomato-900"
+        class="mt-0 w-20 text-white font-bold bg-orange-300 hover:bg-orange-400"
       ></BaseButton>
       <AuthForm v-if="!auth.getIsAuthed" />
       <div class="flex flex-row" v-else>
@@ -32,6 +33,7 @@ import BaseButton from '@/components/base/BaseButton.vue';
 import { useAuthStore } from '@/stores/auth';
 import useModal from '@/composables/useModal';
 import BaseModal from '@/components/base/BaseModal.vue';
+import RecipesSearchInput from '@/components/base/RecipesSearchInput.vue';
 const auth = useAuthStore();
 const { isOpen, toggleModal } = useModal();
 </script>
