@@ -1,7 +1,7 @@
 <template>
   <Select
     placeholder="Поиск рецептов"
-    class="w-full"
+    :class="wrapperClass ? wrapperClass : `w-full`"
     searchable
     :noInitSearch="true"
     :searchFn="mainSearchFn"
@@ -22,6 +22,7 @@ const router = useRouter();
 
 const props = defineProps<{
   apiMethod?: string;
+  wrapperClass?: string;
   route?: {};
   filters?: {};
 }>();

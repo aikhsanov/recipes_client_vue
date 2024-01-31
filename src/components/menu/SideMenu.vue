@@ -6,7 +6,7 @@
     <!--    <h3 class="font-bold text-lg mb-2">Рубрики рецептов</h3>-->
     <slot name="aside">
       <router-link to="/" class="flex pb-5 mb-7 text-center items-center justify-center">
-        <h1 class="text-4xl text-gray-500 font-bold text-orange-300">Едим Вкусно</h1>
+        <h1 class="text-4xl text-gray-500 text-orange-300">Едим Вкусно</h1>
       </router-link>
       <ul v-if="menu.getMenu.length">
         <li
@@ -61,7 +61,7 @@ const menu = useMenuStore();
 
 <style scoped lang="scss">
 h1 {
-  font-family: ;
+  font-family: Pacifico;
 }
 .menu-item {
   position: relative;
