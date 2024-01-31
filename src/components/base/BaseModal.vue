@@ -49,7 +49,7 @@
       fixed
       justify-center
 
-      bg-white rounded-lg shadow dark:bg-gray-700
+      bg-white shadow dark:bg-gray-700
       max-w-5xl
       z-50
       md:h-auto ${props.class || ''}`"
@@ -65,7 +65,6 @@
               text-gray-400
               bg-transparent
               hover:bg-gray-200 hover:text-gray-900
-              rounded-lg
               text-sm
               p-1.5
               ml-auto
