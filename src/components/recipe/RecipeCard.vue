@@ -4,24 +4,46 @@
     :class="`${
       wrapClass
         ? wrapClass
-        : 'w-full h-80 max-w-sm mx-auto shadow-md overflow-hidden relative group'
+        : 'w-full h-[450px] max-w-sm mx-auto shadow-md overflow-hidden relative group'
     }`"
   >
     <div class="w-full h-full group">
-      <img
-        :src="entry?.img_url"
-        alt=""
-        :class="`w-full  object-cover ${isTrend ? 'h-full' : 'h-1/2'}`"
-      />
+      <div :class="`${isTrend ? 'h-full' : 'h-1/2'} relative`">
+        <img :src="entry?.img_url" alt="" class="w-full h-full object-cover" />
+        <div
+          id="user"
+          class="
+            absolute
+            bottom-0
+            left-0
+            flex flex-row
+            items-center
+            bg-zinc-700
+            py-1
+            px-2
+            bg-opacity-40
+          "
+          v-if="!isTrend"
+        >
+          <img :src="entry.user.user_img" alt="" class="w-7 h-7 rounded-full mr-2" />
+          <span class="text-lg text-white">{{ entry.user.username }}</span>
+        </div>
+      </div>
       <div
         v-if="!isTrend"
-        class="recipe-preview-text w-full bottom-0 p-2 opacity-80 h-1/2 bg-white"
+        class="recipe-preview-text w-full flex flex-col justify-between bottom-0 p-2 h-1/2 bg-white"
       >
-        <h3 class="font-bold mb-2 line-clamp-2 text-base">{{ entry?.title }}</h3>
-        <p :class="`w-full line-clamp-4 border-b border-gray-200`">
-          {{ entry?.short_dsc }}
-        </p>
-        <div class="flex flex-row jusify-center items-center">
+        <div class="h-5/6">
+          <h3 class="font-bold mb-2 line-clamp-2 text-2xl">{{ entry?.title }}</h3>
+          <p :class="`w-full line-clamp-4 `">
+            {{ entry?.short_dsc }}
+          </p>
+        </div>
+        <div id="user" class="flex flex-row items-center justify-end mb-2" v-if="!isTrend">
+          <img :src="entry.user.user_img" alt="" class="w-7 h-7 rounded-full mr-2" />
+          <span class="text-lg text-black">{{ entry.user.username }}</span>
+        </div>
+        <div class="flex flex-row justify-around items-center h-1/6 border-t border-gray-200">
           <div class="flex flex-row items-center">
             <IconBase
               view-box="0 0 16 16"
@@ -29,45 +51,48 @@
               height="16"
               icon-color="black"
               stroke-color="none"
-              class="mr-3"
+              class="mr-2"
             >
               <IconClock />
             </IconBase>
-            <span>{{ entry?.cooking_time || '30 мин.' }}</span>
+            <span>{{ entry?.cooking_time || 30 }}мин.</span>
           </div>
           <div class="flex flex-row items-center">
             <IconBase
-              width="16"
-              height="16"
+              width="19"
+              height="19"
               stroke-color="black"
               icon-color="white"
-              class="mr-3"
-              stroke-width="1.2"
+              class="mr-1"
+              stroke-width="1.5"
             >
               <IconPie />
             </IconBase>
+            <span>{{ entry?.portion || '6' }}п.</span>
+          </div>
+
+          <div class="flex flex-row items-center">
             <IconBase
-              width="16"
-              height="16"
-              :icon-color="`${inFavorites ? 'black' : 'none'}`"
-              stroke-color="black"
-              class="hover:cursor-pointer hover:scale-125"
-              @click="addFavs"
-            >
-              <IconHeart />
-            </IconBase>
-            <IconBase
-              width="16"
-              height="16"
+              width="18"
+              height="18"
               icon-color="none"
               stroke-color="black"
-              class="hover:cursor-pointer hover:scale-125"
+              class="hover:cursor-pointer hover:scale-125 mr-1"
             >
               <IconThumbUp />
             </IconBase>
-            <p>{{ currentRecipe?.likes }}</p>
+            <span>{{ currentRecipe?.likes || 0 }}</span>
           </div>
-          <span>{{ entry?.portion || '6 персон' }}</span>
+          <IconBase
+            width="18"
+            height="18"
+            :icon-color="`${inFavorites ? 'black' : 'none'}`"
+            stroke-color="black"
+            class="hover:cursor-pointer hover:scale-125"
+            @click="addFavs"
+          >
+            <IconHeart />
+          </IconBase>
         </div>
       </div>
       <div

@@ -22,7 +22,7 @@
           v-for="(recipe, ind) in recipes.getLatestRecipes"
           :key="recipe.title"
           :entry="recipe"
-          :wrap-class="`w-full h-80  mx-auto shadow-md overflow-hidden relative`"
+          :wrap-class="`w-full h-[450px]  mx-auto shadow-md overflow-hidden relative`"
         >
         </RecipeCard>
       </div>
