@@ -1,20 +1,24 @@
 <template>
   <router-link
     :to="to ? to : `/recipes/${entry?.id}`"
-    :class="`${
+    :class="
       wrapClass
-        ? wrapClass
+        ? `${wrapClass} group `
         : 'w-full h-[450px] max-w-sm mx-auto shadow-md overflow-hidden relative group'
-    }`"
+    "
   >
-    <div class="w-full h-full group">
+    <div class="w-full h-full">
       <div :class="`${isTrend ? 'h-full' : 'h-1/2'} relative`">
-        <img :src="entry?.img_url" alt="" class="w-full h-full object-cover" />
+        <img
+          :src="entry?.img_url"
+          alt=""
+          class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
+        />
         <div
           id="user"
           class="
             absolute
-            bottom-0
+            -top-10
             left-0
             flex flex-row
             items-center
@@ -22,6 +26,9 @@
             py-1
             px-2
             bg-opacity-40
+            group-hover:top-0
+            transition-all
+            duration-500
           "
           v-if="!isTrend"
         >
@@ -39,10 +46,10 @@
             {{ entry?.short_dsc }}
           </p>
         </div>
-        <div id="user" class="flex flex-row items-center justify-end mb-2" v-if="!isTrend">
-          <img :src="entry.user.user_img" alt="" class="w-7 h-7 rounded-full mr-2" />
-          <span class="text-lg text-black">{{ entry.user.username }}</span>
-        </div>
+        <!--        <div id="user" class="flex flex-row items-center justify-start my-2" v-if="!isTrend">-->
+        <!--          <img :src="entry.user.user_img" alt="" class="w-7 h-7 rounded-full mr-2" />-->
+        <!--          <span class="text-lg text-black">{{ entry.user.username }}</span>-->
+        <!--        </div>-->
         <div class="flex flex-row justify-around items-center h-1/6 border-t border-gray-200">
           <div class="flex flex-row items-center">
             <IconBase
