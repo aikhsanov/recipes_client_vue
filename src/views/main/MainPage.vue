@@ -17,6 +17,7 @@
       </div>
     </section>
     <section class="mt-2">
+      <h2 class="text-center text-3xl font-bold my-6 text-zinc-600 header-separator">Рецепты</h2>
       <div class="grid gap-4 grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
         <RecipeCard
           v-for="(recipe, ind) in recipes.getLatestRecipes"
@@ -60,4 +61,20 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.header-separator {
+  font-family: Bahnschrift;
+  position: relative;
+  display: flex;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    @apply border-b;
+    @apply border-b-zinc-300;
+    margin: auto 1rem;
+    //box-shadow: 0 -2px;
+  }
+}
+</style>
