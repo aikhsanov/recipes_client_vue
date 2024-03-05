@@ -93,10 +93,10 @@
           <IconBase
             width="18"
             height="18"
-            :icon-color="`${inFavorites ? 'black' : 'none'}`"
+            :icon-color="`${isFavorite ? 'black' : 'none'}`"
             stroke-color="black"
             class="hover:cursor-pointer hover:scale-125"
-            @click="addFavs"
+            @click.prevent="addFavs"
           >
             <IconHeart />
           </IconBase>
@@ -134,10 +134,10 @@ import { storeToRefs } from 'pinia';
 import { useRecipesStore } from '@/stores/recipes';
 import useToaster from '@/composables/useToaster';
 import { useAuthStore } from '@/stores/auth';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
-const { currentRecipe, inFavorites } = storeToRefs(useRecipesStore());
-
+const { currentRecipe } = storeToRefs(useRecipesStore());
+const recipes = useRecipesStore();
 const props = defineProps<{
   entry?: object;
   wrapClass?: string;
@@ -145,14 +145,24 @@ const props = defineProps<{
   isTrend?: boolean;
 }>();
 const { me } = storeToRefs(useAuthStore());
-
+const isFavorite = ref(props.entry?.favorite);
 const userId = computed<number>(() => me?.value?.id);
+
 async function addFavs() {
   if (!userId.value) {
     useToaster('Войдите, чтобы добавить в избранное', 'warning');
     return;
   }
-  await recipes.addToFavorites({ userId: userId.value, recipeId: recipeId.value });
+  await recipes.addToFavorites({ userId: userId.value, recipeId: props.entry?.id });
+  isFavorite.value = !isFavorite.value;
+}
+
+async function addLikes() {
+  if (!userId.value) {
+    useToaster('Войдите, чтобы оценить пост', 'warning');
+    return;
+  }
+  await recipes.addToLikes({ userId: userId.value, recipeId: props.entry?.id });
 }
 </script>
 
