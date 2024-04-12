@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="relative w-full">
     <label
       v-if="props.label"
       :for="props.name"
@@ -25,6 +25,7 @@
       :noOptionsText="props.noOptionsText"
       :clearOnBlur="props.clearOnBlur"
       :delay="delay"
+      :caret="caret"
       :options="computedOptions || selectOptions"
       :class="`${customClass}`"
       @search-change="debouncedSearch"
@@ -63,6 +64,7 @@ const props = defineProps<{
   mode?: string;
   name?: string;
   customClass?: string;
+  wrapperClass?: string;
   customLabelClass?: string;
   searchable?: boolean;
   clearOnBlur?: boolean;
@@ -70,6 +72,7 @@ const props = defineProps<{
   options?: [];
   createOption?: boolean;
   closeOnSelect?: boolean;
+  caret?: boolean;
   disabled?: boolean;
   trackBy?: string;
   placeholder?: string;

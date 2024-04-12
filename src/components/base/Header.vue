@@ -4,7 +4,9 @@
       <!--      <router-link to="/" class="w-3/12">-->
       <!--        <h1 class="text-4xl text-gray-500 font-bold">Едим Вкусно</h1>-->
       <!--      </router-link>-->
+
       <RecipesSearchInput wrapperClass="w-7/12" />
+
       <BaseButton
         v-if="!auth.getIsAuthed"
         type="button"
@@ -34,6 +36,9 @@ import { useAuthStore } from '@/stores/auth';
 import useModal from '@/composables/useModal';
 import BaseModal from '@/components/base/BaseModal.vue';
 import RecipesSearchInput from '@/components/base/RecipesSearchInput.vue';
+import IconSearch from '@/components/icons/IconSearch.vue';
+import { ref } from 'vue';
+import IconBase from '@/components/icons/IconBase.vue';
 const auth = useAuthStore();
 const { isOpen, toggleModal } = useModal();
 </script>

@@ -2,4 +2,9 @@
   .multiselect {
     border-width: 1px !important;
   }
+  .recipes-search {
+    .multiselect {
+      border: none;
+    }
+  }
 }
