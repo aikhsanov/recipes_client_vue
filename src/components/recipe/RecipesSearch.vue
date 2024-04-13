@@ -1,6 +1,6 @@
 <template>
   <h3 class="text-gray-600 text-2xl font-medium">Результаты поиска</h3>
-  <RecipesGrid :recipes="recipes.getRecipes" />
+  <RecipesGrid :recipes="recipes?.getRecipes" />
 </template>
 
 <script setup lang="ts">

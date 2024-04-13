@@ -100,13 +100,11 @@ const router = createRouter({
       children: [
         {
           path: 'search',
-          name: 'recipeSearch',
           meta: { layout: 'InfiniteScrollLayout' },
           component: () => import('../components/recipe/RecipesSearch.vue'),
         },
         {
           path: 'by/category/:id',
-          name: 'recipeSearch',
           meta: { layout: 'InfiniteScrollLayout' },
           component: () => import('../components/recipe/RecipesByCategory.vue'),
         },

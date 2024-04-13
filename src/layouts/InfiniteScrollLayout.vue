@@ -5,7 +5,7 @@
       <div class="container mx-auto min-h-screen py-4">
         <div class="flex flex-row justify-between">
           <div class="flex flex-col w-full">
-            <RecipesSearchInput />
+            <!--            <RecipesSearchInput />-->
             <slot />
           </div>
           <aside class="ml-6 w-1/4 h-[calc(100vh-32px)] templ" v-if="route.meta.aside">

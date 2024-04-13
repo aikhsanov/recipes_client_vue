@@ -32,8 +32,8 @@
           "
           v-if="!isTrend"
         >
-          <img :src="entry.user.user_img" alt="" class="w-7 h-7 rounded-full mr-2" />
-          <span class="text-lg text-white">{{ entry.user.username }}</span>
+          <img :src="entry?.user?.user_img" alt="" class="w-7 h-7 rounded-full mr-2" />
+          <span class="text-lg text-white">{{ entry?.user?.username }}</span>
         </div>
       </div>
       <div
