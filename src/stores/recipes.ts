@@ -189,6 +189,7 @@ export const useRecipesStore = defineStore({
     async addComment(id: number, data: RecipeFavData) {
       try {
         await recipes.addComment(id, data);
+
         await this.loadRecipeById(this.currentRecipe.id);
       } catch (e) {
         throw new Error((e as AxiosError)?.message || e);
@@ -197,8 +198,11 @@ export const useRecipesStore = defineStore({
 
     async addToLikes(data: RecipeFavData) {
       try {
-        await recipes.addLikes(data);
-        await this.loadRecipeById(this.currentRecipe.id);
+        const updatedData = (await recipes.addLikes(data))?.data?.data;
+        if (Object.keys(this.currentRecipe).length) {
+          await this.loadRecipeById(this.currentRecipe.id);
+        }
+        return updatedData?.likes;
       } catch (e) {
         throw new Error((e as AxiosError)?.message || e);
       }

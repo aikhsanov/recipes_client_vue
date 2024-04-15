@@ -26,14 +26,16 @@ const props = defineProps<{
 
 const scrollWrapper = ref(null);
 const sentinel = ref(null);
-const page = ref<number>(1);
-const canLoadMore = ref<boolean>(true);
-const isLoadingMore = ref<boolean>(false);
+// const page = ref<number>(1);
+// const canLoadMore = ref<boolean>(true);
+// const isLoadingMore = ref<boolean>(false);
 const observer = ref(null);
 const target = ref(null);
 const route = useRoute();
 
 const scrollStore = useInfiniteScrollStore();
+const { canLoadMore, isLoadingMore } = storeToRefs(scrollStore);
+const { fetchFn } = scrollStore;
 
 let options = {
   root: scrollWrapper.value,
@@ -44,22 +46,7 @@ async function handleIntersection([entry]) {
     console.log('sentinel intersecting');
   }
   if (entry.isIntersecting && canLoadMore.value && !isLoadingMore.value) {
-    await fetchFn();
-  }
-}
-async function fetchFn() {
-  try {
-    isLoadingMore.value = true;
-    page.value += 1;
-    if (page.value <= scrollStore.pageMeta?.pages) {
-      await scrollStore.scrollFetch(page.value);
-    } else {
-      canLoadMore.value = false;
-    }
-  } catch (e) {
-    throw new Error(e);
-  } finally {
-    isLoadingMore.value = false;
+    await fetchFn(entry.isIntersecting);
   }
 }
 

@@ -103,7 +103,7 @@
             >
               <IconThumbUp />
             </IconBase>
-            <span>{{ currentRecipe?.likes || 0 }}</span>
+            <span>{{ likesCount || 0 }}</span>
           </div>
         </div>
       </div>
@@ -140,6 +140,7 @@ import { useRecipesStore } from '@/stores/recipes';
 import useToaster from '@/composables/useToaster';
 import { useAuthStore } from '@/stores/auth';
 import { computed, ref } from 'vue';
+import { useInfiniteScrollStore } from '@/stores/infinite_scroll';
 
 const { currentRecipe } = storeToRefs(useRecipesStore());
 const recipes = useRecipesStore();
@@ -151,7 +152,9 @@ const props = defineProps<{
 }>();
 const { me } = storeToRefs(useAuthStore());
 const isFavorite = ref(props.entry?.favorite);
+const likesCount = ref(props.entry?.likes);
 const userId = computed<number>(() => me?.value?.id);
+const scrollStore = useInfiniteScrollStore();
 
 async function addFavs() {
   if (!userId.value) {
@@ -167,7 +170,10 @@ async function addLikes() {
     useToaster('Войдите, чтобы оценить пост', 'warning');
     return;
   }
-  await recipes.addToLikes({ userId: userId.value, recipeId: props.entry?.id });
+  likesCount.value = await recipes.addToLikes({
+    userId: userId.value,
+    recipeId: props.entry?.id,
+  });
 }
 </script>
 
