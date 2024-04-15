@@ -1,27 +1,28 @@
 <template>
-  <Header />
-  <main>
-    <InfiniteScroll customWrapperClass="w-full overflow-auto">
-      <div class="container mx-auto min-h-screen py-4">
-        <div class="flex flex-row justify-between">
-          <div class="flex flex-col w-full">
-            <!--            <RecipesSearchInput />-->
-            <slot />
+  <div class="w-full flex flex-row">
+    <div class="min-h-screen w-10/12">
+      <Header />
+      <main>
+        <InfiniteScroll customWrapperClass="w-full overflow-auto">
+          <div class="container mx-auto min-h-screen py-4">
+            <div class="flex flex-row justify-between">
+              <div class="flex flex-col w-full">
+                <slot />
+              </div>
+            </div>
           </div>
-          <aside class="ml-6 w-1/4 h-[calc(100vh-32px)] templ" v-if="route.meta.aside">
-            <slot name="aside" />
-          </aside>
-        </div>
-      </div>
-    </InfiniteScroll>
-  </main>
-  <footer></footer>
+        </InfiniteScroll>
+      </main>
+      <footer></footer>
+    </div>
+    <SideMenu />
+  </div>
 </template>
 
 <script setup lang="ts">
 import Header from '@/components/base/Header.vue';
+import SideMenu from '@/components/menu/SideMenu.vue';
 import { useRoute, useRouter } from 'vue-router';
-import RecipesSearchInput from '@/components/base/RecipesSearchInput.vue';
 import InfiniteScroll from '@/components/tools/InfiniteScroll.vue';
 import { useRecipesStore } from '@/stores/recipes';
 

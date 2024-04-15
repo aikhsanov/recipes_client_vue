@@ -6,7 +6,10 @@
     <slot />
     <p class="text-center mb-5">Показаны все результаты поиска...</p>
     <div class="sentinel h-0" ref="sentinel"></div>
-    <Spinner custom-class="fixed top-1/2" v-if="isLoadingMore" />
+    <Spinner
+      :custom-class="`fixed top-1/2 ${route?.meta?.noSideMenu ? '' : 'spinner-left-pos'}`"
+      v-if="isLoadingMore"
+    />
   </div>
 </template>
 
@@ -15,6 +18,7 @@ import { onMounted, ref } from 'vue';
 import { useInfiniteScrollStore } from '@/stores/infinite_scroll';
 import { storeToRefs } from 'pinia';
 import Spinner from '@/components/ui/Spinner.vue';
+import { useRoute } from 'vue-router';
 
 const props = defineProps<{
   customWrapperClass?: string;
@@ -27,6 +31,7 @@ const canLoadMore = ref<boolean>(true);
 const isLoadingMore = ref<boolean>(false);
 const observer = ref(null);
 const target = ref(null);
+const route = useRoute();
 
 const scrollStore = useInfiniteScrollStore();
 

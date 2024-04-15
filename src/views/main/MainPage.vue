@@ -1,6 +1,7 @@
 <template>
   <div class="flex flex-col w-full">
-    <section class="mt-5" id="trends">
+    <section class="mt-2" id="trends">
+      <h2 class="text-center text-3xl font-bold mb-6 mt-3 text-zinc-600">Тренды</h2>
       <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
         <RecipeCard
           :entry="recipes.getLatestRecipes[1]"

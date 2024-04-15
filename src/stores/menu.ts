@@ -8,7 +8,7 @@ export const useMenuStore = defineStore({
     menu: [
       { name: 'Сегодняшние рецепты', path: '', slug: 'recipesbytoday' },
       { name: 'Топ за месяц', path: '', slug: 'topmonth' },
-      { name: 'Категории', children: [], slug: 'categories' },
+      { name: 'Категории', path: '', children: [], slug: 'categories' },
     ],
   }),
   getters: {
@@ -19,11 +19,11 @@ export const useMenuStore = defineStore({
     async formMenu() {
       try {
         const categoriesList = (await categories.getAll()).data.data;
-        console.log(categoriesList);
-        const catMenu = this.menu.find((el) => el.slug === 'categories');
+        if (!categoriesList.length) return;
+        const catMenu = this.menu.find((el) => el?.slug === 'categories');
         catMenu.children = categoriesList.map((c) => ({
-          name: c.title,
-          path: `recipes/by/category/${c.id}`,
+          name: c?.title,
+          path: `recipes/by/category/${c?.id}`,
         }));
       } catch (err) {
         console.error((err as AxiosError).message);

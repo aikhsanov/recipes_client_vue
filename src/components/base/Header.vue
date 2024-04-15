@@ -1,6 +1,6 @@
 <template>
-  <header class="py-4 px-10 border-b-2 border-b-gray-200">
-    <nav class="h-11 flex flex-row items-center container justify-between container mx-auto">
+  <header class="py-4 px-10">
+    <nav class="h-auto flex flex-row items-center container justify-between container mx-auto">
       <!--      <router-link to="/" class="w-3/12">-->
       <!--        <h1 class="text-4xl text-gray-500 font-bold">Едим Вкусно</h1>-->
       <!--      </router-link>-->
@@ -25,6 +25,7 @@
         />
       </div>
     </nav>
+    <div id="line" class="border-b-2 border-b-gray-200 mt-4"></div>
   </header>
 </template>
 

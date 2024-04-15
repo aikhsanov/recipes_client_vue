@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-gray-600 text-2xl font-medium">Результаты поиска</h3>
+  <h3 class="text-center text-3xl font-bold mb-6 mt-0 text-zinc-600">Результаты поиска</h3>
   <RecipesGrid :recipes="recipes?.getRecipes" />
 </template>
 

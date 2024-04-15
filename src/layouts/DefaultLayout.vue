@@ -26,8 +26,7 @@ import SideMenu from '@/components/menu/SideMenu.vue';
 const route = useRoute();
 
 const router = useRouter();
-const menu = useMenuStore();
-await menu.formMenu();
+
 console.log(route, 'ROUTE');
 </script>
 
