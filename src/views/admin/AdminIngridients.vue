@@ -1,9 +1,10 @@
 <template>
   <div class="">
-    <h3 class="font-bold text-xl text-center">
-      Добавление и редактирование доступных ингредиентов
-    </h3>
-    <div class="flex-col w-1/2 mx-auto mb-5" v-if="showForm">
+    <div class="flex flex-row justify-between mb-8 items-end">
+      <h3 class="font-bold text-xl">Добавление и редактирование доступных ингредиентов</h3>
+      <BaseButton type="submit" text="Добавить" @click="toggleForm" />
+    </div>
+    <div class="flex-col w-1/2 mx-auto" v-if="showForm">
       <div class="mt-12">
         <!--        <Select-->
         <!--          v-model="selectedIngr"-->
@@ -15,7 +16,7 @@
         <!--          @select="onEdit"-->
         <!--          label="Поиск по ингредиентам"-->
         <!--        />-->
-        <form @submit="onSubmit" class="mt-12 mb-5">
+        <form @submit="onSubmit" class="my-12">
           <ValidationInput
             id="ingridient-title"
             placeholder="Название ингредиента"
@@ -35,6 +36,9 @@
           </div>
           <div class="grid gap-6 grid-cols-1" v-else>
             <BaseButton type="button" text="Сохранить" @click.prevent="editOnSave" />
+          </div>
+          <div class="grid gap-6 grid-cols-1 mt-3" v-if="showForm" @click="toggleForm">
+            <BaseButton mode="danger" type="submit" text="Отмена" />
           </div>
         </form>
       </div>
@@ -171,6 +175,10 @@ onUnmounted(() => {
 
 async function fetchIngridients(page?: number) {
   await ingridients.loadIngridients({ page });
+}
+
+function toggleForm() {
+  showForm.value = !showForm.value;
 }
 
 async function searchFn(val, data = null) {

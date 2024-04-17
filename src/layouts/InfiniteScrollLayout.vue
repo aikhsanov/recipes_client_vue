@@ -2,9 +2,9 @@
   <div class="w-full flex flex-row">
     <div class="min-h-screen w-10/12">
       <Header />
-      <main>
+      <main class="px-10 py-4">
         <InfiniteScroll customWrapperClass="w-full overflow-auto">
-          <div class="container mx-auto min-h-screen py-4">
+          <div class="mx-auto min-h-screen">
             <div class="flex flex-row justify-between">
               <div class="flex flex-col w-full">
                 <slot />

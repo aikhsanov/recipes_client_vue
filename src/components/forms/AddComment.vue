@@ -41,6 +41,7 @@ const onSubmit = handleSubmit(async (values, actions) => {
       comment: values.comment,
       userId: auth.getMe.id,
     });
+    actions.resetForm();
   } catch (e) {
     actions.setErrors({ username: e.message });
   }

@@ -62,20 +62,4 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped lang="scss">
-.header-separator {
-  font-family: Bahnschrift;
-  position: relative;
-  display: flex;
-
-  &::before,
-  &::after {
-    content: '';
-    flex: 1;
-    @apply border-b;
-    @apply border-b-zinc-300;
-    margin: auto 1rem;
-    //box-shadow: 0 -2px;
-  }
-}
-</style>
+<style scoped lang="scss"></style>

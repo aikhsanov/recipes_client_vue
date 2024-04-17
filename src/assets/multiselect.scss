@@ -9,5 +9,14 @@
   }
   .multiselect-dropdown {
     overflow-y: auto !important;
+    border-radius: 0;
+  }
+
+  .multiselect {
+    @apply border-2 rounded-sm outline-none border-gray-200 #{!important};
+  }
+
+  .multiselect.is-active {
+    @apply shadow-none border-light-slate-gray-900 #{!important};
   }
 }

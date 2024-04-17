@@ -22,10 +22,18 @@ h5 {
   color: white !important;
 }
 
-.multiselect {
-  @apply border-2 rounded-sm outline-none border-gray-200 !important;
-}
+.header-separator {
+  font-family: Bahnschrift;
+  position: relative;
+  display: flex;
 
-.multiselect.is-active {
-  @apply shadow-none border-light-slate-gray-900 !important;
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    @apply border-b;
+    @apply border-b-zinc-300;
+    margin: auto 1rem;
+    //box-shadow: 0 -2px;
+  }
 }

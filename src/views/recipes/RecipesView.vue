@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col w-full">
-    <section class="mt-5">
+    <section class="">
       <router-view></router-view>
     </section>
   </div>

@@ -1,13 +1,16 @@
 <template>
   <div class="w-1/2 mx-auto">
-    <h3 class="text-gray-700 mb-5 text-2xl font-bold text-center">{{ currentRecipe.title }}</h3>
     <BaseButton
       v-if="isOwner"
       @click="toEdit"
       text="Редактировать"
       class="text-white w-full bg-light-slate-gray-900 hover:bg-light-slate-gray-800 my-5"
     />
-    <div class="my-3 flex flex-row items-center justify-between">
+    <h3 class="text-gray-700 mb-5 text-2xl font-bold text-center">
+      {{ currentRecipe.title }}
+    </h3>
+
+    <div class="my-4 flex flex-row items-center justify-between">
       <div class="flex flex-row">
         <div class="mr-1">
           <img v-if="currentRecipe?.user?.img_url" :src="currentRecipe?.user?.img_url" />
@@ -17,42 +20,48 @@
         </div>
         <h5>{{ currentRecipe?.user?.username || 'Имя пользователя' }}</h5>
       </div>
-      <div class="flex flex-row items-center justify-between w-2/12">
-        <IconBase
-          width="24"
-          height="24"
-          :icon-color="`${inFavorites ? 'black' : 'none'}`"
-          stroke-color="black"
-          class="hover:cursor-pointer hover:scale-125"
-          @click="addFavs"
-        >
-          <IconHeart />
-        </IconBase>
-        <IconBase
-          width="24"
-          height="24"
-          icon-color="none"
-          stroke-color="black"
-          class="hover:cursor-pointer hover:scale-125"
-          @click="addLikes"
-        >
-          <IconThumbUp />
-        </IconBase>
-        <p>{{ currentRecipe?.likes }}</p>
-        <IconBase
-          width="24"
-          height="24"
-          icon-color="none"
-          stroke-color="black"
-          class="hover:cursor-pointer hover:scale-125"
-          @click="
-            toggleComments();
-            scrollToComments();
-          "
-        >
-          <IconComments />
-        </IconBase>
-        <p>{{ commentsAmount }}</p>
+      <div class="flex flex-row items-center justify-between min-w-[30%] max-w-[50%]">
+        <div class="flex items-center">
+          <IconBase
+            width="24"
+            height="24"
+            :icon-color="`${inFavorites ? 'black' : 'none'}`"
+            stroke-color="black"
+            class="hover:cursor-pointer hover:scale-125"
+            @click="addFavs"
+          >
+            <IconHeart />
+          </IconBase>
+        </div>
+        <div class="flex flex-row items-center justify-between">
+          <IconBase
+            width="24"
+            height="24"
+            icon-color="none"
+            stroke-color="black"
+            class="hover:cursor-pointer hover:scale-125 mr-2"
+            @click="addLikes"
+          >
+            <IconThumbUp />
+          </IconBase>
+          <span>{{ currentRecipe?.likes }}</span>
+        </div>
+        <div class="flex flex-row items-center justify-between">
+          <IconBase
+            width="24"
+            height="24"
+            icon-color="none"
+            stroke-color="black"
+            class="hover:cursor-pointer hover:scale-125 mr-2"
+            @click="
+              toggleComments();
+              scrollToComments();
+            "
+          >
+            <IconComments />
+          </IconBase>
+          <span>{{ commentsAmount }}</span>
+        </div>
       </div>
     </div>
     <img :src="currentRecipe.img_url" class="w-full h-[40rem] object-cover object-bottom" />
@@ -122,9 +131,9 @@
     </div>
     <!--    {{ currentRecipe }}-->
 
-    <div class="my-5" v-if="commentsOpen" ref="comments">
-      <h5 class="text-xl font-bold mb-2">Комментарии</h5>
-      <div class="mb-2" v-for="comment in currentRecipe.recipe_comments" :key="comment.id">
+    <div class="mb-5 mt-10" v-if="commentsOpen" ref="comments">
+      <h5 class="text-xl font-bold mb-2 text-center">Комментарии</h5>
+      <div class="my-3" v-for="comment in currentRecipe.recipe_comments" :key="comment.id">
         <div class="flex flex-row justify-between">
           <div class="w-1/3 flex items-center justify-start">
             <div
