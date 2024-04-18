@@ -57,12 +57,8 @@ export const useIngridientsStore = defineStore({
 
     async createIngridient(data: Ingridient) {
       try {
-        const res = (
-          await ingridients.create({
-            name: data.name,
-            description: data.description,
-          })
-        ).data;
+        console.log(data, 'data');
+        const res = (await ingridients.create(data)).data;
         console.log(res);
         if (res.data) {
           await ingridients.uploadImage(res.data.id, data.img);

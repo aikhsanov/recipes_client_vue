@@ -106,6 +106,7 @@ const { handleSubmit, isSubmitting, setValues, setTouched, meta, resetForm } = u
 const id = computed(() => ingridients?.getCurrentIngridient.id);
 
 const onSubmit = handleSubmit(async (values, actions) => {
+  console.log(values, 'values');
   try {
     const data = {
       title: values.title,

@@ -1,6 +1,6 @@
 export interface Ingridient {
   id?: number;
-  title: string;
+  title?: string;
   description: string;
 }
 export interface RecipeIngridient {
