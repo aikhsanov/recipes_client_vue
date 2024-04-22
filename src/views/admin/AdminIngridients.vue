@@ -39,7 +39,7 @@
             <BaseButton type="button" text="Сохранить" @click.prevent="editOnSave" />
           </div>
           <div class="grid gap-6 grid-cols-1 mt-3" v-if="showForm" @click="toggleForm">
-            <BaseButton mode="danger" type="submit" text="Отмена" />
+            <BaseButton mode="danger" text="Отмена" />
           </div>
         </form>
       </div>

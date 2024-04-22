@@ -14,6 +14,7 @@
       :id="props.name"
       :name="props.name"
       type="file"
+      ref="fileInput"
       :disabled="props.disabled"
       @change="onUpload($event)"
     />
@@ -38,6 +39,7 @@ const props = defineProps<{
 
 const value = ref<FormData | object>({});
 const img = ref<string>('');
+const fileInput = ref(null);
 
 const emits = defineEmits<{
   'update:modelValue': [val: number | string | object];
@@ -78,6 +80,9 @@ watch(
     console.log(typeof newVal, 'typeof newVal');
     if (typeof newVal === 'string') {
       img.value = newVal;
+    }
+    if (!newVal && fileInput.value.value) {
+      fileInput.value.value = '';
     }
   }
 );
