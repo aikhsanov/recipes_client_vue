@@ -75,6 +75,7 @@ watch(
   () => props.modelValue,
   (newVal) => {
     console.log(newVal);
+    console.log(typeof newVal, 'typeof newVal');
     if (typeof newVal === 'string') {
       img.value = newVal;
     }

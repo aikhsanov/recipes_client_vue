@@ -25,7 +25,7 @@ export const useIngridientsStore = defineStore({
     },
   },
   actions: {
-    async loadIngridients(config: object, infinite: boolean = false) {
+    async loadIngridients(config?: object, infinite?: boolean = false) {
       try {
         const { data }: Ingridient[] = await ingridients.getAll({ params: { ...config } });
         this.ingridients = infinite ? [...this.ingridients, ...data.data] : data?.data;
@@ -55,21 +55,21 @@ export const useIngridientsStore = defineStore({
       }
     },
 
-    async createIngridient(data: Ingridient) {
+    async createIngridient(data: FormData) {
       try {
         console.log(data, 'data');
-        const res = (await ingridients.create(data)).data;
-        console.log(res);
-        if (res.data) {
-          await ingridients.uploadImage(res.data.id, data.img);
+        for (const value of data.values()) {
+          console.log(value);
         }
+        const res = (await ingridients.create(data))?.data;
+        console.log(res);
         await this.loadIngridients();
       } catch (e) {
         throw new Error(e);
       }
     },
 
-    async updateIngridient(id: number, data: Ingridient): void {
+    async updateIngridient(id: number, data: FormData): void {
       const res = (await ingridients.update(id, data)).data;
       console.log(res.data, 'REEEEEEEEES');
       if (res.data) {

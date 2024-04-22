@@ -7,7 +7,13 @@ const ingridients = {
   getById: async (id: string | number, config?) => await api.get(`/ingridients/${id}`, config),
   getRecipesByIngridient: async (id: string | number, config?) =>
     await api.get(`/ingridients/${id}/recipes`, config),
-  create: async (data: any, config?: any) => await api.post('/ingridients', data, config),
+  create: async (data: any, config?: any) =>
+    await api.post('/ingridients', data, {
+      ...config,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }),
   uploadImage: async (id, data: any, config?: any) =>
     await api.post(`/ingridients/${id}/images`, data, {
       ...config,
@@ -16,7 +22,12 @@ const ingridients = {
       },
     }),
   update: async (id: string | number, data: any, config?: any) =>
-    await api.patch(`ingridients/${id}`, data, config),
+    await api.patch(`ingridients/${id}`, data, {
+      ...config,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }),
   delete: async (id: string | number, config?: any) =>
     await api.delete(`ingridients/${id}`, config),
 };

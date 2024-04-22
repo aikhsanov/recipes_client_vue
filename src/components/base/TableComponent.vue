@@ -12,16 +12,16 @@
       <tr
         v-for="(row, ind) in rows"
         :key="row.id"
-        :class="`border-b hover:bg-neutral-200 ${
+        :class="`border-b hover:bg-neutral-200  ${
           ind % 2 === 0 ? 'bg-neutral-100' : 'bg-white'
         } dark:border-neutral-500 dark:bg-neutral-700 h-full`"
       >
         <td
           v-for="(column, ind) in columns"
           :key="column.value"
-          class="whitespace-nowrap px-6 py-2"
+          class="whitespace-nowrap px-6 py-2 truncate max-w-md"
         >
-          {{ row[column.value] }}
+          {{ !column.boolean ? row[column?.value] : row[column?.value] ? 'Да' : 'Нет' }}
         </td>
         <td v-if="!hideControls" class="whitespace-nowrap px-6 py-2 w-44">
           <div class="h-full flex flex-row justify-around items-center">
