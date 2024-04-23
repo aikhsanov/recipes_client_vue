@@ -135,7 +135,7 @@ export const useRecipesStore = defineStore({
         const res = await recipes.create(data);
         useToaster('Рецепт добавлен!', 'success');
         // await this.loadRecipes();
-        return res?.data?.data;
+        return res.data;
       } catch (e) {
         throw new Error((e as AxiosError)?.message || e);
       }

@@ -241,9 +241,8 @@ async function onSuccess(values, actions) {
       route = `/recipes/${recipes.getCurrentRecipe.id}`;
     } else {
       const res = await recipes.createRecipe(formData);
-      route = `/recipes/${res.id}`;
+      route = `/recipes/${res?.id}`;
     }
-    console.log(route, 'route');
     await router.push(route);
   } catch (e) {
     actions.setErrors({ name: e.message });
