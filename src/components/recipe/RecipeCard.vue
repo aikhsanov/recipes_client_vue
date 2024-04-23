@@ -183,6 +183,6 @@ p {
   font-family: Bahnschrift;
 }
 .recipe-trend-card {
-  box-shadow: 0 0 200px rgba(0, 0, 0, 0.9) inset;
+  box-shadow: 0 0 120px rgba(0, 0, 0, 0.9) inset;
 }
 </style>

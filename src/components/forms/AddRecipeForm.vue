@@ -243,6 +243,7 @@ async function onSuccess(values, actions) {
       const res = await recipes.createRecipe(formData);
       route = `/recipes/${res.id}`;
     }
+    console.log(route, 'route');
     await router.push(route);
   } catch (e) {
     actions.setErrors({ name: e.message });

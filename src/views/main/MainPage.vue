@@ -5,13 +5,13 @@
       <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
         <RecipeCard
           :entry="recipes.getLatestRecipes[0]"
-          :wrap-class="`w-full h-full  mx-auto shadow-md overflow-hidden relative`"
+          :wrap-class="`w-full h-[400px]  mx-auto shadow-md overflow-hidden relative text-center`"
           isTrend
         >
         </RecipeCard>
         <RecipeCard
           :entry="recipes.getLatestRecipes[1]"
-          :wrap-class="`w-full h-full  mx-auto shadow-md overflow-hidden relative`"
+          :wrap-class="`w-full h-[400px]  mx-auto shadow-md overflow-hidden relative text-center`"
           isTrend
         >
         </RecipeCard>
