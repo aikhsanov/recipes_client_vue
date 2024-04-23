@@ -112,8 +112,7 @@ import ValidationFileUpload from '@/components/validation/ValidationFileUpload.v
 import { useFieldArray, useForm, useIsFormDirty, useIsFormValid } from 'vee-validate';
 import { useRecipesStore } from '@/stores/recipes';
 import BaseButton from '@/components/base/BaseButton.vue';
-import { computed, ref, onMounted } from 'vue';
-import searchFn from '@/helpers/searchFn';
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
 import prepareForm, { prepareFn } from '@/helpers/form';
 import IconBase from '@/components/icons/IconBase.vue';
 import IconTrash from '@/components/icons/IconTrash.vue';
@@ -151,18 +150,23 @@ const { handleSubmit, setFieldError, validateField, setValues, resetForm, errors
 
 onMounted(async () => {
   console.log('mounted');
-  if (recipes.getCurrentRecipe) {
-    initRecipeEdit();
-    return;
-  }
-  await recipesApi.getAll();
+
+  // await recipesApi.getAll();
   categoriesCollection.value = (await categories.getAll())?.data?.data;
   ingridientsCollection.value = (await ingridients.getAll())?.data?.data;
   unitCollection.value = (
     await collections.getAllFiltered({ filters: { collection: 'EQ(units)' } })
   )?.data?.data;
+  if (recipes.getCurrentRecipe) {
+    initRecipeEdit();
+    return;
+  }
   addIngrs();
   addStep();
+});
+
+onBeforeUnmount(() => {
+  recipes.clearState();
 });
 
 function addIngrs() {

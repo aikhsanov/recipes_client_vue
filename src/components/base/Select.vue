@@ -134,7 +134,8 @@ const selectOptions = computed<Option[]>(() =>
 const debouncedSearch = debounce((val) => onSearch(val), 800);
 
 async function onSearch(val: any, open: boolean = false, initial: boolean = false): Promise<void> {
-  if (val && !open && !initial && props?.searchFn) {
+  if (!props?.searchFn) return;
+  if (val && !open && !initial) {
     const res: object | [] = (await props?.searchFn(val))?.data;
     if (res?.data?.length) {
       searchedData.value = res?.data;
@@ -145,7 +146,7 @@ async function onSearch(val: any, open: boolean = false, initial: boolean = fals
     const filters = {
       id: `EQ(${val})`,
     };
-    const res: object | [] = (await props.searchFn(val, filters))?.data;
+    const res: object | [] = (await props?.searchFn(val, filters))?.data;
     emits('initial');
     if (res?.data?.length) {
       searchedData.value = res?.data;
@@ -154,8 +155,8 @@ async function onSearch(val: any, open: boolean = false, initial: boolean = fals
 
     return;
   }
-  if (open && props?.searchFn) {
-    const res: object | [] = (await props.searchFn(val))?.data;
+  if (open) {
+    const res: object | [] = (await props?.searchFn(val))?.data;
     if (res?.data?.length) {
       searchedData.value = res?.data;
     }
