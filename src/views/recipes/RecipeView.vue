@@ -12,8 +12,12 @@
 
     <div class="my-4 flex flex-row items-center justify-between">
       <div class="flex flex-row">
-        <div class="mr-1">
-          <img v-if="currentRecipe?.user?.img_url" :src="currentRecipe?.user?.img_url" />
+        <div class="mr-2">
+          <img
+            v-if="currentRecipe?.user?.user_img"
+            :src="currentRecipe?.user?.user_img"
+            class="rounded-full object-cover w-7 h-7"
+          />
           <IconBase v-else view-box="0 0 250 250" width="18" height="18">
             <IconAvatar />
           </IconBase>
@@ -193,7 +197,7 @@
 <script setup lang="ts">
 import { useRecipesStore } from '@/stores/recipes';
 import { useRoute, useRouter } from 'vue-router';
-import { computed, nextTick, onMounted, ref, toRef } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, toRef } from 'vue';
 import { storeToRefs } from 'pinia';
 import IconBase from '@/components/icons/IconBase.vue';
 import IconAvatar from '@/components/icons/IconAvatar.vue';
@@ -218,6 +222,7 @@ const commentsOpen = ref<boolean>(false);
 const comments = ref<HTMLDivElement>();
 
 const { currentRecipe, inFavorites } = storeToRefs(useRecipesStore());
+
 const { me } = storeToRefs(useAuthStore());
 
 const userId = computed<number>(() => me?.value?.id);
@@ -270,6 +275,10 @@ onMounted(async () => {
     p[n.id] = n;
     return p;
   }, {});
+});
+
+onBeforeUnmount(() => {
+  recipes.clearState();
 });
 </script>
 
