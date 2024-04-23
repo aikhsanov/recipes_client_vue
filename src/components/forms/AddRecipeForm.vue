@@ -78,7 +78,8 @@
                 :name="`recipe_ingridients[${ind}].quantity`"
                 label="Количество"
                 placeholder="1 - 100000"
-                maska="#######"
+                maska="0.99"
+                maskaTokens="0:\d:multiple|9:\d:optional"
               />
               <BaseButton
                 type="button"
@@ -118,6 +119,7 @@ import IconBase from '@/components/icons/IconBase.vue';
 import IconTrash from '@/components/icons/IconTrash.vue';
 import useToaster from '@/composables/useToaster';
 import { useAuthStore } from '@/stores/auth';
+import { useRouter } from 'vue-router';
 
 const recipes = useRecipesStore();
 const auth = useAuthStore();
@@ -137,6 +139,7 @@ const validationSchema = computed<object>(() => {
 });
 
 const edit = ref<boolean>(false);
+const router = useRouter();
 const categoriesCollection = ref<[]>([]);
 const ingridientsCollection = ref<[]>([]);
 const unitCollection = ref<[]>([]);
@@ -228,11 +231,15 @@ async function onSuccess(values, actions) {
     //   usePrepareEditData(formData);
     // }
 
+    let route;
     if (edit.value) {
       await recipes.updateRecipe(recipes.getCurrentRecipe.id, formData);
+      route = `/recipes/${recipes.getCurrentRecipe.id}`;
     } else {
-      await recipes.createRecipe(formData);
+      const res = await recipes.createRecipe(formData);
+      route = `/recipes/${res.id}`;
     }
+    await router.push(route);
   } catch (e) {
     actions.setErrors({ name: e.message });
   }

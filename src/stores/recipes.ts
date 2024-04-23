@@ -132,9 +132,10 @@ export const useRecipesStore = defineStore({
 
     async createRecipe(data: FormData) {
       try {
-        await recipes.create(data);
+        const res = await recipes.create(data);
         useToaster('Рецепт добавлен!', 'success');
-        await this.loadRecipes();
+        // await this.loadRecipes();
+        return res?.data?.data;
       } catch (e) {
         throw new Error((e as AxiosError)?.message || e);
       }

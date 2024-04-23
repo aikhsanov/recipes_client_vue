@@ -4,13 +4,13 @@
       <h2 class="text-center text-3xl font-bold mb-6 mt-3 text-zinc-600">Тренды</h2>
       <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
         <RecipeCard
-          :entry="recipes.getLatestRecipes[1]"
+          :entry="recipes.getLatestRecipes[0]"
           :wrap-class="`w-full h-full  mx-auto shadow-md overflow-hidden relative`"
           isTrend
         >
         </RecipeCard>
         <RecipeCard
-          :entry="recipes.getLatestRecipes[2]"
+          :entry="recipes.getLatestRecipes[1]"
           :wrap-class="`w-full h-full  mx-auto shadow-md overflow-hidden relative`"
           isTrend
         >

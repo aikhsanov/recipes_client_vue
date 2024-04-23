@@ -11,6 +11,7 @@
         :class="inputClass"
         v-maska
         :data-maska="props.maska"
+        :data-maska-tokens="props.maskaTokens"
       />
     </template>
     <template v-else>
@@ -66,6 +67,7 @@ const props = defineProps<{
   disabled?: boolean;
   lined?: boolean;
   maska?: string;
+  maskaTokens?: string;
 }>();
 
 const form = useFormStore();
