@@ -6,7 +6,7 @@ export const useMenuStore = defineStore({
   id: 'menu',
   state: () => ({
     menu: [
-      { name: 'Сегодняшние рецепты', path: '', slug: 'recipesbytoday' },
+      { name: 'Новые рецепты', path: '/recipes/by/today', slug: 'recipesbytoday' },
       { name: 'Топ за месяц', path: '', slug: 'topmonth' },
       { name: 'Категории', path: '', children: [], slug: 'categories' },
     ],

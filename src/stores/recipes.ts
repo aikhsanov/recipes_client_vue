@@ -64,10 +64,19 @@ export const useRecipesStore = defineStore({
         console.log((err as AxiosError)?.message || err);
       }
     },
-
+    async loadRecipesByFilter({ page = 1, filters } = {}) {
+      try {
+        const res = (await recipes.getAllFiltered({ filters }, { params: { limit: 20, page } }))
+          .data;
+        this.recipes = res.data;
+        this.meta = res._meta;
+      } catch (err) {
+        console.log((err as AxiosError)?.message || err);
+      }
+    },
     async loadLatestRecipes() {
       try {
-        const config = { params: { order: { createdAt: 'desc' }, limit: 5 } };
+        const config = { params: { order: { createdAt: 'desc' }, limit: 10 } };
         const res = (await recipes.getAll(config)).data;
         this.latestRecipes = res.data;
       } catch (err) {

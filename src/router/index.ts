@@ -108,6 +108,11 @@ const router = createRouter({
           meta: { layout: 'InfiniteScrollLayout' },
           component: () => import('../components/recipe/RecipesByCategory.vue'),
         },
+        {
+          path: 'by/:filter',
+          meta: { layout: 'InfiniteScrollLayout' },
+          component: () => import('../components/recipe/RecipesByFilter.vue'),
+        },
       ],
       component: () => import('../views/recipes/RecipesView.vue'),
     },
