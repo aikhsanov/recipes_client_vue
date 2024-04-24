@@ -19,6 +19,8 @@
         searchable
         :noInitSearch="true"
         :searchFn="mainSearchFn"
+        :closeOnSelect="true"
+        :clearOnSelect="true"
         @select="redirectToRecipe"
         @keydown.enter="onMainSearch"
       ></Select>
@@ -51,7 +53,8 @@ const props = defineProps<{
 async function onMainSearch(e) {
   await router.push(`/recipes/search?text=${e.target.value}`);
 }
-async function redirectToRecipe(e) {
+async function redirectToRecipe(e, select) {
+  select.clear();
   await router.push(`/recipes/${e}`);
 }
 const showSearch = ref(false);

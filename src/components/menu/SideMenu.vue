@@ -29,9 +29,12 @@
                   <li
                     v-for="child in item?.children"
                     :key="child?.id"
-                    class="py-2 hover:bg-zinc-600 -mx-4 text-base"
+                    class="hover:bg-zinc-600 -mx-4 text-base"
                   >
-                    <router-link class="font-semibold w-full text-white" :to="child?.path"
+                    <router-link
+                      class="font-semibold w-full text-white py-2 block"
+                      :to="child?.path"
+                      :key="child.id"
                       >{{ child?.name?.toUpperCase() }}
                     </router-link>
                   </li>

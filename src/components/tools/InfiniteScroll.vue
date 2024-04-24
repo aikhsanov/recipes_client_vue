@@ -4,7 +4,7 @@
     ref="scrollWrapper"
   >
     <slot />
-    <p class="text-center mb-5">Показаны все результаты поиска...</p>
+    <p class="text-center my-5">Показаны все результаты поиска...</p>
     <div class="sentinel h-0" ref="sentinel"></div>
     <Spinner
       :custom-class="`fixed top-1/2 ${route?.meta?.noSideMenu ? '' : 'spinner-left-pos'}`"

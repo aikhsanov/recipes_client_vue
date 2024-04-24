@@ -23,7 +23,7 @@ export const useMenuStore = defineStore({
         const catMenu = this.menu.find((el) => el?.slug === 'categories');
         catMenu.children = categoriesList.map((c) => ({
           name: c?.title,
-          path: `recipes/by/category/${c?.id}`,
+          path: `/recipes/by/category/${c?.id}`,
         }));
       } catch (err) {
         console.error((err as AxiosError).message);

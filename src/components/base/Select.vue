@@ -24,13 +24,14 @@
       :noResultsText="props.noResultsText"
       :noOptionsText="props.noOptionsText"
       :clearOnBlur="props.clearOnBlur"
+      :clear-on-select="props.clearOnSelect"
       :delay="delay"
       :caret="caret"
       :options="computedOptions || selectOptions"
       :class="`${customClass}`"
       @search-change="debouncedSearch"
       @open="!noInitSearch ? onSearch('', true) : null"
-      @select="(e) => emits('select', e)"
+      @select="(e, opt, select) => emits('select', e, select)"
     />
   </div>
 </template>
@@ -72,6 +73,7 @@ const props = defineProps<{
   options?: [];
   createOption?: boolean;
   closeOnSelect?: boolean;
+  clearOnSelect?: boolean;
   caret?: boolean;
   disabled?: boolean;
   trackBy?: string;
