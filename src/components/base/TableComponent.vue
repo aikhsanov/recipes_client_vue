@@ -61,7 +61,7 @@ import IconBase from '@/components/icons/IconBase.vue';
 import IconEdit from '@/components/icons/IconEdit.vue';
 import IconTrash from '@/components/icons/IconTrash.vue';
 import BaseConfirm from '@/components/base/BaseConfirm.vue';
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 
 const props = defineProps<{
   columns: [];
@@ -86,6 +86,12 @@ const controlBtns = computed(() =>
     },
   ].concat(props?.controls || [])
 );
+
+onMounted(() => {
+  if (props?.fetchFn) {
+    props?.fetchFn();
+  }
+});
 </script>
 
 <style scoped></style>

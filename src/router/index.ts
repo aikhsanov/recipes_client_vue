@@ -51,14 +51,15 @@ const router = createRouter({
       meta: { layout: 'AdminLayout' },
       component: () => import('../views/Register.vue'),
     },
+    // {
+    //   path: '/admin-panel',
+    //   name: 'adminPanel',
+    //   meta: { layout: 'AdminLayout', auth: true, role: 'admin' },
+    //   component: () => import('../views/admin/AdminPanel.vue'),
+    // },
     {
       path: '/admin-panel',
-      name: 'adminPanel',
-      meta: { layout: 'AdminLayout', auth: true, role: 'admin' },
-      component: () => import('../views/admin/AdminPanel.vue'),
-    },
-    {
-      path: '/admin-panel/ingridients',
+      alias: '/admin-panel/ingridients',
       name: 'ingridients',
       meta: { layout: 'AdminLayout', auth: true, role: 'admin' },
       component: () => import('../views/admin/AdminIngridients.vue'),

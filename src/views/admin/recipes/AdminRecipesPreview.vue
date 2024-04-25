@@ -30,11 +30,11 @@ onMounted(() => {
 });
 
 async function approveRecipe(): Promise<void> {
-  await recipesApi.approveRecipe(route.params.id);
+  await recipesApi.approveRecipe(route?.params?.id);
 }
 
 async function declineRecipe(): Promise<void> {
-  await recipesApi.declineRecipe(route.params.id);
+  await recipesApi.declineRecipe(route?.params?.id);
 }
 </script>
 
