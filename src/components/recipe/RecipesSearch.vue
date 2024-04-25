@@ -17,12 +17,12 @@ const text = computed<string>(() => route?.query?.text);
 const scrollStore = useInfiniteScrollStore();
 scrollStore.setScrollFetchFn(loadRecipes);
 
-async function loadRecipes(page = 1) {
-  await recipes.searchRecipes(text.value, { params: { limit: 20, page } }, true);
+async function loadRecipes(page = 1, init) {
+  await recipes.searchRecipes(text.value, { params: { limit: 20, page } }, true, init);
 }
 
 onMounted(async () => {
-  await loadRecipes(1);
+  await loadRecipes(1, true);
   scrollStore.setPageMeta({ ...recipes.getDataMeta });
 });
 

@@ -83,11 +83,11 @@ export const useRecipesStore = defineStore({
         console.log((err as AxiosError)?.message || err);
       }
     },
-    async searchRecipes(val: string, config: {}, infinite: boolean = false) {
+    async searchRecipes(val: string, config: {}, infinite: boolean = false, initial = false) {
       try {
         const res = (await recipes.getAllByTitle({ filters: { title: `LIKE(${val})` } }, config))
           .data;
-        this.recipes = infinite ? [...this.recipes, ...res.data] : res?.data;
+        this.recipes = infinite && !initial ? [...this.recipes, ...res.data] : res?.data;
         this.meta = res._meta;
       } catch (err) {
         console.log((err as AxiosError)?.message || err);
