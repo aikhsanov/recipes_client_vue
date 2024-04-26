@@ -3,7 +3,7 @@
     <div class="min-h-screen xl:w-10/12 sm:w-full">
       <HeaderMenu class="md:block lg:hidden mb-5" />
       <Header />
-      <main class="px-10 py-4">
+      <main class="xs:px-1 sm:px-5 lg:px-10 py-4">
         <div class="flex flex-row justify-between">
           <div class="flex flex-col w-full">
             <slot />

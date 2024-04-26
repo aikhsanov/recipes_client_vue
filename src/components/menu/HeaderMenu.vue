@@ -12,28 +12,28 @@
           @click="toggleMenu"
         >
           <div
-            :class="`w-10
-          h-2
+            :class="`w-8
+          h-1
           bg-white
           rounded-full
           transition-all
           duration-150
           before:content-['']
           before:absolute
-          before:w-10
-          before:h-2
+          before:w-8
+          before:h-1
           before:bg-white
           before:rounded-full
-          before:-translate-y-4
+          before:-translate-y-2.5
           before:transition-all
           before:duration-150
           after:content-['']
           after:absolute
-          after:w-10
-          after:h-2
+          after:w-8
+          after:h-1
           after:bg-white
           after:rounded-full
-          after:translate-y-4
+          after:translate-y-2.5
           after:transition-all
           after:duration-150`"
           ></div>
