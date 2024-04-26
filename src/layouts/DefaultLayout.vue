@@ -1,6 +1,7 @@
 <template>
   <div class="w-full flex flex-row">
-    <div class="min-h-screen w-10/12">
+    <div class="min-h-screen xl:w-10/12 sm:w-full">
+      <HeaderMenu class="md:block lg:hidden mb-5" />
       <Header />
       <main class="px-10 py-4">
         <div class="flex flex-row justify-between">
@@ -11,12 +12,13 @@
       </main>
       <footer></footer>
     </div>
-    <SideMenu />
+    <SideMenu class="xs:hidden lg:block" />
   </div>
 </template>
 
 <script setup lang="ts">
 import Header from '@/components/base/Header.vue';
+import HeaderMenu from '@/components/menu/HeaderMenu.vue';
 import { useRoute, useRouter } from 'vue-router';
 import RecipesSearchInput from '@/components/base/RecipesSearchInput.vue';
 import { useMenuStore } from '@/stores/menu';

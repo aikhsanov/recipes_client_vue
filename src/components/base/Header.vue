@@ -40,6 +40,7 @@ import RecipesSearchInput from '@/components/base/RecipesSearchInput.vue';
 import IconSearch from '@/components/icons/IconSearch.vue';
 import { ref } from 'vue';
 import IconBase from '@/components/icons/IconBase.vue';
+import HeaderMenu from '@/components/menu/HeaderMenu.vue';
 const auth = useAuthStore();
 const { isOpen, toggleModal } = useModal();
 </script>
