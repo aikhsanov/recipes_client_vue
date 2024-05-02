@@ -1,6 +1,15 @@
 <template>
   <div
-    class="w-full min-h-[100px] max-h-[500px] py-4 border-l border-l-gray-200 bg-zinc-800 relative"
+    class="
+      w-full
+      min-h-[100px]
+      xs:max-h-[100vh]
+      xl:max-h-[500px]
+      py-4
+      border-l border-l-gray-200
+      bg-zinc-800
+      relative
+    "
   >
     <slot name="header-menu">
       <div>

@@ -1,5 +1,10 @@
 <template>
-  <BaseDropdown :dropdownItems="menu" links activatorClass="pt-0 md:pl-5 ml-0">
+  <BaseDropdown
+    :dropdownItems="menu"
+    links
+    activatorClass="pt-0 md:pl-5 ml-0"
+    dropDownPos="xs:left-0 md:right-0"
+  >
     <template #activator>
       <button
         class="
