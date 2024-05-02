@@ -1,9 +1,9 @@
 <template>
   <div class="w-full flex flex-row">
-    <div class="min-h-screen xl:w-10/12 sm:w-full">
-      <HeaderMenu class="md:block lg:hidden mb-5" />
+    <div class="min-h-screen xl:w-10/12 xs:w-full">
+      <HeaderMenu class="md:block xl:hidden mb-5" />
       <Header />
-      <main class="xs:px-1 sm:px-5 lg:px-10 py-4">
+      <main class="xs:px-2 sm:px-5 lg:px-10 py-4">
         <div class="flex flex-row justify-between">
           <div class="flex flex-col w-full">
             <slot />
@@ -12,7 +12,7 @@
       </main>
       <footer></footer>
     </div>
-    <SideMenu class="xs:hidden lg:block" />
+    <SideMenu class="xs:hidden xl:block" />
   </div>
 </template>
 

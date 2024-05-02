@@ -25,12 +25,17 @@
         <ValidationFileUpload name="img_url" label="Обложка рецепта" preview />
         <hr class="my-5" />
         <ValidationInput
-          class="w-2/4"
+          class="xs:max-sm:w-full w-2/4"
           name="cooking_time"
           label="Время приготовления в мин."
           maska="#######"
         />
-        <ValidationInput class="w-2/4" name="portion" label="Количество порций" maska="#######" />
+        <ValidationInput
+          class="xs:max-sm:w-full w-2/4"
+          name="portion"
+          label="Количество порций"
+          maska="#######"
+        />
         <hr class="my-5" />
         <div class="add-recipe-descritpion">
           <div class="" v-for="(step, ind) in stepsFields" :key="`steps-${step.key}`">
@@ -52,9 +57,9 @@
         </div>
         <div class="add-recipe-ingridients">
           <div class="" v-for="(ingr, ind) in ingrFields" :key="`ingridients-${ingr.key}`">
-            <div class="flex flex-row mt-5 items-end justify-between gap-x-2">
+            <div class="flex md:flex-row xs:flex-col mt-5 items-end justify-between gap-x-2">
               <ValidationSelect
-                class="w-2/4"
+                class="xs:w-full md:w-2/4"
                 :name="`recipe_ingridients[${ind}].ingridientId`"
                 label="Выберите ингредиент"
                 placeholder="Ингредиент"
@@ -64,7 +69,7 @@
                 closeOnSelect
               />
               <ValidationSelect
-                class="w-1/4"
+                class="xs:w-full md:w-1/4"
                 :name="`recipe_ingridients[${ind}].unit_cid`"
                 label="Мера"
                 placeholder="кг/гр"
@@ -74,7 +79,7 @@
                 closeOnSelect
               />
               <ValidationInput
-                class="w-1/4"
+                class="xs:w-full md:w-1/4"
                 :name="`recipe_ingridients[${ind}].quantity`"
                 label="Количество"
                 placeholder="1 - 100000"
@@ -83,7 +88,7 @@
               />
               <BaseButton
                 type="button"
-                class="my-3 bg-tomato-800 hover:bg-tomato-900 px-3"
+                class="my-3 bg-tomato-800 hover:bg-tomato-900 px-3 xs:max-sm:w-full"
                 @click="removeIngrs(ind)"
               >
                 <template #icn>

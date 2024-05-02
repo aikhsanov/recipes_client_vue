@@ -1,5 +1,5 @@
 <template>
-  <div class="w-1/2 mx-auto">
+  <div class="xs:w-full md:w-3/4 2xl:w-1/2 mx-auto">
     <BaseButton
       v-if="isOwner"
       @click="toEdit"
@@ -24,7 +24,9 @@
         </div>
         <h5>{{ currentRecipe?.user?.username || 'Имя пользователя' }}</h5>
       </div>
-      <div class="flex flex-row items-center justify-between min-w-[30%] max-w-[50%]">
+      <div
+        class="flex flex-row items-center justify-between min-w-[30%] max-w-[50%] xs:max-md:w-1/2"
+      >
         <div class="flex items-center">
           <IconBase
             width="24"
@@ -68,25 +70,28 @@
         </div>
       </div>
     </div>
-    <img :src="currentRecipe.img_url" class="w-full h-[40rem] object-cover object-bottom" />
-    <div class="flex flex-row justify-around items-center my-3">
-      <div class="flex flex-row items-center">
+    <img
+      :src="currentRecipe.img_url"
+      class="w-full md:h-[40rem] xs:h-[20rem] object-cover object-bottom"
+    />
+    <div class="flex xs:flex-col md:flex-row justify-around items-center my-3 xs:max-md:my-6">
+      <div class="flex flex-row items-center xs:max-md:w-full xs:max-md:mb-3 xs:max-md:pl-1">
         <IconBase
           view-box="0 0 16 16"
           width="40"
           height="40"
           icon-color="black"
           stroke-color="none"
-          class="mr-3"
+          class="xs:max-md:mr-[21px] mr-3"
         >
           <IconClock />
         </IconBase>
-        <p class="font-bold">
-          Приготовление: <br />
+        <p class="font-bold xs:max-sm:inline-block">
+          Приготовление: <br class="xs:max-sm:hidden" />
           <span>{{ currentRecipe?.cooking_time || '30 мин.' }}</span>
         </p>
       </div>
-      <div class="flex flex-row items-center">
+      <div class="flex flex-row items-center xs:max-md:w-full">
         <IconBase
           width="54"
           height="54"
@@ -98,7 +103,7 @@
           <IconPie />
         </IconBase>
         <p class="font-bold">
-          Рецепт на: <br />
+          Рецепт на: <br class="xs:max-sm:hidden" />
           <span>{{ currentRecipe?.portion || '6 персон' }}</span>
         </p>
       </div>

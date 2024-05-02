@@ -1,5 +1,5 @@
 <template>
-  <div class="w-1/2 mx-auto">
+  <div class="xs:w-full md:w-3/4 2xl:w-1/2 mx-auto">
     <h3 class="text-gray-400 text-2xl font-bold text-center">Добавление рецепта</h3>
     <AddRecipeForm />
   </div>
