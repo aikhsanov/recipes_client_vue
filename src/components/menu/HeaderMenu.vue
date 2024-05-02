@@ -39,16 +39,24 @@
           ></div>
         </div>
         <MenuLogo />
-        <transition
+        <transition-group
           enter-active-class="duration-700 ease-in-out"
-          enter-from-class="max-h-0"
-          enter-to-class="max-h-[100vh]"
+          enter-from-class="max-h-0 opacity-0"
+          enter-to-class="max-h-[100vh] opacity-100"
           leave-active-class="duration-500 ease-in-out"
-          leave-from-class="max-h-[100vh]"
-          leave-to-class="max-h-0"
+          leave-from-class="max-h-[100vh] opacity-100"
+          leave-to-class="max-h-0 opacity-0"
         >
-          <BaseMenu list-class="flex flex-col items-start" v-show="isOpen" />
-        </transition>
+          <RecipesSearchInput
+            wrapperClass="w-11/12 mb-3 md:hidden header-recipe-search mx-auto pr-3"
+            iconColor="white"
+            noToggleSearch
+            show-search
+            v-show="isOpen"
+            :key="isOpen"
+          />
+          <BaseMenu list-class="flex flex-col items-start" v-show="isOpen" :key="2" />
+        </transition-group>
       </div>
     </slot>
   </div>
@@ -56,6 +64,7 @@
 
 <script setup lang="ts">
 import BaseMenu from '@/components/menu/BaseMenu.vue';
+import RecipesSearchInput from '@/components/base/RecipesSearchInput.vue';
 import { ref } from 'vue';
 import MenuLogo from '@/components/menu/MenuLogo.vue';
 const isOpen = ref(false);

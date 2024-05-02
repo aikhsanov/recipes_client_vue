@@ -5,9 +5,9 @@
       <!--        <h1 class="text-4xl text-gray-500 font-bold">Едим Вкусно</h1>-->
       <!--      </router-link>-->
 
-      <RecipesSearchInput wrapperClass="w-7/12" />
+      <RecipesSearchInput wrapperClass="w-7/12 md:flex xs:hidden" />
 
-      <div class="xs:f">
+      <div class="xs:max-md:w-full">
         <BaseButton
           v-if="!auth.getIsAuthed"
           type="button"
@@ -16,7 +16,7 @@
           class="mt-0 w-20 text-white font-bold bg-orange-300 hover:bg-orange-400"
         ></BaseButton>
         <AuthForm v-if="!auth.getIsAuthed" />
-        <div class="flex flex-row" v-else>
+        <div class="flex flex-row xs:justify-between xs:max-md:pr-2" v-else>
           <ProfileMenu />
           <BaseButton
             class="

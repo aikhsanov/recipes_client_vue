@@ -3,7 +3,7 @@
     :class="`recipes-search-wrap recipes-search flex flex-row items-center ${wrapperClass || ''}`"
   >
     <div class="p-3 cursor-pointer hover:scale-110" @click="toggleSearch">
-      <IconBase iconColor="black" viewBox="0 0 16 16" width="20" height="20" stroke-width="0">
+      <IconBase :iconColor="iconColor" viewBox="0 0 16 16" width="20" height="20" stroke-width="0">
         <IconSearch />
       </IconBase>
     </div>
@@ -46,6 +46,9 @@ const props = defineProps<{
   wrapperClass?: string;
   customClass?: string;
   placeholder?: string;
+  iconColor?: string;
+  showSearch?: boolean;
+  noToggleSearch?: boolean;
   route?: {};
   filters?: {};
 }>();
@@ -53,19 +56,23 @@ const props = defineProps<{
 async function onMainSearch(e) {
   await router.push(`/recipes/search?text=${e.target.value}`);
 }
+
 async function redirectToRecipe(e, select) {
   select.clear();
   await router.push(`/recipes/${e}`);
 }
-const showSearch = ref(false);
+
+const showSearch = ref(props.showSearch || false);
 const search = ref(null);
 
 function toggleSearch() {
+  if (props.noToggleSearch) return;
   if (!showSearch.value) {
     document.querySelector('input.multiselect-search')?.focus();
   }
   showSearch.value = !showSearch.value;
 }
+
 const mainSearchFn = (val) =>
   searchFn({
     val,

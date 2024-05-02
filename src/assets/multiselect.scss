@@ -7,6 +7,15 @@
       border: none;
     }
   }
+  .header-recipe-search {
+    .multiselect {
+      .multiselect-search {
+        @apply bg-zinc-800;
+        border-radius: 0;
+        color: white;
+      }
+    }
+  }
   .multiselect-dropdown {
     overflow-y: auto !important;
     border-radius: 0;
