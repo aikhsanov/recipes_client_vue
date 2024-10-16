@@ -7,7 +7,7 @@ import useToaster from '@/composables/useToaster';
 const options = {
   // baseURL: 'http://api.receipts.haemmid.ru/',
   // baseURL: 'http://localhost:5000/api',
-  baseURL: 'http://62.217.178.4/recipes-server/api',
+  baseURL: 'https://quiettomato.ru/recipes-server/api',
   headers: {
     Accept: 'application/json',
   },

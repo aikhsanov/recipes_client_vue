@@ -32,8 +32,5 @@ jobs:
             cd var/www/allprojects/recipes_frontend
             git pull origin master
             git status
-            sudo service mysql stop
             npm install
             npm run build-prod
-            sudo service mysql start
-            sudo service mysql status
